@@ -1246,7 +1246,7 @@ namespace vbEditor
 			ImGui::Text("Selected roads: %d", _selectedRoads.size());
 			for (int i = 0; i < _selectedRoads.size(); ++i)
 			{
-				ImGui::Text("%d. %s", i, _selectedRoads[i]->getSceneObject()->getName());
+				ImGui::Text("%d. %s", i, _selectedRoads[i]->getSceneObject()->getName().c_str());
 			}
 
 			if (ImGui::Button("Generate polygon"))
