@@ -2,6 +2,7 @@
 #define SKELETALANIMATIONCOMPONENT2_H_INCLUDED
 
 
+#include <string>
 #include <vector>
 #include <unordered_map>
 

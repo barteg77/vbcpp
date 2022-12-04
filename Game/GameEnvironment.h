@@ -1,7 +1,7 @@
 #ifndef GAMEENVIRONMENT_H_INCLUDED
 #define GAMEENVIRONMENT_H_INCLUDED
 
-
+#include <string>
 #include <unordered_map>
 
 
