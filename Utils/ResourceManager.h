@@ -28,7 +28,7 @@ typedef std::list<std::unique_ptr<Resource>> resourcePtrList;
 
 class ResourceManager
 {
-    static constexpr char* DEFAULT_WHITE_TEXTURE_NAME = ".defaultTexture";
+    static constexpr const char* DEFAULT_WHITE_TEXTURE_NAME = ".defaultTexture";
 
     public:
         virtual ~ResourceManager();
