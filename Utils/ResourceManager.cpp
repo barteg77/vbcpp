@@ -83,7 +83,8 @@ RTexture2D* ResourceManager::loadTexture(std::string path, bool useCompression, 
 
     // Zasob nie istnieje
 #ifdef DEVELOPMENT_RESOURCES
-	if (!FilesHelper::isFileExists(path))
+	if (!FilesHelper::isFileExists(path)
+        && path.substr(0, _alternativeResourcePath.size()) != _alternativeResourcePath)
 		path = _alternativeResourcePath + path;
 #endif // DEVELOPMENT_RESOURCES
 
