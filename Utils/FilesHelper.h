@@ -46,6 +46,8 @@ class FilesHelper
 
 		static void copyFile(const std::string& from, const std::string& to);
 
+        static std::string joinPaths(const std::string& part1, const std::string& part2)
+        { return part1 + '/' + part2; }
 };
 
 
