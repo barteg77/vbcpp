@@ -25,6 +25,7 @@ set (UTILS_SOURCES
 	Utils/ResourceId.cpp
 	Utils/ResourceLocation.cpp
 	Utils/ResourceManager.cpp
+	Utils/ResourceRepoFilesystemHelper.cpp
 	Utils/SoundLoader.cpp
 	Utils/stb_image.cpp
 	Utils/Strings.cpp
@@ -45,6 +46,7 @@ set (UTILS_HEADERS
 	Utils/LocalizationSystem.h
 	Utils/Logger.h
 	Utils/Math.h
+	Utils/Path.h
 	Utils/PolygonGenerator.h
 	Utils/RAnimatedModel.h
 	Utils/RaycastingUtils.h
@@ -65,6 +67,7 @@ set (UTILS_HEADERS
 	Utils/ResourceLocation.h
 	Utils/ResourceManager.h
 	Utils/ResourceRepo.h
+	Utils/ResourceRepoFilesystemHelper.h
 	Utils/SoundLoader.h
 	Utils/Strings.h
 	Utils/Timer.h

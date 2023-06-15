@@ -6,6 +6,9 @@ bin/altonegen*
 bin/makehrtf*
 bin/openal-info*
 
+# EXECUTABLES TESTS
+bin/path_test
+
 # FILES
 *.layout
 *.depend

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.14)
 
 project(VBCPP)
 
@@ -10,6 +10,7 @@ set(EDITOR_BIN_NAME editor)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #bin in project main dir
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
@@ -36,6 +37,9 @@ add_subdirectory(libs/freetype)
 add_subdirectory(libs/openal-soft)
 add_subdirectory(libs/freealut)
 #add_subdirectory(libs/stb_image)
+
+enable_testing()
+add_subdirectory(unittests)
 
 #SET_TARGET_PROPERTIES(UpdateAssimpLibsDebugSymbolsAndDLLs PROPERTIES FOLDER "Libs/assimp")
 SET_TARGET_PROPERTIES(assimp PROPERTIES FOLDER "Libs/assimp")
