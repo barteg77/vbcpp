@@ -13,6 +13,7 @@ TEST(PathTest, PathNormalizationTest) {
     };
     std::vector<TestData> td {
         {"", ""},// czy to jest dobre?
+        {"..", ""},
         {"q/x/../w/e", "q/w/e"},
         { "a", "a" },
         { "a/.", "a" },

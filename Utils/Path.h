@@ -36,9 +36,10 @@ public:
         }
 
         for (const std::string& tempPart : tempParts) {
-            if (tempPart == dot2 && !_pathParts.empty()) {
-                _pathParts.pop_back();
-                continue;
+            if (tempPart == dot2) {
+                if (!_pathParts.empty()) {
+                    _pathParts.pop_back();
+                }
             } else if (tempPart != dot) {
                 _pathParts.push_back(tempPart);
             }
