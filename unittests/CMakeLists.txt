@@ -31,6 +31,7 @@ add_executable(
   ../Utils/FilesHelper.cpp
   ../Utils/Logger.cpp
   ../Utils/Path.cpp
+  ../Utils/ResourceRepoFilesystemHelper.cpp
 )
 target_link_libraries(
   resource_repo_filesystem_helper_test

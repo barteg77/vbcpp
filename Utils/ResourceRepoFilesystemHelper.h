@@ -50,89 +50,21 @@ class FilesystemHelper final
     std::string _repoDirectory;
     std::vector<std::unique_ptr<DirectoryInfo>> _directoriesInfos;
 
-    DirectoryInfo& exploredDirectory(DirectoryInfo& directoryInfo) {
-        if (!directoryInfo._explored) {
-            exploreDirectory(directoryInfo);
-        }
-        return directoryInfo;
-    }
-
-    void exploreDirectory(DirectoryInfo& directoryInfo) {
-        assert(!directoryInfo._explored);
-        std::vector<std::string> directoriesNames = _filesHelper.getDirectoriesList(directoryInfo._nameActual);
-        std::vector<std::string> filesNames = _filesHelper.getFilesList(directoryInfo._nameActual);
-
-        for (const std::string& directoryName : directoriesNames) {
-            _directoriesInfos.push_back(std::make_unique<DirectoryInfo>(_filesHelper.joinPathsImproved(directoryInfo._nameActual, directoryName)));
-        }
-        for (const std::string& fileName : filesNames) {
-            directoryInfo._files.push_back(FileInfo(fileName));
-        }
-        directoryInfo._explored = true;
-    }
-
-    DirectoryInfo* getDirectoryExistingInfo(const Path& directoryPath) {
-        const auto iter = std::find_if(_directoriesInfos.begin(), _directoriesInfos.end(),
-                                       [directoryPath] (const std::unique_ptr<DirectoryInfo>& directoryInfo)
-                                        { return directoryInfo->_nameLowercase == directoryPath.getString(); }
-                                        );
-        return (iter == _directoriesInfos.end() ? nullptr : (*iter).get());
-    }
-
-    DirectoryInfo* getDirectoryInfo(Path directoryName) {
-        std::stack<std::string> missingParts;
-        DirectoryInfo* directoryInfo;
-
-        do {
-            directoryInfo = getDirectoryExistingInfo(directoryName);
-            if (directoryInfo == nullptr && directoryName.getElementsCount() > 0) {
-                missingParts.push(directoryName.getBackPart());
-                directoryName = directoryName.withoutBackPart();
-            }
-        } while (directoryInfo == nullptr);
-
-        while (!missingParts.empty()) {
-            if (!directoryInfo->_explored) {
-                exploreDirectory(*directoryInfo);
-            }
-            directoryName = directoryName.withBackPart(missingParts.top());
-            missingParts.pop();
-            directoryInfo = getDirectoryExistingInfo(directoryName);
-            if (directoryInfo == nullptr) {
-                return nullptr;
-            }
-        }
-        return directoryInfo;//may not be explored
-    }
+    DirectoryInfo& exploredDirectory(DirectoryInfo& directoryInfo);
+    void exploreDirectory(DirectoryInfo& directoryInfo);
+    DirectoryInfo* getDirectoryExistingInfo(const Path& directoryPath);
+    DirectoryInfo* getDirectoryInfo(Path directoryName);
     
 public:
-    FilesystemHelper(const std::string& repoDirectory, FilesHelper& filesHelper)
-    : _repoDirectory(repoDirectory),
-      _filesHelper(filesHelper) {
-        //upewnic, ze repo directory istnieje
-        _directoriesInfos.push_back(std::make_unique<DirectoryInfo>(""));
-    }
+    // object stores assosiations of case insensitive paths with actual (case sensitive) file paths
+    // Constructor params:
+    // repoDirectory - directory, to which all in-repo path are relative, must be correct directory path on current filesystem (case sensitive if on case sensitive filesystem)
+    // filesHelper - FilesHelper object to access filesystem
+    FilesystemHelper(const std::string& repoDirectory, FilesHelper& filesHelper);
 
-    std::string getActualFilesystemFilepath(Path filePath){
-        const std::string fileName = filePath.getBackPart();
-        const Path directoryPath = filePath.withoutBackPart();
-
-        DirectoryInfo* directoryInfo = getDirectoryInfo(directoryPath);
-        if (directoryInfo == nullptr){
-            throw "nie ma takiego katalogu";
-        }
-        if (!directoryInfo->_explored) {
-            exploreDirectory(*directoryInfo);
-        }
-        const auto fileInDirectory = std::find_if(directoryInfo->_files.begin(), directoryInfo->_files.end(),
-                                     [fileName] (const FileInfo& fileInfo)
-                                     { return fileInfo._nameLowercase == fileName; }
-                                     );
-        if (fileInDirectory == directoryInfo->_files.end()) {
-            throw "nie ma takiego pliku";
-        }
-        return _filesHelper.joinPathsImproved(_filesHelper.joinPathsImproved(_repoDirectory, directoryInfo->_nameActual), fileInDirectory->_nameActual);
-    }
+    // returns real (case sensitive) file path of given case-insensitive filepath if exists
+    // returns empty string if wanted file doesn't exist
+    std::string getActualFilesystemFilepath(Path filePath);
 };
 
 #endif // RESOURCEREPOFILESYSTEMHELPER_H_INCLUDED
