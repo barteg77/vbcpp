@@ -11,10 +11,16 @@ class Path
     // This is case-insensitive file path, all characters are stored (and returned) LOWERCASE.
     std::vector<std::string> _pathParts;
 
-public:
-    Path(const std::vector<std::string>& pathParts)
-    : _pathParts(pathParts) {}
+    Path(const std::vector<std::string>& pathParts)//use wisely, no path normalization etc.
+    : _pathParts(pathParts) {
+        assert(std::all_of(pathParts.begin(), pathParts.end(),
+               [](const std::string& pathPart)
+               { return (pathPart != "." &&pathPart != ".." && std::all_of(pathPart.begin(), pathPart.end(),
+                                                                           [](const char& partChar)
+                                                                           { return (partChar != '/' && partChar != '\\' && partChar == std::tolower(partChar)); })); }));
+    }
 
+public:
     Path(const std::string& path) {
         static const std::string emptyString ("");
         static const std::string dot (".");
