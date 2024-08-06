@@ -10,6 +10,7 @@ set (UTILS_SOURCES
 	Utils/InputSystem.cpp
 	Utils/LocalizationSystem.cpp
 	Utils/Logger.cpp
+	Utils/Path.cpp
 	Utils/PolygonGenerator.cpp
 	Utils/RAnimatedModel.cpp
 	Utils/RaycastingUtils.cpp

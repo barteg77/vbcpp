@@ -18,6 +18,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable(
   path_test
   PathTest.cpp
+  ../Utils/Path.cpp
 )
 target_link_libraries(
   path_test
@@ -29,6 +30,7 @@ add_executable(
   ResourceRepoFilesystemHelperTest.cpp
   ../Utils/FilesHelper.cpp
   ../Utils/Logger.cpp
+  ../Utils/Path.cpp
 )
 target_link_libraries(
   resource_repo_filesystem_helper_test
