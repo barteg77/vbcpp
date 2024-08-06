@@ -33,8 +33,8 @@ class FilesHelper
 
 		static bool isDirectoryExists(const std::string& dirPath);
 
-        static std::vector<std::string> getFilesList(const std::string& path);
-        static std::vector<std::string> getDirectoriesList(const std::string& path);
+        virtual std::vector<std::string> getFilesList(const std::string& path);
+        virtual std::vector<std::string> getDirectoriesList(const std::string& path);
 
 		static std::string getFileNameFromPath(const std::string& path);
 		static std::string getFileExtension(const std::string& fileName);

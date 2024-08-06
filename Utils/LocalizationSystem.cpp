@@ -34,7 +34,7 @@ void LocalizationSystem::findAvailableLanguages()
 {
 	LOG_DEBUG("Loading available languages from " + _textsPath);
 
-	std::vector<std::string> languagesFilesNames = FilesHelper::getFilesList(_textsPath);
+	std::vector<std::string> languagesFilesNames = FilesHelper::getInstance()->getFilesList(_textsPath);
 	for (int i = 0; i < languagesFilesNames.size(); ++i)
 	{
 		std::string fileName = FilesHelper::getFileNameFromPath(languagesFilesNames[i]);

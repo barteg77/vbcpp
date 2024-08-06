@@ -98,12 +98,12 @@ namespace BusRepaintLoader
 		const std::string repaintsPath = GameDirectories::BUSES + busName + "/" + REPAINTS_DIRECTORY + "/";
 		if (FilesHelper::isDirectoryExists(repaintsPath))
 		{
-			repaintsNames = FilesHelper::getDirectoriesList(repaintsPath);
+			repaintsNames = FilesHelper::getInstance()->getDirectoriesList(repaintsPath);
 		}
 #ifdef DEVELOPMENT_RESOURCES
 		else if (FilesHelper::isDirectoryExists(GameConfig::getInstance().alternativeResourcesPath + repaintsPath))
 		{
-			repaintsNames = FilesHelper::getDirectoriesList(GameConfig::getInstance().alternativeResourcesPath + repaintsPath);
+			repaintsNames = FilesHelper::getInstance()->getDirectoriesList(GameConfig::getInstance().alternativeResourcesPath + repaintsPath);
 		}
 #endif // DEVELOPMENT_RESOURCES
 		else

@@ -42,9 +42,9 @@ MenuSelectBusScene::~MenuSelectBusScene()
 void MenuSelectBusScene::loadAvailableBusesNames()
 {
 	
-	_availableBusesNames = FilesHelper::getDirectoriesList(GameDirectories::BUSES);
+	_availableBusesNames = FilesHelper::getInstance()->getDirectoriesList(GameDirectories::BUSES);
 #ifdef DEVELOPMENT_RESOURCES
-	std::vector<std::string> availableBusesDev = FilesHelper::getDirectoriesList(GameConfig::getInstance().alternativeResourcesPath + GameDirectories::BUSES);
+	std::vector<std::string> availableBusesDev = FilesHelper::getInstance()->getDirectoriesList(GameConfig::getInstance().alternativeResourcesPath + GameDirectories::BUSES);
 	_availableBusesNames.insert(_availableBusesNames.end(), availableBusesDev.begin(), availableBusesDev.end());
 #endif // DEVELOPMENT_RESOURCES
 

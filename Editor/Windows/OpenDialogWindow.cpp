@@ -39,7 +39,7 @@ void OpenDialogWindow::inspectPath(File& file)
 {
 	if (!file.isChildrenInitialized)
 	{
-		std::vector<std::string> childrenPaths = FilesHelper::getDirectoriesList(file.path + "/");
+		std::vector<std::string> childrenPaths = FilesHelper::getInstance()->getDirectoriesList(file.path + "/");
 		for (const auto& childPath : childrenPaths)
 		{
 			file.children.push_back(File(childPath, file.path + "/" + childPath));
@@ -197,7 +197,7 @@ void OpenDialogWindow::setDefaultDirectoryFilter(const std::string& resourceFile
 {
 	setDirectoryFilter([resourceFileName](const std::string& directoryPath)
 		{
-			std::vector<std::string> children = FilesHelper::getFilesList(directoryPath + "/");
+			std::vector<std::string> children = FilesHelper::getInstance()->getFilesList(directoryPath + "/");
 			for (const auto& fileName : children)
 			{
 				if (fileName == resourceFileName)

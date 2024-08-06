@@ -12,6 +12,10 @@
 
 #include "Logger.h"
 
+std::unique_ptr<FilesHelper> FilesHelper::_fhinstance;
+
+FilesHelper::~FilesHelper()
+{}
 
 bool FilesHelper::isDirectoryExists(const std::string& dirPath)
 {
@@ -209,11 +213,16 @@ bool FilesHelper::isInPathSubdir(std::string filePath, std::string dirPath)
 	return pos != std::string::npos;
 }
 
-
 void FilesHelper::copyFile(const std::string& from, const std::string& to)
 {
 	std::ifstream sourceFile(from, std::ios::binary);
 	std::ofstream destinationFile(to, std::ios::binary);
 
 	destinationFile << sourceFile.rdbuf();
+}
+
+FilesHelper* FilesHelper::getInstance(){
+    if (!_fhinstance)
+        _fhinstance = std::make_unique<FilesHelper>(FilesHelper());
+    return _fhinstance.get();
 }
