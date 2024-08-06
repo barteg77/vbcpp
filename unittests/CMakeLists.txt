@@ -13,6 +13,7 @@ FetchContent_Declare(
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+#FetchContent_MakeAvailable(googlemock)
 
 add_executable(
   path_test
@@ -23,5 +24,19 @@ target_link_libraries(
   GTest::gtest_main
 )
 
+add_executable(
+  resource_repo_filesystem_helper_test
+  ResourceRepoFilesystemHelperTest.cpp
+  ../Utils/FilesHelper.cpp
+  ../Utils/Logger.cpp
+)
+target_link_libraries(
+  resource_repo_filesystem_helper_test
+  GTest::gtest_main
+  gmock_main
+)
+
 include(GoogleTest)
+#include(GoogleMock)
 gtest_discover_tests(path_test)
+gtest_discover_tests(resource_repo_filesystem_helper_test)

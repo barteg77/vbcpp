@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <memory>
 
 #ifdef WIN32
 #include <windows.h>

@@ -29,6 +29,7 @@ class FilesystemHelper final
             }
         }
     };
+
     struct FileInfo final : public FilesystemEntryInfo 
     {
         FileInfo(const std::string& nameActual)
@@ -37,7 +38,7 @@ class FilesystemHelper final
 
     struct DirectoryInfo final : public FilesystemEntryInfo
     {
-        bool _explored;
+        bool _explored;// separate explored for files and directories?
         std::vector<FileInfo> _files;
 
         DirectoryInfo(const std::string nameActual)
@@ -45,15 +46,24 @@ class FilesystemHelper final
           _explored(false) {}
     };
 
+    FilesHelper& _filesHelper;
     std::string _repoDirectory;
-    std::vector<DirectoryInfo> _directoriesInfos;
+    std::vector<std::unique_ptr<DirectoryInfo>> _directoriesInfos;
+
+    DirectoryInfo& exploredDirectory(DirectoryInfo& directoryInfo) {
+        if (!directoryInfo._explored) {
+            exploreDirectory(directoryInfo);
+        }
+        return directoryInfo;
+    }
 
     void exploreDirectory(DirectoryInfo& directoryInfo) {
-        std::vector<std::string> directoriesNames = FilesHelper::getDirectoriesList(directoryInfo._nameActual);
-        std::vector<std::string> filesNames = FilesHelper::getFilesList(directoryInfo._nameActual);
+        assert(!directoryInfo._explored);
+        std::vector<std::string> directoriesNames = _filesHelper.getDirectoriesList(directoryInfo._nameActual);
+        std::vector<std::string> filesNames = _filesHelper.getFilesList(directoryInfo._nameActual);
 
         for (const std::string& directoryName : directoriesNames) {
-            _directoriesInfos.push_back(DirectoryInfo(FilesHelper::joinPaths(directoryInfo._nameActual, directoryName)));
+            _directoriesInfos.push_back(std::make_unique<DirectoryInfo>(_filesHelper.joinPathsImproved(directoryInfo._nameActual, directoryName)));
         }
         for (const std::string& fileName : filesNames) {
             directoryInfo._files.push_back(FileInfo(fileName));
@@ -62,10 +72,11 @@ class FilesystemHelper final
     }
 
     DirectoryInfo* getDirectoryExistingInfo(const Path& directoryPath) {
-        return &(*std::find_if(_directoriesInfos.begin(), _directoriesInfos.end(),
-                               [directoryPath] (const DirectoryInfo& directoryInfo)
-                               { return directoryInfo._nameLowercase == directoryPath.getString(); }
-                               ));
+        const auto iter = std::find_if(_directoriesInfos.begin(), _directoriesInfos.end(),
+                                       [directoryPath] (const std::unique_ptr<DirectoryInfo>& directoryInfo)
+                                        { return directoryInfo->_nameLowercase == directoryPath.getString(); }
+                                        );
+        return (iter == _directoriesInfos.end() ? nullptr : (*iter).get());
     }
 
     DirectoryInfo* getDirectoryInfo(Path directoryName) {
@@ -74,11 +85,11 @@ class FilesystemHelper final
 
         do {
             directoryInfo = getDirectoryExistingInfo(directoryName);
-            if (directoryName.getElementsCount() > 0) {
+            if (directoryInfo == nullptr && directoryName.getElementsCount() > 0) {
                 missingParts.push(directoryName.getBackPart());
                 directoryName = directoryName.withoutBackPart();
             }
-        } while (directoryInfo == &(*_directoriesInfos.end()));
+        } while (directoryInfo == nullptr);
 
         while (!missingParts.empty()) {
             if (!directoryInfo->_explored) {
@@ -87,18 +98,19 @@ class FilesystemHelper final
             directoryName = directoryName.withBackPart(missingParts.top());
             missingParts.pop();
             directoryInfo = getDirectoryExistingInfo(directoryName);
-            if (directoryInfo == &(*_directoriesInfos.end())) {
+            if (directoryInfo == nullptr) {
                 return nullptr;
             }
         }
-        return directoryInfo;
+        return directoryInfo;//may not be explored
     }
     
 public:
-    FilesystemHelper(const std::string& repoDirectory)
-    : _repoDirectory(repoDirectory) {
+    FilesystemHelper(const std::string& repoDirectory, FilesHelper& filesHelper)
+    : _repoDirectory(repoDirectory),
+      _filesHelper(filesHelper) {
         //upewnic, ze repo directory istnieje
-        _directoriesInfos.push_back(DirectoryInfo(""));
+        _directoriesInfos.push_back(std::make_unique<DirectoryInfo>(""));
     }
 
     std::string getActualFilesystemFilepath(Path filePath){
@@ -107,7 +119,7 @@ public:
 
         DirectoryInfo* directoryInfo = getDirectoryInfo(directoryPath);
         if (directoryInfo == nullptr){
-            return "";//nie ma takiego
+            throw "nie ma takiego katalogu";
         }
         if (!directoryInfo->_explored) {
             exploreDirectory(*directoryInfo);
@@ -117,9 +129,9 @@ public:
                                      { return fileInfo._nameLowercase == fileName; }
                                      );
         if (fileInDirectory == directoryInfo->_files.end()) {
-            return "";//nie ma takiego
+            throw "nie ma takiego pliku";
         }
-        return FilesHelper::joinPaths(FilesHelper::joinPaths(_repoDirectory, directoryInfo->_nameActual), fileInDirectory->_nameActual);
+        return _filesHelper.joinPathsImproved(_filesHelper.joinPathsImproved(_repoDirectory, directoryInfo->_nameActual), fileInDirectory->_nameActual);
     }
 };
 

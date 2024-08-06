@@ -2,7 +2,7 @@
 #define FILESHELPER_H_INCLUDED
 
 
-#include "imgui.h"
+#include <memory>
 #include <vector>
 #include <string>
 
@@ -10,6 +10,8 @@
 class FilesHelper
 {
     public:
+        virtual ~FilesHelper();
+
         static bool isFileExists(const std::string& fileName, const std::string& basePath = std::string())
         {
             FILE* file;
@@ -48,6 +50,17 @@ class FilesHelper
 
         static std::string joinPaths(const std::string& part1, const std::string& part2)
         { return part1 + '/' + part2; }
+
+        std::string joinPathsImproved(const std::string& part1, const std::string& part2) {
+            if (part1 != "" && part2 != "")
+                return part1 + '/' + part2;
+            return (part1 != "" ? part1 : part2);
+        }
+
+    private:
+        static std::unique_ptr<FilesHelper> _fhinstance;
+    public:
+        static FilesHelper* getInstance();
 };
 
 
