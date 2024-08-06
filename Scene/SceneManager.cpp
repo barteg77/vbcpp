@@ -47,7 +47,7 @@ ObjectId SceneManager::generateNewObjectId()
 {
     while (_sceneObjectsMap.find(_nextObjectId) != _sceneObjectsMap.end())
     {
-        _nextObjectId = clamp(_nextObjectId + 1, MIN_OBJECT_ID, MAX_OBJECT_ID);
+        _nextObjectId = ::clamp(_nextObjectId + 1, MIN_OBJECT_ID, MAX_OBJECT_ID);
     }
 
     return _nextObjectId;

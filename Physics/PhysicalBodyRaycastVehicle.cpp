@@ -88,7 +88,7 @@ float PhysicalBodyRaycastVehicle::getMaxSteeringAngle()
 
 void PhysicalBodyRaycastVehicle::setSteeringValue(float steering)
 {
-    _steeringValue = clamp(steering, -1.0f, 1.0f);
+    _steeringValue = ::clamp(steering, -1.0f, 1.0f);
 
     for (int i = 0; i < _rayCastVehicle->getNumWheels(); ++i)
     {

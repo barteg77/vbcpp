@@ -9,7 +9,7 @@ set(EDITOR_BIN_NAME editor)
 # subfolders in VS
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #bin in project main dir

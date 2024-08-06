@@ -1789,7 +1789,7 @@ namespace vbEditor
 
 			deltaTime = std::max(0.0, deltaTime);
 			accumulator += deltaTime;
-			accumulator = clamp(accumulator, 0.0, MAX_ACCUMULATED_TIME);
+			accumulator = ::clamp(accumulator, 0.0, MAX_ACCUMULATED_TIME);
 
 			if (timePhysicsCurr - lastFPSupdate >= 1.0f)
 			{
