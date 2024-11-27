@@ -22,7 +22,7 @@ class RStaticModel;
 
 class RObjectLoader
 {
-	static constexpr char* OBJECT_FILE_NAME = "object.xml";
+	static constexpr const char* OBJECT_FILE_NAME = "object.xml";
 
 	private:
 		static void loadComponents(tinyxml2::XMLElement* objectElement, RObject* object);
