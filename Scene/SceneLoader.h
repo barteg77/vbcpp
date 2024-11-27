@@ -27,7 +27,7 @@ class RoadObject;
 class SceneLoader
 {
 	private:
-		static constexpr char* MAP_FILE_NAME = "scene.xml";
+		static constexpr const char* MAP_FILE_NAME = "scene.xml";
 
 		int _terrainCollidesWith;
 		int _roadCollidesWith;

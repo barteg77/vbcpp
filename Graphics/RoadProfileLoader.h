@@ -16,7 +16,7 @@ namespace tinyxml2
 
 class RoadProfileLoader
 {
-	static constexpr char* PROFILE_FILE_NAME = "profile.xml";
+	static constexpr const char* PROFILE_FILE_NAME = "profile.xml";
 
 	private:
 

@@ -22,7 +22,7 @@
 class Game
 {
 	private:
-		static constexpr char* WINDOW_TITLE = "Virtual Bus Core++";
+		static constexpr const char* WINDOW_TITLE = "Virtual Bus Core++";
 
 		Window* _window;
 		Window* _backgroundWindow;

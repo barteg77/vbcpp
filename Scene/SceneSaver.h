@@ -29,7 +29,7 @@ class Prefab;
 class SceneSaver
 {
 	private:
-		static constexpr char* MAP_FILE_NAME = "scene.xml";
+		static constexpr const char* MAP_FILE_NAME = "scene.xml";
 
 		SceneManager* _sceneManager;
 		std::string _dirPath;

@@ -19,8 +19,8 @@
 
 class TerrainLoader
 {
-    static constexpr char* TER_EXTENSION = ".ter";
-    static constexpr char* HEIGHT_NORMAL_MAP_SUFFIX = "_gen.tga";
+    static constexpr const char* TER_EXTENSION = ".ter";
+    static constexpr const char* HEIGHT_NORMAL_MAP_SUFFIX = "_gen.tga";
 
     private:
         static std::string createTerFileName(std::string heightmapFilename);

@@ -18,9 +18,9 @@ enum GameState
 class MainGameScene final : public GameScene
 {
 	private:
-		static constexpr char* PARAM_BUS_MODEL = "BUS_MODEL";
-		static constexpr char* PARAM_BUS_CONFIGURATION = "BUS_CONFIGURATION";
-		static constexpr char* PARAM_BUS_REPAINT = "BUS_REPAINT";
+		static constexpr const char* PARAM_BUS_MODEL = "BUS_MODEL";
+		static constexpr const char* PARAM_BUS_CONFIGURATION = "BUS_CONFIGURATION";
+		static constexpr const char* PARAM_BUS_REPAINT = "BUS_REPAINT";
 
 		GameState _state;
 

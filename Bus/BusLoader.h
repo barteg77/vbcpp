@@ -29,7 +29,7 @@ struct ModelNodeAndTransform
 class BusLoader
 {
     protected:
-        static constexpr char* BUS_CONFIG_FILENAME = "config.xml";
+        static constexpr const char* BUS_CONFIG_FILENAME = "config.xml";
 
         int _busCollidesWith;
         int _wheelCollidesWith;
