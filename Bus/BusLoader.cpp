@@ -27,9 +27,7 @@ BusLoader::BusLoader(SceneManager* sceneManager, GraphicsManager* gmgr, PhysicsM
 
 Bus* BusLoader::loadBus(const std::string& busName, const std::unordered_map<std::string, std::string>& variables)
 {
-  const ResourceId resourceId = ResourceId::create<RT_OTHER>(GameDirectories::BUSES + busName + "/" + BUS_CONFIG_FILENAME);
-    ResourceLocation resourceLocation = ResourceManager::getInstance().findResourceLocation(resourceId);
-    const std::string configFileName = resourceLocation.getPath();
+    const std::string configFileName = ResourceManager::getInstance().realPath(GameDirectories::BUSES + busName + "/" + BUS_CONFIG_FILENAME);
 
     XMLDocument doc;
     doc.LoadFile(configFileName.c_str());

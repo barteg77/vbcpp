@@ -90,6 +90,13 @@ ResourceLocation ResourceManager::findResourceLocation(const ResourceId& resourc
     return ResourceLocation(resourceId, *findRepoOfResource(resourceId));
 }
 
+std::string ResourceManager::realPath(const std::string& pseudoId)
+{
+    LOG_DEBUG("Getting realPath by ResourceManager (not loading the resource");
+    const ResourceId resourceId = ResourceId::create<RT_OTHER>(pseudoId);
+    return ResourceManager::getInstance().findResourceLocation(resourceId).getPath();
+}
+
 // Ładowanie tektur
 RTexture2D* ResourceManager::loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering)
 {

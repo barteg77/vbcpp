@@ -43,6 +43,7 @@ class ResourceManager
         Resource* findResource(const ResourceId& resourceId);
         ResourceRepo* findRepoOfResource(const ResourceId& resourceId);
         ResourceLocation findResourceLocation(const ResourceId& resourceId);
+        std::string realPath(const std::string& pseudoId); // use wisely or better don't use
 
         RTexture2D* loadTexture(const ResourceId& resourceId, bool useCompression = true, bool mipmapping = true, bool useAnisotropicFiltering = true);
         // filesNames: pos_x, neg_x, pos_y, neg_y, pos_z, neg_z
