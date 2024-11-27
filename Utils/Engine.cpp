@@ -170,7 +170,7 @@ void Engine::loadVolumeCurvesForSounds(tinyxml2::XMLElement* soundElement, Sound
 
 void Engine::loadData(std::string filename)
 {
-    std::string fullPath = GameDirectories::BUS_PARTS + filename + ".xml";
+    std::string fullPath = ResourceManager::getInstance().realPath(GameDirectories::BUS_PARTS + filename + ".xml");
 
     XMLDocument doc;
     doc.LoadFile(fullPath.c_str());
