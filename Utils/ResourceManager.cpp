@@ -685,9 +685,10 @@ RMaterialsCollection* ResourceManager::loadMaterialsCollection(const ResourceId&
 
     MaterialLoader materialLoader;
     std::string path = findResourceLocation(resourceId).getPath();
+    std::string id_string_dir = FilesHelper::getPathToDirectoryFromFileName(resourceId.getIdString(0));
     materialLoader.openFile(path.c_str());
 
-    materialLoader.loadAllMaterials(temp->getMaterials(), FilesHelper::getPathToDirectoryFromFileName(path));
+    materialLoader.loadAllMaterials(temp->getMaterials(), FilesHelper::getPathToDirectoryFromFileName(id_string_dir));
 
     materialLoader.closeFile();
 
