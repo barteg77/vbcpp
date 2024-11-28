@@ -5,6 +5,7 @@
 #include "FilesHelper.h"
 #include "Helpers.hpp"
 #include "Logger.h"
+#include "ResourceManager.h"
 
 #include "tinyxml2.h"
 using namespace tinyxml2;
@@ -50,7 +51,7 @@ void LocalizationSystem::findAvailableLanguages()
 
 void LocalizationSystem::loadTextsFromFile()
 {
-	const std::string fileName = _textsPath + FILE_NAME_PREFIX + _language + FILE_NAME_EXTENSION;
+	const std::string fileName = ResourceManager::getInstance().realPath(_textsPath + FILE_NAME_PREFIX + _language + FILE_NAME_EXTENSION);
 
 	XMLDocument doc;
 	XMLError result = doc.LoadFile(fileName.c_str());
