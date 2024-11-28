@@ -148,12 +148,10 @@ void BusLoader::loadTexts(XMLElement* busElement)
 
         path = _busPath + path + "/";
         const ResourceId resourceId = ResourceId::create<RT_OTHER>(path + "texts-" + defaultLanguage + ".xml");
-		ResourceLocation resourceLocation = ResourceManager::getInstance().findResourceLocation(resourceId);
-		const std::string configFileName = resourceLocation.getPath();
 
-        LOG_DEBUG("Loaded texts. Path: " + configFileName + ", default language: " + defaultLanguage);
+        LOG_DEBUG("Loaded texts. Path: " + path + ", default language: " + defaultLanguage);
 
-        _bus->_texts.initialize(configFileName, defaultLanguage);
+        _bus->_texts.initialize(path, defaultLanguage);
         _bus->_texts.setLanguage(LocalizationSystem::getGlobalInstance().getLanguage());
     }
 }
