@@ -752,8 +752,9 @@ void SceneLoader::loadMap(std::string name)
 {
 	_dirPath = GameDirectories::MAPS + name + "/";
 
-	std::string fullPath = _dirPath + MAP_FILE_NAME;
-
+	std::string pseudoId = _dirPath + MAP_FILE_NAME;
+	std::string fullPath = ResourceManager::getInstance().realPath(pseudoId);
+	
 	XMLDocument doc;
 	XMLError result = doc.LoadFile(fullPath.c_str());
 	if (result != XML_SUCCESS)
