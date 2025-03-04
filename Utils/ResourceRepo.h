@@ -33,7 +33,7 @@ public:
     bool doResourceExists(const ResourceId& resourceId) {
         const std::string es("");
         for (const std::string& idPart : resourceId.getIdParts()) {
-            if (getActualFilesystemFilepath(Path(idPart)) == es) {
+            if (getActualFilesystemFilepath(Path(resourceId.getResourceType() == RT_OBJECT ? idPart + "object.xml" : idPart)) == es) {
                 return false;
             }
         }

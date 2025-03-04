@@ -254,7 +254,7 @@ RObject* RObjectLoader::loadObject(const ResourceLocation& resourceLocation, con
 SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefinition, const std::string& name,
 														 const glm::vec3& position, const glm::vec3& rotation, SceneManager* sceneManager)
 {
-	std::string objectDirPath = ResourceManager::getInstance().findResourceLocation(objectDefinition->getResourceId()).getPath();
+	std::string objectDirPath = objectDefinition->getResourceId().getIdString(0);
 
 	SceneObject* sceneObject = sceneManager->addSceneObject(name, objectDefinition);
 	sceneObject->setPosition(position);
@@ -273,7 +273,8 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			GraphicsManager* graphicsManager = sceneManager->getGraphicsManager();
 
 			const std::string& modelFile = components[i]["model"];
-			const ResourceId modelId = ResourceId::create<RT_MODEL>(objectDirPath + modelFile);
+			//const ResourceId modelId = ResourceId::create<RT_MODEL>(GameDirectories::OBJECTS + "/" + name + "/" + modelFile);
+			const ResourceId modelId = ResourceId::create<RT_MODEL>(objectDirPath + "/" + modelFile);
 			bool isAnimated = toBool(components[i]["animated"]);
 
 			model = loadModel(modelId, objectDirPath, isAnimated, toBool(components[i]["normalsSmoothing"]));
