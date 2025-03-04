@@ -136,8 +136,10 @@ RStaticModel* TerrainLoader::loadTerFile(const char* fileName, std::string mater
 
 // Mesh mender
 //Model* loadTerrainModel(const char* heightmapFilename, Material& material, float maxHeight)
-RStaticModel* TerrainLoader::loadTerrainFromHeightmap(const char* heightmapFilename, std::string materialFileName, std::string materialName, std::string texturePath, float maxHeight, bool is16bit)
+RStaticModel* TerrainLoader::loadTerrainFromHeightmap(const char* heightmapPseudoId, std::string materialPseudoId, std::string materialName, std::string texturePath, float maxHeight, bool is16bit)
 {
+    std::string heightmapFilename = ResourceManager::getInstance().realPath(std::string(heightmapPseudoId));
+    std::string materialFileName = ResourceManager::getInstance().realPath(materialPseudoId);
     MaterialLoader matLoader;
     matLoader.openFile(materialFileName.c_str());
     Material* material = matLoader.loadMaterial(materialName, texturePath);
@@ -150,11 +152,11 @@ RStaticModel* TerrainLoader::loadTerrainFromHeightmap(const char* heightmapFilen
 	unsigned char* heightmapData = NULL;
 	if (is16bit)
 	{
-		heightmapData16 = stbi_load_16(heightmapFilename, &width, &height, &chanels, STBI_default);
+		heightmapData16 = stbi_load_16(heightmapFilename.c_str(), &width, &height, &chanels, STBI_default);
 	}
 	else
 	{
-		heightmapData = stbi_load(heightmapFilename, &width, &height, &chanels, STBI_default);
+		heightmapData = stbi_load(heightmapFilename.c_str(), &width, &height, &chanels, STBI_default);
 	}
 
     glm::vec3 startPosition(static_cast<float>(width - 1) / -2.0f, 0.0f, static_cast<float>(height - 1) / 2.0f);
@@ -318,6 +320,7 @@ RStaticModel* TerrainLoader::loadTerrainFromHeightmap(const char* heightmapFilen
 
     MeshMender mender;
 	std::vector<unsigned int> temp;
+    LOG_DEBUG("Terrain mending");
 	mender.Mend(v, in, temp, 0.0, 0.7, 0.7, 1.0, MeshMender::CALCULATE_NORMALS, MeshMender::DONT_RESPECT_SPLITS, MeshMender::DONT_FIX_CYLINDRICAL);
 
 
