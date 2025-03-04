@@ -33,7 +33,16 @@ public:
     bool doResourceExists(const ResourceId& resourceId) {
         const std::string es("");
         for (const std::string& idPart : resourceId.getIdParts()) {
-            if (getActualFilesystemFilepath(Path(resourceId.getResourceType() == RT_OBJECT ? idPart + "object.xml" : idPart)) == es) {
+            ResourceType rt = resourceId.getResourceType();
+            std::string path_str;
+            if (rt == ResourceType::RT_OBJECT) {
+                path_str = idPart + "object.xml";
+            } else if (rt == ResourceType::RT_ROAD_PROFILE) {// to sie ucywilizuje jak sie wydzieli pochodne ResourceRepo tego typu
+                path_str = idPart + "profile.xml";
+            } else {
+                path_str = idPart;// kiedys sie zrobi zebt tegi nie kopiowac
+            }
+            if (getActualFilesystemFilepath(Path(path_str)) == es) {
                 return false;
             }
         }
