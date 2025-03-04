@@ -52,6 +52,13 @@ class ResourceManager
 
         std::string realPath(const std::string& pseudoId); // use wisely or better don't use
 
+        // this is temporary hack to allow discovery of subdirectories of a directory(ies) in all repo-native.
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        // As available repaints used to be discovered by listing exact directory contents and the listing of this dir with alternativeResourcesPath,
+        // replacement of alternativeResourcesPath with Resource Repos requires to save this functionality.
+        // To be replaced with decent solution later.
+        std::vector<std::string> getRepoSubdirs(const std::string& pseudoId);
+
         template <class ResourceTypeT>
         ResourceTypeT* loadResource(const ResourceId& resourceId) {
             LOG_DEBUG("Looking for resource " + resourceId.getDebugString() + "...");

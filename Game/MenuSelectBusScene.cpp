@@ -41,12 +41,7 @@ MenuSelectBusScene::~MenuSelectBusScene()
 
 void MenuSelectBusScene::loadAvailableBusesNames()
 {
-	
-	_availableBusesNames = FilesHelper::getInstance()->getDirectoriesList(GameDirectories::BUSES);
-#ifdef DEVELOPMENT_RESOURCES
-	std::vector<std::string> availableBusesDev = FilesHelper::getInstance()->getDirectoriesList(GameConfig::getInstance().alternativeResourcesPath + GameDirectories::BUSES);
-	_availableBusesNames.insert(_availableBusesNames.end(), availableBusesDev.begin(), availableBusesDev.end());
-#endif // DEVELOPMENT_RESOURCES
+	_availableBusesNames = ResourceManager::getInstance().getRepoSubdirs(GameDirectories::BUSES);
 
 	// todo: remove
 	for (std::vector<std::string>::iterator i = _availableBusesNames.begin(); i != _availableBusesNames.end();)
@@ -60,6 +55,14 @@ void MenuSelectBusScene::loadAvailableBusesNames()
 			++i;
 		}
 	}
+
+	std::stringstream log;
+	log << "Detected buses: ";
+	for (const std::string& busName : _availableBusesNames) {
+		log << busName << ", " ;
+	}
+	log << " //// h9, i211, urbino, volvo, h9_PBR are forbidden buses' names! Even if they were found, they won't be included here (or loaded)";
+	LOG_DEBUG(log.str());
 }
 
 

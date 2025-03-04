@@ -96,20 +96,7 @@ namespace BusRepaintLoader
 		std::vector<std::string> repaintsNames;
 
 		const std::string repaintsPath = GameDirectories::BUSES + busName + "/" + REPAINTS_DIRECTORY + "/";
-		if (FilesHelper::isDirectoryExists(repaintsPath))
-		{
-			repaintsNames = FilesHelper::getInstance()->getDirectoriesList(repaintsPath);
-		}
-#ifdef DEVELOPMENT_RESOURCES
-		else if (FilesHelper::isDirectoryExists(GameConfig::getInstance().alternativeResourcesPath + repaintsPath))
-		{
-			repaintsNames = FilesHelper::getInstance()->getDirectoriesList(GameConfig::getInstance().alternativeResourcesPath + repaintsPath);
-		}
-#endif // DEVELOPMENT_RESOURCES
-		else
-		{
-			LOG_ERROR("Invalid repaints path: " + repaintsPath);
-		}
+		repaintsNames = ResourceManager::getInstance().getRepoSubdirs(repaintsPath);
 
 		// loading descriptions
 		LOG_INFO("Loading repaints descriptions for bus: " + busName);

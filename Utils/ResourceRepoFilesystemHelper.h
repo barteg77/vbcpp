@@ -68,7 +68,7 @@ public:
     // returns real (case sensitive) file path of given case-insensitive filepath if exists
     // returns empty string if wanted file doesn't exist
     std::string getActualFilesystemFilepath(Path filePath);
-    std::string getKnownActualFilesystemFilepath(const Path& filePath) const; // to jest tylko wytrych na chwile dopoki load[jakis-resource) nie sa przeniesione do ResourceRepo
+    std::string getActualFilesystemDirpath(const Path& directoryPath);
 };
 
 #endif // RESOURCEREPOFILESYSTEMHELPER_H_INCLUDED

@@ -71,6 +71,24 @@ std::string ResourceManager::realPath(const std::string& pseudoId)
     assert(false);
 }
 
+std::vector<std::string> ResourceManager::getRepoSubdirs(const std::string& pseudoId)
+{
+    LOG_DEBUG("Listing all-repos dir \"" + pseudoId + "\" subdirs...");
+    std::set<std::string> allSubdirs {};
+    for (auto& resourceRepo : _resourceRepos) {
+        ResourceRepoNative* resourceRepoNative (dynamic_cast<ResourceRepoNative*>(resourceRepo.get()));
+        if (resourceRepoNative) {
+            std::string foundPath (resourceRepoNative->actualDirpath(pseudoId));
+            if (!foundPath.empty()) {
+                const std::vector<std::string> foundSubdirs (FilesHelper::getInstance()->getDirectoriesList(foundPath));
+                allSubdirs.insert(foundSubdirs.begin(), foundSubdirs.end());
+            }
+        }
+    }
+    const std::vector<std::string> allSubdirsV (allSubdirs.begin(), allSubdirs.end());
+    return allSubdirsV;
+}
+
 void ResourceManager::reloadTexture(RTexture2D* texture)
 {
     loadResource<RTexture2D>(texture->getResourceId());

@@ -23,6 +23,10 @@ public:
         return getActualFilesystemFilepath(Path(pseudoId));
     }
 
+    std::string actualDirpath(const std::string& pseudoId) {
+        return _filesystemHelper->getActualFilesystemDirpath(Path(pseudoId));
+    }
+
     virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering);
     virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId);
     virtual std::unique_ptr<RShader> loadShader(const ResourceId& resourceId);
