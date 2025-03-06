@@ -62,7 +62,6 @@ public:
     {
         static_assert(resourceType == RT_TEXTURE
                    || resourceType == RT_MODEL
-                   || resourceType == RT_FONT_RESOURCE
                    || resourceType == RT_SOUND
                    || resourceType == RT_OBJECT
                    || resourceType == RT_ROAD_PROFILE
