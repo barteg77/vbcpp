@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <assert.h>
 
 enum ResourceType
 {
@@ -165,7 +166,10 @@ public:
     { return _nodes; }
 
     int getFontPixelSize() const
-    { return _fontPixelSize; }
+    {
+        assert(_resourceType == RT_FONT_RESOURCE);
+        return _fontPixelSize;
+    }
 
     std::string getDebugString() const;
 
