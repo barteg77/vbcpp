@@ -1,4 +1,5 @@
 #include "ResourceRepoFilesystemHelper.h"
+#include "Logger.h"
 
 FilesystemHelper::DirectoryInfo& FilesystemHelper::exploredDirectory(DirectoryInfo& directoryInfo) {
     if (!directoryInfo._explored) {
@@ -79,7 +80,10 @@ std::string FilesystemHelper::getActualFilesystemFilepath(Path filePath){
                                     { return fileInfo._nameLowercase == fileName; }
                                     );
     if (fileInDirectory == directoryInfo->_files.end()) {
+        LOG_DEBUG("Actual path of file \"" + filePath.getString() + "\" not found (this file does not exist)");
         return "";
     }
-    return _filesHelper.joinPathsImproved(_filesHelper.joinPathsImproved(_repoDirectory, directoryInfo->_nameActual), fileInDirectory->_nameActual);
+    std::string actualPath = _filesHelper.joinPathsImproved(_filesHelper.joinPathsImproved(_repoDirectory, directoryInfo->_nameActual), fileInDirectory->_nameActual);
+    LOG_DEBUG("Found actual path of file \"" + filePath.getString() + "\", is \"" + actualPath);
+    return actualPath;
 }
