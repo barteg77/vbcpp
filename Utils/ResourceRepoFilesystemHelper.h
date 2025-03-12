@@ -44,6 +44,8 @@ class FilesystemHelper final
         DirectoryInfo(const std::string nameActual)
         : FilesystemEntryInfo(nameActual),
           _explored(false) {}
+        
+        const FileInfo* getFileInfo(const std::string& fileName) const;
     };
 
     FilesHelper& _filesHelper;
@@ -52,7 +54,8 @@ class FilesystemHelper final
 
     DirectoryInfo& exploredDirectory(DirectoryInfo& directoryInfo);
     void exploreDirectory(DirectoryInfo& directoryInfo);
-    DirectoryInfo* getDirectoryExistingInfo(const Path& directoryPath);
+    const DirectoryInfo* getDirectoryExistingConstInfo(const Path& directoryPath) const;
+    DirectoryInfo* getDirectoryExistingInfo(const Path& directoryPath) const;
     DirectoryInfo* getDirectoryInfo(Path directoryName);
     
 public:
@@ -65,6 +68,7 @@ public:
     // returns real (case sensitive) file path of given case-insensitive filepath if exists
     // returns empty string if wanted file doesn't exist
     std::string getActualFilesystemFilepath(Path filePath);
+    std::string getKnownActualFilesystemFilepath(const Path& filePath) const; // to jest tylko wytrych na chwile dopoki load[jakis-resource) nie sa przeniesione do ResourceRepo
 };
 
 #endif // RESOURCEREPOFILESYSTEMHELPER_H_INCLUDED

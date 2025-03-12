@@ -1,6 +1,13 @@
 #include "ResourceRepoFilesystemHelper.h"
 #include "Logger.h"
 
+const FilesystemHelper::FileInfo* FilesystemHelper::DirectoryInfo::getFileInfo(const std::string& fileName) const {
+    const std::vector<FileInfo>::const_iterator fileInfo = std::find_if(_files.begin(), _files.end(),
+                                                                        [fileName] (const FileInfo& fileInfo)
+                                                                        { return fileInfo._nameLowercase == fileName; });
+    return fileInfo == _files.end() ? nullptr : &(*fileInfo);
+}
+
 FilesystemHelper::DirectoryInfo& FilesystemHelper::exploredDirectory(DirectoryInfo& directoryInfo) {
     if (!directoryInfo._explored) {
         exploreDirectory(directoryInfo);
@@ -23,7 +30,15 @@ void FilesystemHelper::exploreDirectory(DirectoryInfo& directoryInfo) {
     directoryInfo._explored = true;
 }
 
-FilesystemHelper::DirectoryInfo* FilesystemHelper::getDirectoryExistingInfo(const Path& directoryPath) {
+const FilesystemHelper::DirectoryInfo* FilesystemHelper::getDirectoryExistingConstInfo(const Path& directoryPath) const {
+    const auto iter = std::find_if(_directoriesInfos.begin(), _directoriesInfos.end(),
+                                    [directoryPath] (const std::unique_ptr<DirectoryInfo>& directoryInfo)
+                                    { return directoryInfo->_nameLowercase == directoryPath.getString(); }
+                                    );
+    return (iter == _directoriesInfos.end() ? nullptr : (*iter).get());
+}
+
+FilesystemHelper::DirectoryInfo* FilesystemHelper::getDirectoryExistingInfo(const Path& directoryPath) const {
     const auto iter = std::find_if(_directoriesInfos.begin(), _directoriesInfos.end(),
                                     [directoryPath] (const std::unique_ptr<DirectoryInfo>& directoryInfo)
                                     { return directoryInfo->_nameLowercase == directoryPath.getString(); }
@@ -85,5 +100,18 @@ std::string FilesystemHelper::getActualFilesystemFilepath(Path filePath){
     }
     std::string actualPath = _filesHelper.joinPathsImproved(_filesHelper.joinPathsImproved(_repoDirectory, directoryInfo->_nameActual), fileInDirectory->_nameActual);
     LOG_DEBUG("Found actual path of file \"" + filePath.getString() + "\", is \"" + actualPath);
+    return actualPath;
+}
+
+std::string FilesystemHelper::getKnownActualFilesystemFilepath(const Path& filePath) const {
+    const Path directoryPath = filePath.withoutBackPart();
+    const DirectoryInfo* const directoryInfo = getDirectoryExistingConstInfo(directoryPath);
+    assert(directoryInfo != nullptr);
+
+    const std::string fileName = filePath.getBackPart();
+    const FileInfo* const fileInfo = directoryInfo->getFileInfo(fileName);
+
+    std::string actualPath = _filesHelper.joinPathsImproved(directoryInfo->_nameActual, fileInfo->_nameActual);
+    LOG_DEBUG("Found known actual path of file \"" + filePath.getString() + "\", is \"" + actualPath);
     return actualPath;
 }
