@@ -9,6 +9,7 @@
 
 class ResourceLocation final
 {
+    friend class ResourceManager;// to jest tylko na chwile dopoki loady nie są przeniesione do ResourceRepo
 	ResourceId id;
     ResourceRepo repo;
 

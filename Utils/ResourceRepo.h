@@ -7,6 +7,8 @@
 
 class ResourceRepo final
 {
+    friend class ResourceManager;// to jest tylko na chwile dopoki loady nie są przeniesione do ResourceRepo
+
 	std::string _name;
     std::string _path;
     std::shared_ptr<FilesystemHelper> _filesystemHelper;

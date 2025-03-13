@@ -710,3 +710,9 @@ void ResourceManager::addResourceRepo(const ResourceRepo& resourceRepo)
 {
     _resourceRepos.push_back(std::unique_ptr<ResourceRepo> (new ResourceRepo (resourceRepo)));
 }
+
+std::string ResourceManager::getPath(const ResourceId& resourceId, const size_t partIdx) {
+    ResourceLocation resourceLocation = findResourceLocation(resourceId);
+    std::string path(resourceLocation.repo._filesystemHelper.get()->getKnownActualFilesystemFilepath(Path(resourceId.getIdParts().at(partIdx))));
+    return path;
+}
