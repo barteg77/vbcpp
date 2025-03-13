@@ -488,7 +488,7 @@ RStaticModel* ResourceManager::loadModel(const ResourceId& resourceId, std::stri
     }
 
     StaticModelLoader loader(normalsSmoothing);
-    std::unique_ptr<RStaticModel> model( loader.loadModel(findResourceLocation(resourceId), texturePath) );
+    std::unique_ptr<RStaticModel> model( loader.loadModel(resourceId, getPath(resourceId), texturePath));
     LOG_INFO("Resource nie istnieje. Tworzenie nowego zasobu... " + model.get()->getResourceId().getDebugString());
 
     RStaticModel* m = dynamic_cast<RStaticModel*>( model.get() );
@@ -513,7 +513,7 @@ RAnimatedModel* ResourceManager::loadAnimatedModel(const ResourceId& resourceId,
     }
 
     AnimatedModelLoader loader;
-    std::unique_ptr<RAnimatedModel> model(loader.loadAnimatedModelWithHierarchy(findResourceLocation(resourceId), texturePath, boneInfosFromExistingModel));
+    std::unique_ptr<RAnimatedModel> model(loader.loadAnimatedModelWithHierarchy(resourceId, getPath(resourceId), texturePath, boneInfosFromExistingModel));
     LOG_INFO("Resource nie istnieje. Tworzenie nowego zasobu... " + model.get()->getResourceId().getDebugString());
 
     RAnimatedModel* m = dynamic_cast<RAnimatedModel*>(model.get());

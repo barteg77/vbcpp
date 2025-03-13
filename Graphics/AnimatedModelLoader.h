@@ -26,7 +26,7 @@ class AnimatedModelLoader : public StaticModelLoader
 		AnimatedModelLoader();
 		~AnimatedModelLoader();
 
-		RAnimatedModel* loadAnimatedModelWithHierarchy(const ResourceLocation& resourceLocation, const std::string& texturesPath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel = {});
+		RAnimatedModel* loadAnimatedModelWithHierarchy(const ResourceId& resourceId, const std::string& fileName, const std::string& texturesPath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel = {});
 
 };
 

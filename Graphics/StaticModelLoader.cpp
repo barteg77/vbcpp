@@ -288,9 +288,8 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchyOnlyNode(const ResourceId
 }
 
 
-RStaticModel* StaticModelLoader::loadModel(const ResourceLocation& resourceLocation, std::string texturesPath)
+RStaticModel* StaticModelLoader::loadModel(const ResourceId& ResourceId, const std::string& fileName, std::string texturesPath)
 {
-    const std::string fileName = resourceLocation.getPath();
     _texturesPath = texturesPath;
 
     _assimpScene = _assimpImporter.ReadFile(fileName.c_str(), IMPORT_FLAGS_FOR_LOADING_WITHOUT_HIERARCHY);
@@ -422,7 +421,7 @@ RStaticModel* StaticModelLoader::loadModel(const ResourceLocation& resourceLocat
     rootNode->meshesCount = !isCollisionMeshExist ? meshesCount : (meshesCount - 1);
     rootNode->parent = NULL;
 
-    RStaticModel* model = new RStaticModel(resourceLocation.getResourceId(), rootNode, materials, GL_TRIANGLES, colMesh, collisionMesh.size());
+    RStaticModel* model = new RStaticModel(ResourceId, rootNode, materials, GL_TRIANGLES, colMesh, collisionMesh.size());
 
     return model;
 }
