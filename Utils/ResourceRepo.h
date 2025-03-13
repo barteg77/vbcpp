@@ -28,10 +28,12 @@ public:
 
     // returns real (case sensitive) file path of given case-insensitive filepath if exists
     // returns empth string if wanted file doesn't exist
+private:
     std::string getActualFilesystemFilepath(Path filePath) {
         return _filesystemHelper->getActualFilesystemFilepath(filePath);
     }
 
+public:
     bool doResourceExists(const ResourceId& resourceId) {
         const std::string es("");
         for (const std::string& idPart : resourceId.getIdParts()) {
