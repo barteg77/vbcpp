@@ -109,7 +109,7 @@ RTexture2D* ResourceManager::loadTexture(const ResourceId& resourceId, bool useC
     int width, height;
     //GLuint tID = ::loadTexture(path.c_str(), &width, &height, true);
 	bool textureCompression = useCompression && GameConfig::getInstance().textureCompression;
-    RTexture2D* texture = ::loadTexture(getPath(resourceId), textureCompression, mipmapping);
+    RTexture2D* texture = ::loadTexture(resourceId, getPath(resourceId), textureCompression, mipmapping);
 
     if ( texture )
     {
@@ -190,7 +190,7 @@ RTextureCubeMap* ResourceManager::loadTextureCubeMap(const ResourceId& resourceI
 
 void ResourceManager::reloadTexture(RTexture2D* texture)
 {
-    ::loadTexture(getPath(texture->getResourceId()), texture->isCompressed(), true, texture);
+    ::loadTexture(texture->getResourceId(), getPath(texture->getResourceId()), texture->isCompressed(), true, texture);
 }
 
 
