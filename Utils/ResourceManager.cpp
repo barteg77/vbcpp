@@ -407,7 +407,7 @@ RStaticModel* ResourceManager::loadModelWithHierarchy(const ResourceId& resource
     }
 
     StaticModelLoader loader(normalsSmoothing);
-    std::unique_ptr<RStaticModel> model(loader.loadModelWithHierarchy(findResourceLocation(resourceId), texturePath) );
+    std::unique_ptr<RStaticModel> model(loader.loadModelWithHierarchy(resourceId, getPath(resourceId), texturePath) );
     LOG_INFO("Resource nie istnieje. Tworzenie nowego zasobu... " + model.get()->getResourceId().getDebugString());
 
     RStaticModel* m = dynamic_cast<RStaticModel*>( model.get() );

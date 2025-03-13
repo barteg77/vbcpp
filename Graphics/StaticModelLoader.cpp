@@ -229,28 +229,28 @@ StaticModelNode* StaticModelLoader::createModelNode(aiNode* assimpNode, glm::mat
 }
 
 
-RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceLocation& resourceLocation, std::string texturesPath)
+RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceId& resourceId, const std::string& fileName , std::string texturesPath)
 {
     _texturesPath = texturesPath;
-    if (resourceLocation.getResourceId().getNodesAction() == ResourceId::NodesAction::skip){
-        _nodesToSkipNames = resourceLocation.getResourceId().getNodes();
+    if (resourceId.getNodesAction() == ResourceId::NodesAction::skip){
+        _nodesToSkipNames = resourceId.getNodes();
     } else {//resourceLocation.getResourceId().getNodesAction() == ResourceId::NodesAction::include
-        assert(resourceLocation.getResourceId().getNodes().size() == 1);
-        _nodeToLoadName = resourceLocation.getResourceId().getNodes().at(0);
+        assert(resourceId.getNodes().size() == 1);
+        _nodeToLoadName = resourceId.getNodes().at(0);
     }
 
 
     if (_assimpScene == NULL)
     {
-        _assimpScene = _assimpImporter.ReadFile(resourceLocation.getPath().c_str(), IMPORT_FLAGS_FOR_LOADING_WITH_HIERARCHY);
+        _assimpScene = _assimpImporter.ReadFile(fileName.c_str(), IMPORT_FLAGS_FOR_LOADING_WITH_HIERARCHY);
     }
     if (_assimpScene == NULL)
     {
-        LOG_ERROR("Error parsing file: " + resourceLocation.getPath() + ": " + _assimpImporter.GetErrorString());
+        LOG_ERROR("Error parsing file: " + fileName + ": " + _assimpImporter.GetErrorString());
         return NULL;
     }
 
-    std::string materialXmlFileName = MaterialLoader::createMaterialFileName(resourceLocation.getPath());
+    std::string materialXmlFileName = MaterialLoader::createMaterialFileName(fileName);
     if (!FilesHelper::isFileExists(materialXmlFileName))
     {
         MaterialSaver::saveMaterialsFromAssimpModel(materialXmlFileName, _assimpScene);
@@ -269,7 +269,7 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceLocation& 
         colMesh[i] = _collisionMesh[i];
     }
 
-    RStaticModel* model = new RStaticModel(resourceLocation.getResourceId(), rootNode, _materials, GL_TRIANGLES, colMesh, _collisionMesh.size());
+    RStaticModel* model = new RStaticModel(resourceId, rootNode, _materials, GL_TRIANGLES, colMesh, _collisionMesh.size());
 
     _materialLoader->closeFile();
 	_collisionMesh.clear();
@@ -279,9 +279,9 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceLocation& 
     return model;
 }
 
-RStaticModel* StaticModelLoader::loadModelWithHierarchyOnlyNode(const ResourceLocation& resourceLocation, std::string texturesPath, Transform& loadedNodeTransformInModel)
+RStaticModel* StaticModelLoader::loadModelWithHierarchyOnlyNode(const ResourceId& resourceId, const std::string& fileName, std::string texturesPath, Transform& loadedNodeTransformInModel)
 {
-    RStaticModel* staticModel = loadModelWithHierarchy(resourceLocation, texturesPath);
+    RStaticModel* staticModel = loadModelWithHierarchy(resourceId, fileName, texturesPath);
     loadedNodeTransformInModel = _lastNodeTransform;
 
     return staticModel;
