@@ -343,9 +343,17 @@ RShader* ResourceManager::loadShader(const ResourceId& resourceId)
         return shdr;
     }
 
-    // std::unique_ptr<Shader> shdr1( new Shader(LoadShader("DirLight.vert", "DirLight.frag")) );
     LOG_INFO("Resource nie istnieje. Tworzenie nowego zasobu... " + resourceId.getDebugString());
-    std::unique_ptr<Resource> shader ( new RShader(resourceId, ShaderLoader::loadShader(findResourceLocation(resourceId))));
+
+    const std::vector<std::string> idParts = resourceId.getIdParts();
+    assert(idParts.size() == 2);// todo jak bedzie ResourceType w ResourceId i tam assert to zrobic assert na resource type
+    const std::string& vertexShaderFileName = getPath(resourceId, 0);
+    const std::string& fragmentShaderFileName = getPath(resourceId, 1);
+    
+    std::unique_ptr<Resource> shader ( new RShader(resourceId, ShaderLoader::loadShader(vertexShaderFileName,
+                                                                                        fragmentShaderFileName,
+                                                                                        resourceId.getDefines(),
+                                                                                        resourceId.getConstants())));
 
     RShader* s = dynamic_cast<RShader*>( shader.get() );
 
@@ -361,7 +369,16 @@ RShader* ResourceManager::loadShader(const ResourceId& resourceId)
 
 void ResourceManager::reloadShader(RShader* shader)
 {
-    shader->setNewShader(ShaderLoader::loadShader(findResourceLocation(shader->getResourceId())));
+    const ResourceId& resourceId(shader->getResourceId());
+    //to jest copy paste z load shadera ale kiedys zrobie dobrze
+    const std::vector<std::string> idParts = resourceId.getIdParts();
+    assert(idParts.size() == 2);// todo jak bedzie ResourceType w ResourceId i tam assert to zrobic assert na resource type
+    const std::string& vertexShaderFileName = getPath(resourceId, 0);
+    const std::string& fragmentShaderFileName = getPath(resourceId, 1);
+    shader->setNewShader(ShaderLoader::loadShader(vertexShaderFileName,
+                                                  fragmentShaderFileName,
+                                                  resourceId.getDefines(),
+                                                  resourceId.getConstants()));
 }
 
 

@@ -33,7 +33,10 @@ class ShaderLoader
         static GLuint linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId);
 
     public:
-        static GLuint loadShader(const ResourceLocation& resourceLocation);
+        static GLuint loadShader(const std::string& vertexShaderFileName,
+                                 const std::string& fragmentShaderFileName,
+                                 std::vector<std::string> defines,
+                                 std::unordered_map<std::string, std::string> constants);
 
 };
 

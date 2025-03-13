@@ -146,21 +146,19 @@ GLuint ShaderLoader::linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId)
 }
 
 
-GLuint ShaderLoader::loadShader(const ResourceLocation& resourceLocation)
+GLuint ShaderLoader::loadShader(const std::string& vertexShaderFileName,
+                                const std::string& fragmentShaderFileName,
+                                std::vector<std::string> defines,
+                                std::unordered_map<std::string, std::string> constants)
 {
-    const std::vector<std::string> resourceLocationPaths = resourceLocation.getPaths();
-    assert(resourceLocationPaths.size() == 2);// todo jak bedzie ResourceType w ResourceId i tam assert to zrobic assert na resource type
-    const std::string& vertexShaderFileName = resourceLocationPaths.at(0);
-    const std::string& fragmentShaderFileName = resourceLocationPaths.at(1);
-
 	std::string vertexShaderCode;
 	std::string fragmentShaderCode;
 
-	if (!loadShaderCode(vertexShaderFileName, vertexShaderCode, resourceLocation.getResourceId().getDefines(), resourceLocation.getResourceId().getConstants()))
+	if (!loadShaderCode(vertexShaderFileName, vertexShaderCode, defines, constants))
     {
         LOG_ERROR("Can not open VertexShaderFile: " + std::string(vertexShaderFileName) + "!");
     }
-    if (!loadShaderCode(fragmentShaderFileName, fragmentShaderCode, resourceLocation.getResourceId().getDefines(), resourceLocation.getResourceId().getConstants()))
+    if (!loadShaderCode(fragmentShaderFileName, fragmentShaderCode, defines, constants))
     {
         LOG_ERROR("Can not open FragmentShaderFile: " + std::string(fragmentShaderFileName) + "!");
     }
