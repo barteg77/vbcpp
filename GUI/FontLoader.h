@@ -36,7 +36,7 @@ class FontLoader
         FontLoader();
         ~FontLoader();
 
-        RFont* loadFont(const ResourceLocation& resourceLocation);
+        RFont* loadFont(const ResourceId& resourceId, const std::string& fileName);
 
         static std::string createFontResourceName(const char* fontName, int pixelSize);
 };

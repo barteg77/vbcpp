@@ -84,12 +84,11 @@ void FontLoader::releaseTextureData()
 }
 
 
-RFont* FontLoader::loadFont(const ResourceLocation& resourceLocation)
+RFont* FontLoader::loadFont(const ResourceId& resourceId, const std::string& fileName)
 {
-    LOG_INFO("load font paths[] len "+std::to_string(resourceLocation.getPaths().size()));
-    const std::string fontName = resourceLocation.getPath();
-    const int& pixelSize = resourceLocation.getResourceId().getFontPixelSize();
-    LOG_INFO("Loading font: " + fontName);
+    //LOG_INFO("load font paths[] len "+std::to_string(resourceLocation.getPaths().size()));
+    LOG_INFO("Loading font: " + fileName);
+    const int& pixelSize = resourceId.getFontPixelSize();
 
     if (pixelSize <= 0)
     {
@@ -97,10 +96,10 @@ RFont* FontLoader::loadFont(const ResourceLocation& resourceLocation)
         return nullptr;
     }
 
-    bool result = FT_New_Face(_library, fontName.c_str(), 0, &_face);
+    bool result = FT_New_Face(_library, fileName.c_str(), 0, &_face);
     if (result)
     {
-        LOG_ERROR("Cannot load font: " + fontName);
+        LOG_ERROR("Cannot load font: " + fileName);
         return nullptr;
     }
 
@@ -113,7 +112,7 @@ RFont* FontLoader::loadFont(const ResourceLocation& resourceLocation)
     _currentLineY = 0;
     _linesHeights.push_back(0);
 
-    _font = new RFont(resourceLocation.getResourceId());
+    _font = new RFont(resourceId);
 
     int charsCount = 0;
     unsigned int glyphIndex;

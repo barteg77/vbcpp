@@ -565,7 +565,7 @@ RFont* ResourceManager::loadFont(const ResourceId& resourceId)
 
     FontLoader loader;
 
-    RFont* mTemp = loader.loadFont(findResourceLocation(resourceId));
+    RFont* mTemp = loader.loadFont(resourceId, getPath(resourceId));
 
     if (mTemp)
     {
