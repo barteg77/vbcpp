@@ -111,7 +111,7 @@ std::string FilesystemHelper::getKnownActualFilesystemFilepath(const Path& fileP
     const std::string fileName = filePath.getBackPart();
     const FileInfo* const fileInfo = directoryInfo->getFileInfo(fileName);
 
-    std::string actualPath = _filesHelper.joinPathsImproved(directoryInfo->_nameActual, fileInfo->_nameActual);
+    std::string actualPath = _filesHelper.joinPathsImproved(_filesHelper.joinPathsImproved(_repoDirectory, directoryInfo->_nameActual), fileInfo->_nameActual);
     LOG_DEBUG("Found known actual path of file \"" + filePath.getString() + "\", is \"" + actualPath);
     return actualPath;
 }
