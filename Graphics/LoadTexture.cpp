@@ -138,9 +138,8 @@ const std::string HDR_FILE_EXTENSION = "hdr";
 const std::string DDS_FILE_EXTENSION = "dds";
 
 
-RTexture2D* loadTexture(const ResourceLocation& resourceLocation, bool useCompression, bool mipmaping, RTexture2D* oldTexture)
+RTexture2D* loadTexture(const std::string& fileName, bool useCompression, bool mipmaping, RTexture2D* oldTexture)
 {
-	std::string fileName(resourceLocation.getPath());
 	std::string extension = FilesHelper::getFileExtension(fileName);
 	bool hdrImage = extension == HDR_FILE_EXTENSION;
 
