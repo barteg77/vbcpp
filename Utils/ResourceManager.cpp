@@ -156,8 +156,16 @@ RTextureCubeMap* ResourceManager::loadTextureCubeMap(const ResourceId& resourceI
         return tex;
     }
     // Zasob nie istnieje
-    ResourceLocation resourceLocation = findResourceLocation(resourceId);
-    RTextureCubeMap* texture = ::loadTextureCubeMap(resourceLocation, true);
+
+    // prepare prepare files' paths
+    const std::vector<std::string> idParts(resourceId.getIdParts());
+    std::vector<std::string> filesNames;
+    filesNames.reserve(idParts.size());
+    for (int i=0;i<idParts.size();i++) {
+        filesNames.push_back(getPath(resourceId, i));
+    }
+    
+    RTextureCubeMap* texture = ::loadTextureCubeMap(resourceId, filesNames, true);
 
     if ( texture )
     {

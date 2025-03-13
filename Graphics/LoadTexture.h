@@ -18,7 +18,7 @@
 RTexture2D* loadTexture(const ResourceId& resourceId, const std::string& fileName, bool useCompression = false, bool mipmaping = true, RTexture2D* oldTexture = NULL);
 
 // filesNames: pos_x, neg_x, pos_y, neg_y, pos_z, neg_z
-RTextureCubeMap* loadTextureCubeMap(const ResourceLocation& resourceLocation, bool mipmaping = true, RTextureCubeMap* oldTexture = NULL);
+RTextureCubeMap* loadTextureCubeMap(const ResourceId& resourceId, const std::vector<std::string>& filesNames, bool mipmaping = true, RTextureCubeMap* oldTexture = NULL);
 
 // Unused
 GLuint loadTextureRect(const char* fileName);

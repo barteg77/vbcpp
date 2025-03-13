@@ -207,9 +207,8 @@ RTexture2D* loadTexture(const ResourceId& resourceId, const std::string& fileNam
 }
 
 
-RTextureCubeMap* loadTextureCubeMap(const ResourceLocation& resourceLocation, bool mipmaping, RTextureCubeMap* oldTexture)
+RTextureCubeMap* loadTextureCubeMap(const ResourceId& resourceId, const std::vector<std::string>& filesNames, bool mipmaping, RTextureCubeMap* oldTexture)
 {
-	const std::vector<std::string> filesNames(resourceLocation.getPaths());
 	assert(filesNames.size() == 6);
 
 	bool hdrImage = FilesHelper::getFileExtension(filesNames[0]) == HDR_FILE_EXTENSION;
@@ -251,9 +250,9 @@ RTextureCubeMap* loadTextureCubeMap(const ResourceLocation& resourceLocation, bo
 	if (oldTexture == NULL)
 	{
 		if (hdrImage)
-			texture = new RTextureCubeMap(resourceLocation.getResourceId(), (float**)cubeMapFaces, chanels == 4 ? TF_RGBA_16F : TF_RGB_16F, width, true);
+			texture = new RTextureCubeMap(resourceId, (float**)cubeMapFaces, chanels == 4 ? TF_RGBA_16F : TF_RGB_16F, width, true);
 		else
-			texture = new RTextureCubeMap(resourceLocation.getResourceId(), (unsigned char**)cubeMapFaces, TF_RGBA, width, true);
+			texture = new RTextureCubeMap(resourceId, (unsigned char**)cubeMapFaces, TF_RGBA, width, true);
 	}
     else
         texture = oldTexture;
