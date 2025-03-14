@@ -623,7 +623,7 @@ RObject* ResourceManager::loadRObject(const ResourceId& resourceId, const std::s
 		return object;
 	}
 
-	std::unique_ptr<RObject> object(RObjectLoader::loadObject(findResourceLocation(resourceId), originalName));
+	std::unique_ptr<RObject> object(RObjectLoader::loadObject(resourceId, getPath(resourceId), originalName));
     LOG_INFO("Resource nie istnieje. Tworzenie nowego zasobu... " + object.get()->getResourceId().getDebugString());
 
 	RObject* o = dynamic_cast<RObject*>(object.get());

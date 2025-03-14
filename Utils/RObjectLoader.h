@@ -38,7 +38,7 @@ class RObjectLoader
 		static RStaticModel* loadModel(const ResourceId& resourceId, const std::string& objectDirPath, bool isAnimated, bool normalSmoothing, RStaticModel* hightPollyModel = nullptr);
 	
 	public:
-		static RObject* loadObject(const ResourceLocation& resourceLocation, const std::string& originalName);
+		static RObject* loadObject(const ResourceId& resourceId, const std::string& fileName, const std::string& originalName);
 
 		static SceneObject* createSceneObjectFromRObject(RObject* objectDefinition, const std::string& name,
 														 const glm::vec3& position, const glm::vec3& rotation, SceneManager* sceneManager);

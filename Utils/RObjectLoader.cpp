@@ -204,15 +204,13 @@ RStaticModel* RObjectLoader::loadModel(const ResourceId& resourceId, const std::
 }
 
 
-RObject* RObjectLoader::loadObject(const ResourceLocation& resourceLocation, const std::string& originalName)
+RObject* RObjectLoader::loadObject(const ResourceId& resourceId, const std::string& fileName, const std::string& originalName)
 {
-	const std::string fullPath = resourceLocation.getPath() + OBJECT_FILE_NAME;
-
 	XMLDocument doc;
-	XMLError result = doc.LoadFile(fullPath.c_str());
+	XMLError result = doc.LoadFile(fileName.c_str());
 	if (result != XML_SUCCESS)
 	{
-		LOG_ERROR("Cannot read xml file: " + fullPath + "! Result: " + Strings::toString((int)result));
+		LOG_ERROR("Cannot read xml file: " + fileName + "! Result: " + Strings::toString((int)result));
 	}
 	
 	// Search for main element - Object
@@ -241,7 +239,7 @@ RObject* RObjectLoader::loadObject(const ResourceLocation& resourceLocation, con
 	LOG_INFO("Comment: " + comment);
 
 
-	RObject* object = new RObject(resourceLocation.getResourceId(), author, objectName, comment, originalName);
+	RObject* object = new RObject(resourceId, author, objectName, comment, originalName);
 
 
 	loadComponents(objElement, object);
