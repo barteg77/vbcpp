@@ -181,9 +181,3 @@ RFont* FontLoader::loadFont(const ResourceId& resourceId, const std::string& fil
 
     return _font;
 }
-
-
-std::string FontLoader::createFontResourceName(const char* fontName, int pixelSize)
-{
-    return std::string(fontName) + ";" + toString(pixelSize);
-}
