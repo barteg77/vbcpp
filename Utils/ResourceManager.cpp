@@ -596,7 +596,7 @@ RSound* ResourceManager::loadSound(const ResourceId& resourceId)
         return sound;
     }
 
-    std::unique_ptr<RSound> sound( ::loadSound(findResourceLocation(resourceId)) );
+    std::unique_ptr<RSound> sound( ::loadSound(resourceId, getPath(resourceId)) );
     LOG_INFO("Resource nie istnieje. Tworzenie nowego zasobu... " + sound.get()->getResourceId().getDebugString());
 
     RSound* s = dynamic_cast<RSound*>( sound.get() );

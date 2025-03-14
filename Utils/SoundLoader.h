@@ -14,7 +14,7 @@
 #include "ResourceLocation.h"
 
 
-RSound* loadSound(const ResourceLocation& resourceLocation);
+RSound* loadSound(const ResourceId& resourceId, const std::string& fileName);
 
 
 #endif // SOUNDLOADER_H_INCLUDED
