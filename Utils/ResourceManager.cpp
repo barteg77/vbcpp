@@ -652,7 +652,7 @@ RRoadProfile* ResourceManager::loadRoadProfile(const ResourceId& resourceId)
 		return object;
 	}
 
-	std::unique_ptr<RRoadProfile> object(RoadProfileLoader::loadRoadProfile(findResourceLocation(resourceId)));
+	std::unique_ptr<RRoadProfile> object(RoadProfileLoader::loadRoadProfile(resourceId, getPath(resourceId)));
     LOG_INFO("Resource nie istnieje. Tworzenie nowego zasobu... " + object.get()->getResourceId().getDebugString());
 
 	RRoadProfile* o = dynamic_cast<RRoadProfile*>(object.get());
@@ -737,6 +737,16 @@ void ResourceManager::addResourceRepo(const ResourceRepo& resourceRepo)
 
 std::string ResourceManager::getPath(const ResourceId& resourceId, const size_t partIdx) {
     ResourceLocation resourceLocation = findResourceLocation(resourceId);
-    std::string path(resourceLocation.repo._filesystemHelper.get()->getKnownActualFilesystemFilepath(Path(resourceId.getIdParts().at(partIdx))));
+    const ResourceType& rt(resourceId.getResourceType());
+    const std::string& idPart(resourceId.getIdParts().at(partIdx));
+    std::string path_str;
+        if (rt == ResourceType::RT_OBJECT) {
+            path_str = idPart + "object.xml";
+        } else if (rt == ResourceType::RT_ROAD_PROFILE) {// to sie ucywilizuje jak sie wydzieli pochodne ResourceRepo tego typu
+            path_str = idPart + "profile.xml";
+        } else {
+            path_str = idPart;// kiedys sie zrobi zebt tegi nie kopiowac
+        }
+    std::string path(resourceLocation.repo._filesystemHelper.get()->getKnownActualFilesystemFilepath(Path(path_str)));
     return path;
 }

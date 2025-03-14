@@ -9,10 +9,10 @@
 using namespace tinyxml2;
 
 
-RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceLocation& resourceLocation)
+RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceId& resourceId, const std::string& fullPath)
 {
-	const std::string dirPath = resourceLocation.getPath();
-	const std::string fullPath = dirPath + PROFILE_FILE_NAME;
+	//const std::string fullPath = dirPath + PROFILE_FILE_NAME;
+	const std::string dirPath(Path(fullPath).withoutBackPart().getString());
 	const std::string materialFullPath = MaterialLoader::createMaterialFileName(fullPath);
 
 	XMLDocument doc;
@@ -63,7 +63,7 @@ RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceLocation& resourc
 	}
 
 
-	RRoadProfile* roadProfile = new RRoadProfile(resourceLocation.getResourceId(), author, profName, comment, intersectionMaterial, intersectionRoadY);
+	RRoadProfile* roadProfile = new RRoadProfile(resourceId, author, profName, comment, intersectionMaterial, intersectionRoadY);
 
 
 	XMLElement* lanesElement = profileElement->FirstChildElement("Lanes");

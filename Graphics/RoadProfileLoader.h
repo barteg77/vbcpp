@@ -21,7 +21,7 @@ class RoadProfileLoader
 	private:
 
 	public:
-		static RRoadProfile* loadRoadProfile(const ResourceLocation& resourceLocation);
+		static RRoadProfile* loadRoadProfile(const ResourceId& resourceId, const std::string& fileName);
 
 };
 
