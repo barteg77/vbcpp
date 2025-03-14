@@ -7,9 +7,10 @@
 #include <vector>
 
 
-RDisplayFont::RDisplayFont(const ResourceLocation& resourceLocation)
-	: Resource(RT_DISPLAY_FONT, resourceLocation.getResourceId()), _availableSizes{ 5, 7, 9, 12, 16 }
+RDisplayFont::RDisplayFont(const ResourceId& resourceId, const std::vector<std::string> filesNames)
+	: Resource(RT_DISPLAY_FONT, resourceId), _availableSizes{ 5, 7, 9, 12, 16 }
 {
+	assert(filesNames.size() == NUMBER_OF_SIZES);
 	for (int i = 0; i < NUMBER_OF_SIZES; ++i)
 	{
 		_fontSizes[i].height = _availableSizes[i];
@@ -22,10 +23,9 @@ RDisplayFont::RDisplayFont(const ResourceLocation& resourceLocation)
 		}
 	}
 
-	std::vector<std::string> paths = resourceLocation.getPaths();
 	for (int i = 0; i < NUMBER_OF_SIZES; ++i)
 	{
-		loadOneFont(paths.at(i), i);
+		loadOneFont(filesNames.at(i), i);
 	}
 }
 

@@ -681,7 +681,7 @@ RDisplayFont* ResourceManager::loadDisplayFont(const ResourceId& resourceId)
 		return object;
 	}
 
-	std::unique_ptr<RDisplayFont> object(new RDisplayFont(findResourceLocation(resourceId)));
+	std::unique_ptr<RDisplayFont> object(new RDisplayFont(resourceId, getPaths(resourceId)));
     LOG_INFO("Resource nie istnieje. Tworzenie nowego zasobu... " + object.get()->getResourceId().getDebugString());
 
 	RDisplayFont* o = dynamic_cast<RDisplayFont*>(object.get());
@@ -708,7 +708,7 @@ RMaterialsCollection* ResourceManager::loadMaterialsCollection(const ResourceId&
     RMaterialsCollection* temp = new RMaterialsCollection(resourceId);
 
     MaterialLoader materialLoader;
-    std::string path = findResourceLocation(resourceId).getPath();
+    std::string path = getPath(resourceId);
     std::string id_string_dir = FilesHelper::getPathToDirectoryFromFileName(resourceId.getIdString(0));
     materialLoader.openFile(path.c_str());
 
@@ -749,4 +749,14 @@ std::string ResourceManager::getPath(const ResourceId& resourceId, const size_t 
         }
     std::string path(resourceLocation.repo._filesystemHelper.get()->getKnownActualFilesystemFilepath(Path(path_str)));
     return path;
+}
+
+std::vector<std::string> ResourceManager::getPaths(const ResourceId& resourceId) {
+    const std::vector<std::string>& idParts(resourceId.getIdParts());
+    std::vector<std::string> filesNames;
+    filesNames.reserve(idParts.size());
+    for (int i=0;i<idParts.size();i++) {
+        filesNames.push_back(getPath(resourceId, i));
+    }
+    return filesNames;
 }

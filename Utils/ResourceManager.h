@@ -97,6 +97,7 @@ class ResourceManager
 
         std::vector<std::unique_ptr<ResourceRepo>> _resourceRepos;
         std::string getPath(const ResourceId& resourceId, const size_t partIdx=0);// to jest tylko na chwile dopoki loady nie są przeniesione do ResourceRepo
+        std::vector<std::string> getPaths(const ResourceId& resourceId);
 };
 
 #endif // RESOURCEMANAGER_H_INCLUDED

@@ -32,7 +32,7 @@ class RDisplayFont : public Resource
 		void loadOneFont(std::string fileName, int index);
 
 	public:
-		RDisplayFont(const ResourceLocation& resourceLocation);
+		RDisplayFont(const ResourceId& resourceId, const std::vector<std::string> filesNames);
 		~RDisplayFont();
 
 		RDisplayFontSize* getFontInSize(int sizeIndex);
