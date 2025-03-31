@@ -86,7 +86,7 @@ class ResourceManager
 
         RMaterialsCollection* loadMaterialsCollection(const ResourceId& resourceId);
 
-        void addResourceRepo(const ResourceRepo& resourceRepo);
+        void addResourceRepo(std::unique_ptr<ResourceRepo> resourceRepoPtr);
 
 
     protected:

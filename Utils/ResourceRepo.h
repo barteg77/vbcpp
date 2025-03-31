@@ -3,55 +3,54 @@
 
 
 #include <string>
-#include "ResourceRepoFilesystemHelper.h"
+//#include "Resource.h"
 
-class ResourceRepo final
+#include "RTexture.h"
+#include "../Graphics/RShader.h"
+#include "../Graphics/Model.h"
+#include "../Graphics/RRoadProfile.h"
+#include "../Graphics/RoadProfileLoader.h"
+#include "../Graphics/RDisplayFont.h"
+#include "../Graphics/RMaterialsCollection.h"
+#include "../Graphics/RAnimation.h"
+#include "RAnimatedModel.h"
+#include "RStaticModel.h"
+#include "RFont.h"
+#include "RSound.h"
+#include "RObject.h"
+#include "RObjectLoader.h"
+
+class ResourceRepo
 {
     friend class ResourceManager;// to jest tylko na chwile dopoki loady nie są przeniesione do ResourceRepo
 
-	std::string _name;
-    std::string _path;
-    std::shared_ptr<FilesystemHelper> _filesystemHelper;
+	const std::string _name;
 
 public:
-    explicit ResourceRepo(const std::string& name,
-                          const std::string& path)
-    : _name(name),
-      _path(path),
-      _filesystemHelper(new FilesystemHelper(path, *FilesHelper::getInstance()))
+    explicit ResourceRepo(const std::string& name)
+    : _name(name)
     {}
     
     std::string getName() const { return _name; }
-    std::string getPath() const { return _path; }
-    std::string getDebugString() const
-    { return "name:"+_name+" path:"+_path; }
+    virtual std::string getDebugString() const
+    { return "name:"+getName()+" "+getPropertiesString(); }
+    
+    virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) = 0;
+    virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId) = 0;
+    virtual std::unique_ptr<RShader> loadShader(const ResourceId& resourceId) = 0;
+    virtual std::unique_ptr<RStaticModel> loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true /*, OGLDriver* driver */) = 0;
+    virtual std::unique_ptr<RStaticModel> loadModel(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true) = 0;
+    virtual std::unique_ptr<RAnimatedModel> loadAnimatedModel(const ResourceId& resourceId, const std::string& texturePath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel = {}) = 0;
+    virtual std::unique_ptr<RAnimation> loadAnimation(const ResourceId& resourceId) = 0;
+    virtual std::unique_ptr<RFont> loadFont(const ResourceId& resourceId) = 0;//loadFont(std::string path, int pixelSize = 32);
+    virtual std::unique_ptr<RSound> loadSound(const ResourceId& resourceId) = 0;
+    virtual std::unique_ptr<RObject> loadRObject(const ResourceId& resourceId, const std::string& originalName) = 0;
+    virtual std::unique_ptr<RRoadProfile> loadRoadProfile(const ResourceId& resourceId) = 0;
+    virtual std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId) = 0;
+    virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId) = 0;
 
-    // returns real (case sensitive) file path of given case-insensitive filepath if exists
-    // returns empth string if wanted file doesn't exist
 private:
-    std::string getActualFilesystemFilepath(Path filePath) {
-        return _filesystemHelper->getActualFilesystemFilepath(filePath);
-    }
-
-public:
-    bool doResourceExists(const ResourceId& resourceId) {
-        const std::string es("");
-        for (const std::string& idPart : resourceId.getIdParts()) {
-            ResourceType rt = resourceId.getResourceType();
-            std::string path_str;
-            if (rt == ResourceType::RT_OBJECT) {
-                path_str = idPart + "object.xml";
-            } else if (rt == ResourceType::RT_ROAD_PROFILE) {// to sie ucywilizuje jak sie wydzieli pochodne ResourceRepo tego typu
-                path_str = idPart + "profile.xml";
-            } else {
-                path_str = idPart;// kiedys sie zrobi zebt tegi nie kopiowac
-            }
-            if (getActualFilesystemFilepath(Path(path_str)) == es) {
-                return false;
-            }
-        }
-        return true;
-    }
+    virtual std::string getPropertiesString() const = 0;
 };
 
 

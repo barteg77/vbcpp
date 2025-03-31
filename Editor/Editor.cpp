@@ -20,6 +20,7 @@
 #include "../Utils/RaycastingUtils.h"
 #include "../Utils/FilesHelper.h"
 #include "../Utils/ResourceDescription.h"
+#include "../Utils/ResourceRepoNative.h"
 
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
@@ -842,7 +843,7 @@ namespace vbEditor
 	{
 #ifdef DEVELOPMENT_RESOURCES
 		GameConfig::getInstance().loadDevelopmentConfig("devSettings.xml");
-		ResourceManager::getInstance().addResourceRepo(ResourceRepo("development_resources", GameConfig::getInstance().alternativeResourcesPath));
+		ResourceManager::getInstance().addResourceRepo(std::make_unique<ResourceRepoNative>("development_resources", GameConfig::getInstance().alternativeResourcesPath));
 #endif // DEVELOPMENT_RESOURCES
 
 		GameConfig::getInstance().mode = GM_EDITOR;

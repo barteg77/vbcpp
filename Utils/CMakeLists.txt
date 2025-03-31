@@ -27,6 +27,7 @@ set (UTILS_SOURCES
 	Utils/ResourceLocation.cpp
 	Utils/ResourceManager.cpp
 	Utils/ResourceRepoFilesystemHelper.cpp
+	Utils/ResourceRepoNative.cpp
 	Utils/SoundLoader.cpp
 	Utils/stb_image.cpp
 	Utils/Strings.cpp
@@ -69,6 +70,7 @@ set (UTILS_HEADERS
 	Utils/ResourceManager.h
 	Utils/ResourceRepo.h
 	Utils/ResourceRepoFilesystemHelper.h
+	Utils/ResourceRepoNative.h
 	Utils/SoundLoader.h
 	Utils/Strings.h
 	Utils/Timer.h

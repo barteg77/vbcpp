@@ -8,7 +8,7 @@
 
 #include "Utils/Logger.h"
 #include "Utils/LocalizationSystem.h"
-
+#include "Utils/ResourceRepoNative.h"
 
 int main()
 {
@@ -18,7 +18,7 @@ int main()
 
 #ifdef DEVELOPMENT_RESOURCES
 	gameConfig.loadDevelopmentConfig("devSettings.xml");
-	ResourceManager::getInstance().addResourceRepo(ResourceRepo("development_resources", gameConfig.alternativeResourcesPath));
+	ResourceManager::getInstance().addResourceRepo(std::make_unique<ResourceRepoNative>("development_resources", gameConfig.alternativeResourcesPath));
 #endif // DEVELOPMENT_RESOURCES
 
 

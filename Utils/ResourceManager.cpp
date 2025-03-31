@@ -11,7 +11,7 @@
 #include "../Game/GameConfig.h"
 #include "Logger.h"
 #include "ResourceId.h"
-#include "ResourceRepo.h"
+#include "ResourceRepoNative.h"
 #include "ResourceLocation.h"
 #include <algorithm>
 #include <cstddef>
@@ -28,8 +28,7 @@ const ResourceId ResourceManager::DEFAULT_WHITE_TEXTURE_RESOURCE_ID = ResourceId
 ResourceManager::ResourceManager()
 {
     LOG_INFO("ResourceManager: Konstruktor");
-
-	addResourceRepo(ResourceRepo("base", "."));
+	addResourceRepo(std::make_unique<ResourceRepoNative>("base", "."));
 }
 
 
@@ -106,7 +105,7 @@ RTexture2D* ResourceManager::loadTexture(const ResourceId& resourceId, bool useC
         RTexture2D* tex = dynamic_cast<RTexture2D*>(res);
         return tex;
     }
-    int width, height;
+    //int width, height;
     //GLuint tID = ::loadTexture(path.c_str(), &width, &height, true);
 	bool textureCompression = useCompression && GameConfig::getInstance().textureCompression;
     RTexture2D* texture = ::loadTexture(resourceId, getPath(resourceId), textureCompression, mipmapping);
@@ -722,9 +721,9 @@ RMaterialsCollection* ResourceManager::loadMaterialsCollection(const ResourceId&
         return 0;
 }
 
-void ResourceManager::addResourceRepo(const ResourceRepo& resourceRepo)
+void ResourceManager::addResourceRepo(std::unique_ptr<ResourceRepo> resourceRepoPtr)
 {
-    _resourceRepos.push_back(std::unique_ptr<ResourceRepo> (new ResourceRepo (resourceRepo)));
+    _resourceRepos.push_back(std::move(resourceRepoPtr));
 }
 
 std::string ResourceManager::getPath(const ResourceId& resourceId, const size_t partIdx) {
