@@ -20,7 +20,7 @@ class AnimationLoader final
 		void loadBones(const aiAnimation* assimpAnimation, std::unordered_map<std::string, Bone*>& outBones);
 
 	public:
-		RAnimation* loadAnimation(const ResourceLocation& resourceLocation);
+		RAnimation* loadAnimation(const ResourceId& resourceId, const std::string& fileName);
 		
 };
 

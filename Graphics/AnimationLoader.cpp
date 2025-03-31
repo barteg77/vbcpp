@@ -67,9 +67,8 @@ void AnimationLoader::loadBones(const aiAnimation* assimpAnimation, std::unorder
 }
 
 
-RAnimation* AnimationLoader::loadAnimation(const ResourceLocation& resourceLocation)
+RAnimation* AnimationLoader::loadAnimation(const ResourceId& resourceId, const std::string& fileName)
 {
-	const std::string fileName = resourceLocation.getPath();
 	Assimp::Importer assimpImporter;
 	const aiScene* assimpScene = assimpImporter.ReadFile(fileName, IMPORT_FLAGS);
 
