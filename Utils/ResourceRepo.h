@@ -60,8 +60,8 @@ private:
 template <> std::unique_ptr<RTexture> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadTexture(resourceId, true, true, true); }//defaults was true, handling non-default values to be done later
 template <> std::unique_ptr<RTextureCubeMap> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadTextureCubeMap(resourceId); }
 template <> std::unique_ptr<RShader> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadShader(resourceId); }
-template <> std::unique_ptr<RStaticModel> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadModel(resourceId, "default_texture_path", true); }
-template <> std::unique_ptr<RAnimatedModel> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimatedModel(resourceId, "default_texture_path"); }
+template <> std::unique_ptr<RStaticModel> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadModel(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/", true); }
+template <> std::unique_ptr<RAnimatedModel> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimatedModel(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/"); }
 template <> std::unique_ptr<RAnimation> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimation(resourceId); }
 template <> std::unique_ptr<RFont> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadFont(resourceId); }
 template <> std::unique_ptr<RSound> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadSound(resourceId); }
