@@ -51,9 +51,9 @@ namespace vbEditor
 		{
 			reloadCurrentMaterialInAllObjects();
 
-			std::string modelFileName = ResourceManager::getInstance().findResourceLocation(currentRenderObject->getModel()->getResourceId()).getPath();
+			std::string modelFileName = ResourceManager::getInstance().realPath(currentRenderObject->getModel()->getResourceId().getIdString(0));
 			std::string materialXmlFileName = MaterialLoader::createMaterialFileName(modelFileName);
-			std::string objectDirPath = ResourceManager::getInstance().findResourceLocation(currentRenderObject->getSceneObject()->getObjectDefinition()->getResourceId()).getPath();
+			std::string objectDirPath = ResourceManager::getInstance().realPath(currentRenderObject->getSceneObject()->getObjectDefinition()->getResourceId().getIdString(0));
 
 			LOG_INFO("modelFileName: " + modelFileName);
 			LOG_INFO("materialXmlFileName: " + materialXmlFileName);
@@ -202,7 +202,7 @@ namespace vbEditor
 
 					std::string path = result[0];
 					const RObject* const object = currentRenderObject->getSceneObject()->getObjectDefinition();
-					std::string objectDirPath = ResourceManager::getInstance().findResourceLocation(object->getResourceId()).getPath();
+					std::string objectDirPath = ResourceManager::getInstance().realPath(object->getResourceId().getIdString(0));//ciekawe czy bedzie dzialac
 
 					std::string newPath = objectDirPath + FilesHelper::getFileNameFromPath(path);
 					if (!FilesHelper::isInPathSubdir(path, objectDirPath))

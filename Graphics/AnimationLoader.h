@@ -7,7 +7,6 @@
 #include <assimp/postprocess.h>
 
 #include "RAnimation.h"
-#include "../Utils/ResourceLocation.h"
 
 
 class AnimationLoader final

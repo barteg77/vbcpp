@@ -12,7 +12,6 @@
 #include "Logger.h"
 #include "ResourceId.h"
 #include "ResourceRepoNative.h"
-#include "ResourceLocation.h"
 #include <algorithm>
 #include <cstddef>
 #include <memory>
@@ -45,48 +44,6 @@ ResourceManager& ResourceManager::getInstance()
         rsInstance = std::unique_ptr<ResourceManager>(new ResourceManager);
 
     return* rsInstance;
-}
-
-
-Resource* ResourceManager::findResource(const ResourceId& resourceId)
-{
-// Sprawdzamy czy zasob juz istnieje
-    std::list<std::unique_ptr<Resource>>::iterator it;
-    for ( it = _resources.begin(); it != _resources.end(); ++it)
-    {
-        if ( (*it)->getResourceId() == resourceId )
-        {
-            LOG_INFO("Resource istnieje. Zwracam istniejacy zasob: " + (*it)->getResourceId().getDebugString());
-            std::unique_ptr<Resource>& res = *it;
-
-            return res.get();
-        }
-    }
-
-    return nullptr;
-}
-
-ResourceRepo* ResourceManager::findRepoOfResource(const ResourceId& resourceId)
-{
-    LOG_DEBUG("Finding repository of resource "+resourceId.getDebugString()+" files...");
-    auto it = std::find_if(_resourceRepos.begin(), _resourceRepos.end(),
-                           [&resourceId] (const std::unique_ptr<ResourceRepo>& resourceRepo)
-                           {
-                               LOG_DEBUG("Checking for resource in repo " + resourceRepo->getPath());
-                               return resourceRepo->doResourceExists(resourceId);
-                           });
-    if (it == _resourceRepos.end()){
-        LOG_ERROR("Resource "+resourceId.getDebugString()+" file(s) NOT FOUND in any repository!");
-        return nullptr;
-    }
-    LOG_DEBUG("Resource "+resourceId.getDebugString()+" file(s) found in repository: "+it->get()->getDebugString());
-    return it->get();
-
-}
-
-ResourceLocation ResourceManager::findResourceLocation(const ResourceId& resourceId)
-{
-    return ResourceLocation(resourceId, *findRepoOfResource(resourceId));
 }
 
 std::string ResourceManager::realPath(const std::string& pseudoId)

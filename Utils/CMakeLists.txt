@@ -24,7 +24,6 @@ set (UTILS_SOURCES
 	Utils/RTextureCubeMap.cpp
 	Utils/ResourceDescriptionUtils.cpp
 	Utils/ResourceId.cpp
-	Utils/ResourceLocation.cpp
 	Utils/ResourceManager.cpp
 	Utils/ResourceRepoFilesystemHelper.cpp
 	Utils/ResourceRepoNative.cpp
@@ -66,7 +65,6 @@ set (UTILS_HEADERS
 	Utils/ResourceDescription.h
 	Utils/ResourceDescriptionUtils.h
 	Utils/ResourceId.h
-	Utils/ResourceLocation.h
 	Utils/ResourceManager.h
 	Utils/ResourceRepo.h
 	Utils/ResourceRepoFilesystemHelper.h

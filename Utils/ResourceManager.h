@@ -13,7 +13,6 @@
 #include "RStaticModel.h"
 #include "RFont.h"
 #include "ResourceId.h"
-#include "ResourceLocation.h"
 #include "ResourceRepo.h"
 #include "SoundLoader.h"
 #include "RObject.h"
@@ -51,8 +50,6 @@ class ResourceManager
             return nullptr;
         }
 
-        ResourceRepo* findRepoOfResource(const ResourceId& resourceId);
-        ResourceLocation findResourceLocation(const ResourceId& resourceId);
         std::string realPath(const std::string& pseudoId); // use wisely or better don't use
 
         template <class ResourceTypeT>

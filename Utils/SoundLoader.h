@@ -11,8 +11,6 @@
 #include <AL/alut.h>
 
 #include "RSound.h"
-#include "ResourceLocation.h"
-
 
 RSound* loadSound(const ResourceId& resourceId, const std::string& fileName);
 

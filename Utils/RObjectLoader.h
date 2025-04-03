@@ -8,7 +8,6 @@
 #include <glm/glm.hpp>
 
 #include "ResourceId.h"
-#include "ResourceLocation.h"
 
 namespace tinyxml2
 {

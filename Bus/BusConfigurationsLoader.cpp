@@ -34,9 +34,8 @@ namespace BusConfigurationsLoader
 
 	void loadBusPredefinedConfigurationByName(const std::string& busName, const std::string& configurationName, std::unordered_map<std::string, std::string>& outVariables)
 	{
-	  const ResourceId resourceId = ResourceId::create<RT_OTHER>(GameDirectories::BUSES + busName + "/" + CONFIG_FILENAME);
-		ResourceLocation resourceLocation = ResourceManager::getInstance().findResourceLocation(resourceId);
-		const std::string configFileName = resourceLocation.getPath();
+		const std::string configPseudoId (GameDirectories::BUSES + busName + "/" + CONFIG_FILENAME);
+		const std::string configFileName (ResourceManager::getInstance().realPath(configPseudoId));
 
 		XMLDocument doc;
 		XMLError result = doc.LoadFile(configFileName.c_str());
@@ -69,9 +68,8 @@ namespace BusConfigurationsLoader
 	void loadAllBusPredefinedConfigurations(const std::string& busName, std::vector<PredefinedConfiguration>& outPredefinedConfigurations,
 											const std::unordered_map<std::string, std::string>& variablesDefaultValues)
 	{
-	  const ResourceId resourceId = ResourceId::create<RT_OTHER>(GameDirectories::BUSES + busName + "/" + CONFIG_FILENAME);
-		ResourceLocation resourceLocation = ResourceManager::getInstance().findResourceLocation(resourceId);
-		const std::string configFileName = resourceLocation.getPath();
+		const std::string configPseudoId (GameDirectories::BUSES + busName + "/" + CONFIG_FILENAME);
+		const std::string configFileName (ResourceManager::getInstance().realPath(configPseudoId));
 
 		XMLDocument doc;
 		XMLError result = doc.LoadFile(configFileName.c_str());

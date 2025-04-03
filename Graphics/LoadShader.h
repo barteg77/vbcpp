@@ -8,8 +8,6 @@
 #include <unordered_map>
 
 #include <GL/glew.h>
-#include "../Utils/ResourceLocation.h"
-
 
 //GLuint loadShader(const char* VertexShaderFileName, const char* FragmentShaderFileName);
 

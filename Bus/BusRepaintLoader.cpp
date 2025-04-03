@@ -19,8 +19,8 @@ namespace BusRepaintLoader
 
 	XMLElement* loadBusRepaintRootNodeRootNode(XMLDocument& doc, const std::string& repaintPath)
 	{
-		std::string configFileName = repaintPath + "/" + CONFIG_FILENAME;
-		const std::string configFileLocationPath = ResourceManager::getInstance().findResourceLocation(ResourceId::create<RT_OTHER>(configFileName)).getPath();
+		std::string pseudoId (repaintPath + "/" + CONFIG_FILENAME);
+		const std::string configFileLocationPath (ResourceManager::getInstance().realPath(pseudoId));
 
 		XMLError result = doc.LoadFile(configFileLocationPath.c_str());
 		if (result != XML_SUCCESS)

@@ -86,7 +86,7 @@ RAnimation* AnimationLoader::loadAnimation(const ResourceId& resourceId, const s
 
 	aiAnimation* assimpAnimation = assimpScene->mAnimations[0];
 
-	RAnimation* animation = new RAnimation(resourceLocation.getResourceId());
+	RAnimation* animation = new RAnimation(resourceId);
 
 	animation->_duration = assimpAnimation->mDuration;
 	animation->_ticksPerSecond = assimpAnimation->mTicksPerSecond;

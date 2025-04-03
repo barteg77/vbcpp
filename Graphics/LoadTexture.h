@@ -7,7 +7,6 @@
 #include <GL/glew.h>
 //#include <SOIL/SOIL.h>
 #include "../Utils/ResourceId.h"
-#include "../Utils/ResourceLocation.h"
 #include "../Utils/RTexture2D.h"
 #include "../Utils/RTextureCubeMap.h"
 

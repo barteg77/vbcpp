@@ -6,9 +6,6 @@
 
 #include "../Utils/Resource.h"
 
-#include "../Utils/ResourceLocation.h" // to do remove
-
-
 struct RDisplayFontSize
 {
 	int height;
