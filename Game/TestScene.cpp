@@ -122,7 +122,7 @@ void TestScene::initialize()
 void TestScene::initGui()
 {
 	{
-	  Label* labelTitle = _gui->addLabel(ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 64)), "START");
+	  Label* labelTitle = _gui->addLabel(ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 64)), "START");
 		labelTitle->setPosition(500, 500);
 		labelTitle->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
@@ -143,7 +143,7 @@ void TestScene::initGui()
 
 	glm::vec2 startPosition(700, 300);
 	{
-	  Label* labelTitle = _gui->addLabel(ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32)), "KONFIGURACJA");
+	  Label* labelTitle = _gui->addLabel(ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32)), "KONFIGURACJA");
 		labelTitle->setPosition(700, 300);
 		labelTitle->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
@@ -162,7 +162,7 @@ void TestScene::initGui()
 	}
 
 	{
-	  Label* label = _gui->addLabel(ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "Typ 1");
+	  Label* label = _gui->addLabel(ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "Typ 1");
 		label->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 		label->setScale(0.8, 0.8);
 		label->setPosition(680 + (400 - label->getWidth()) / 2.0f, 250);
@@ -175,12 +175,12 @@ void TestScene::initGui()
 	}
 
 	{
-	  Label* label = _gui->addLabel(ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "Front pojazdu");
+	  Label* label = _gui->addLabel(ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "Front pojazdu");
 		label->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 		label->setPosition(680, 200);
 		label->setScale(0.8, 0.8);
 
-		Label* label2 = _gui->addLabel(ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "1");
+		Label* label2 = _gui->addLabel(ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "1");
 		label2->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 		label2->setPosition(680 + label->getWidth() + 50 + (400 - label->getWidth() - 50 - label2->getWidth()) / 2.0f, 200);
 		label2->setScale(0.8, 0.8);
@@ -193,12 +193,12 @@ void TestScene::initGui()
 	}
 
 	{
-	  Label* label = _gui->addLabel(ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "Wyswietlacz");
+	  Label* label = _gui->addLabel(ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "Wyswietlacz");
 		label->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 		label->setPosition(680, 150);
 		label->setScale(0.8, 0.8);
 
-		Label* label2 = _gui->addLabel(ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "true");
+		Label* label2 = _gui->addLabel(ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), "true");
 		label2->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 		label2->setPosition(680 + label->getWidth() + 50 + (400 - label->getWidth() - 50 - label2->getWidth()) / 2.0f, 150);
 		label2->setScale(0.8, 0.8);
@@ -218,8 +218,8 @@ void TestScene::initGui()
 		imageBackground->setPosition(160, 120);
 
 
-		RFont* fontBoldItalic32 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32));
-		RFont* fontRegular26 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 26));
+		RFont* fontBoldItalic32 = ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32));
+		RFont* fontRegular26 = ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 26));
 		glm::vec2 pickerMargin = glm::vec2(5.0f, 7.5f);
 		//glm::vec4 pickerBackgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.1f);
 		//glm::vec4 pickerBackgroundColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.3f);
@@ -284,7 +284,7 @@ void TestScene::initGui()
 	options.push_back("9");
 	options.push_back("10");
 	options.push_back("20");
-	Picker* picker1 = _gui->addPicker(ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), options, 400, 40);
+	Picker* picker1 = _gui->addPicker(ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 32)), options, 400, 40);
 	picker1->setPosition(100, 50);
 
 	/*float y = _window->getHeight() - 50;

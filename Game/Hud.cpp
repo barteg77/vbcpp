@@ -14,7 +14,7 @@
 Hud::Hud(GUIManager* gui, Bus* bus)
 	: _gui(gui), _bus(bus)
 {
-  RFont* font = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/arial.ttf", 32));
+  RFont* font = ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/arial.ttf", 32));
 
   _hudImage = gui->addImage(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Data/HUD/HUD.bmp")));
 	_hudImage->setPosition(0, 0);

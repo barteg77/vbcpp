@@ -27,9 +27,9 @@ MenuSelectBusScene::MenuSelectBusScene(Window* window)
 {
 	_uiRatio = _window->getHeight() / 1080.0f;
 
-	_fontBoldItalic32 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32 * _uiRatio));
-	_fontRegular22 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 22 * _uiRatio));
-	_fontRegular18 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 18 * _uiRatio));
+	_fontBoldItalic32 = ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32 * _uiRatio));
+	_fontRegular22 = ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 22 * _uiRatio));
+	_fontRegular18 = ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 18 * _uiRatio));
 }
 
 
@@ -403,8 +403,8 @@ void MenuSelectBusScene::createConfigurationPreviewWindow()
 		imageBackground->setPosition(160, 120);
 
 
-		RFont* fontBoldItalic32 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32));
-		RFont* fontRegular26 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 26));
+		RFont* fontBoldItalic32 = ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32));
+		RFont* fontRegular26 = ResourceManager::getInstance().loadResource<RFont>(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 26));
 		glm::vec2 pickerMargin = glm::vec2(5.0f, 7.5f);
 		//glm::vec4 pickerBackgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.1f);
 		//glm::vec4 pickerBackgroundColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.3f);
