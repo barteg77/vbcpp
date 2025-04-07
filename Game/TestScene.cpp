@@ -303,7 +303,7 @@ void TestScene::initAnimation()
 {
 	SceneObject* animatedObject = _sceneManager->addSceneObject("Krystian");
 
-	RAnimatedModel* animatedModel = ResourceManager::getInstance().loadAnimatedModel(ResourceId::create<RT_MODEL>("Objects/peoples/Krystian3/Krystian.fbx"), "Objects/peoples/Krystian3/");
+	RAnimatedModel* animatedModel = ResourceManager::getInstance().loadResource<RAnimatedModel>(ResourceId::create<RT_MODEL>("Objects/peoples/Krystian3/Krystian.fbx", ResourceId::HierarchyHandling::without));
 	RenderObject* animatedRenderObject = _graphicsManager->addRenderObject(new RenderObject(animatedModel), animatedObject);
 
 	RAnimation* animation = ResourceManager::getInstance().loadResource<RAnimation>(ResourceId::create<RT_MODEL>("Objects/peoples/Krystian3/animation.fbx", ResourceId::HierarchyHandling::without));// to do fix RESOURCE_TYPE here

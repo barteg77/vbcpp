@@ -193,7 +193,7 @@ RStaticModel* RObjectLoader::loadModel(const ResourceId& resourceId, const std::
 {
 	if (isAnimated)
 	{
-		return ResourceManager::getInstance().loadAnimatedModel(resourceId, objectDirPath,
+		return ResourceManager::getInstance().loadResource<RAnimatedModel>(resourceId, objectDirPath,
 																hightPollyModel != nullptr ? static_cast<RAnimatedModel*>(hightPollyModel)->getBoneInfos() : std::unordered_map<std::string, BoneInfo*>());
 	}
 	else
@@ -412,7 +412,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			bool lockRootBoneTranslation = toBool(components[i]["lockRootBoneTranslation"]);
 			float scale = toFloat(components[i]["scale"]);
 
-			RAnimation* animation = ResourceManager::getInstance().loadAnimation(ResourceId::create<RT_ANIMATION>(GameDirectories::ANIMATIONS + animationFile));
+			RAnimation* animation = ResourceManager::getInstance().loadResource<RAnimation>(ResourceId::create<RT_ANIMATION>(GameDirectories::ANIMATIONS + animationFile));
 			SkeletalAnimationComponent* skeletalAnimation = graphicsManager->addSkeletalAnimation(animation);
 			sceneObject->addComponent(skeletalAnimation);
 			sceneObject->setScale(scale);
