@@ -9,5 +9,5 @@ void BusStopComponent::setAnnouncementFileName(std::string announcementFileName)
 {
     _announcementFileName = announcementFileName;
 
-    _announcementSound = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(_announcementFileName));
+    _announcementSound = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(_announcementFileName));
 }

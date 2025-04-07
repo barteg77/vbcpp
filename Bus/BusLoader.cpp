@@ -769,11 +769,11 @@ void BusLoader::loadDoors(XMLElement* moduleElement, BusRayCastModule& busModule
 
 
         // Create sound component
-        RSound* openSoundResource = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(openSound));
+        RSound* openSoundResource = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(openSound));
         SoundComponent* openSoundComp = new SoundComponent(openSoundResource, EST_PLAYER);
         _sndMgr->addSoundComponent(openSoundComp);
 
-        RSound* closeSoundResource = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(closeSound));
+        RSound* closeSoundResource = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(closeSound));
         SoundComponent* closeSoundComp = new SoundComponent(closeSoundResource, EST_PLAYER);
         _sndMgr->addSoundComponent(closeSoundComp);
 
@@ -1236,7 +1236,7 @@ void BusLoader::loadModulesConnectionData(XMLElement* moduleElement, BusRayCastM
 
 SoundComponent* BusLoader::createSound(SceneObject* soundObject, const SoundDefinition& soundDefinition)
 {
-  RSound* engineSound = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(soundDefinition.soundFilename));
+  RSound* engineSound = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(soundDefinition.soundFilename));
     SoundComponent* soundComp = new SoundComponent(engineSound, EST_PLAYER, soundDefinition.looped);
     soundObject->addComponent(soundComp);
     soundComp->setGain(soundDefinition.volume);
