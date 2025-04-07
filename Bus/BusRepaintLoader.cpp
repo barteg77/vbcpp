@@ -50,7 +50,7 @@ namespace BusRepaintLoader
 		{
 			const std::string fileName = XmlUtils::getAttributeString(materialsElement, "fileName");
 
-			RMaterialsCollection* materialsCollection = ResourceManager::getInstance().loadMaterialsCollection(ResourceId::create<RT_MATERIALS_COLLECTION>(repaintPath + "/" + fileName));
+			RMaterialsCollection* materialsCollection = ResourceManager::getInstance().loadResource<RMaterialsCollection>(ResourceId::create<RT_MATERIALS_COLLECTION>(repaintPath + "/" + fileName));
 			outMaterialsCollections.push_back(materialsCollection);
 		}
 	}
