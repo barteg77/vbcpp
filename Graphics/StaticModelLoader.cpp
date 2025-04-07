@@ -279,15 +279,6 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceId& resour
     return model;
 }
 
-RStaticModel* StaticModelLoader::loadModelWithHierarchyOnlyNode(const ResourceId& resourceId, const std::string& fileName, std::string texturesPath, Transform& loadedNodeTransformInModel)
-{
-    RStaticModel* staticModel = loadModelWithHierarchy(resourceId, fileName, texturesPath);
-    loadedNodeTransformInModel = _lastNodeTransform;
-
-    return staticModel;
-}
-
-
 RStaticModel* StaticModelLoader::loadModel(const ResourceId& ResourceId, const std::string& fileName, std::string texturesPath)
 {
     _texturesPath = texturesPath;
