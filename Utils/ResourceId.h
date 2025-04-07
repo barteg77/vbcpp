@@ -35,6 +35,7 @@ public:
 private:
     ResourceType _resourceType;
     IdParts _idParts;
+    bool _hierarchy;
     Defines _defines;
     Constants _constants;
     NodesAction _nodesAction;
@@ -43,6 +44,7 @@ private:
 
     explicit ResourceId(const ResourceType& resourceType,
                         const IdParts& idParts,
+                        const bool& hierarchy,
                         const Defines& defines,
                         const Constants& constants,
                         const NodesAction& nodesAction,
@@ -50,6 +52,7 @@ private:
                         const FontPixelSize& fontPixelSize)
     : _resourceType(resourceType),
       _idParts(idParts),
+      _hierarchy(hierarchy),
       _defines(defines),
       _constants(constants),
       _nodesAction(nodesAction),
@@ -62,7 +65,6 @@ public:
     static ResourceId create (const std::string& id)
     {
         static_assert(resourceType == RT_TEXTURE
-                   || resourceType == RT_MODEL
                    || resourceType == RT_SOUND
                    || resourceType == RT_OBJECT
                    || resourceType == RT_ROAD_PROFILE
@@ -80,6 +82,7 @@ public:
             }
             return ResourceId(resourceType,
                               idParts,
+                              false,
                               {},
                               {},
                               NodesAction::skip,
@@ -89,6 +92,7 @@ public:
         } else {
             return ResourceId(resourceType,
                               {id},
+                              false,
                               {},
                               {},
                               NodesAction::skip,
@@ -96,6 +100,23 @@ public:
                               0
                               );
         }
+    }
+
+    template <ResourceType resourceType>
+    static ResourceId create (const std::string& id,
+                              const bool hierarchy)
+    {
+        static_assert(resourceType == RT_MODEL, "incorrect resource type for this function");
+        
+        return ResourceId(resourceType,
+                          {id},
+                          hierarchy,
+                          {},
+                          {},
+                          NodesAction::skip,
+                          {},
+                          0
+                          );
     }
 
     template <ResourceType resourceType>
@@ -107,6 +128,7 @@ public:
         static_assert(resourceType == RT_SHADER, "incorrect resource type for this function");
         return ResourceId(resourceType,
                           {vertexPath, fragmentPath},
+                          false,
                           defines,
                           constants,
                           NodesAction::skip,
@@ -121,6 +143,7 @@ public:
         static_assert(resourceType == RT_TEXTURE, "incorrect resource type for this function");
         return ResourceId(resourceType,
                           idParts,
+                          false,
                           {},
                           {},
                           NodesAction::skip,
@@ -136,6 +159,7 @@ public:
         static_assert(resourceType == RT_FONT_RESOURCE, "incorrect resourcetype for this function");
         return ResourceId(resourceType,
                           {id},
+                          false,
                           {},
                           {},
                           NodesAction::skip,
@@ -152,6 +176,9 @@ public:
     const std::vector<std::string>& getIdParts() const;
 
     std::string getIdString(size_t index) const;
+
+    bool getHierarchy() const
+    { return _hierarchy; }
 
     Defines getDefines() const
     { return _defines; }
