@@ -25,6 +25,7 @@ set (UTILS_SOURCES
 	Utils/ResourceDescriptionUtils.cpp
 	Utils/ResourceId.cpp
 	Utils/ResourceManager.cpp
+	Utils/ResourceRepo.cpp
 	Utils/ResourceRepoGenerics.cpp
 	Utils/ResourceRepoFilesystemHelper.cpp
 	Utils/ResourceRepoNative.cpp

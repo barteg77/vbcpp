@@ -32,6 +32,8 @@ public:
     explicit ResourceRepo(const std::string& name)
     : _name(name)
     {}
+
+    virtual ~ResourceRepo();
     
     std::string getName() const { return _name; }
     std::string getDebugString() const

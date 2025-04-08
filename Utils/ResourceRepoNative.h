@@ -16,6 +16,8 @@ public:
       _filesystemHelper(new FilesystemHelper(path, *FilesHelper::getInstance()))
     {}
 
+    virtual ~ResourceRepoNative() {}
+
     // temporatry solution for loaders outside resource manager
     std::string actualResourceFilepath(const std::string& pseudoId/*1-file resource*/) {
         return getActualFilesystemFilepath(Path(pseudoId));

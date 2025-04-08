@@ -13,6 +13,8 @@ public:
     explicit ResourceRepoGenerics()
     : ResourceRepo("VBCPP GENERICS")
     {}
+
+    virtual ~ResourceRepoGenerics() {}
     
     virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering);
     virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId);
