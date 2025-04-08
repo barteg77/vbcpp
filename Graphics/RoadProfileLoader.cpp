@@ -12,7 +12,7 @@ using namespace tinyxml2;
 RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceId& resourceId, const std::string& fullPath)
 {
 	//const std::string fullPath = dirPath + PROFILE_FILE_NAME;
-	const std::string dirPath(Path(fullPath).withoutBackPart().getString());
+	const std::string idPrefix(Path(resourceId.getIdString(0)).getString());
 	const std::string materialFullPath = MaterialLoader::createMaterialFileName(fullPath);
 
 	XMLDocument doc;
@@ -58,7 +58,7 @@ RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceId& resourceId, c
 	float intersectionRoadY = 0.0f;
 	if (intersectionDataElement != nullptr)
 	{
-		intersectionMaterial = matLoader.loadMaterial(intersectionDataElement->Attribute("material"), dirPath);
+		intersectionMaterial = matLoader.loadMaterial(intersectionDataElement->Attribute("material"), idPrefix);
 		intersectionRoadY = toFloat(intersectionDataElement->Attribute("y"));
 	}
 
@@ -80,7 +80,7 @@ RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceId& resourceId, c
 		while (laneElement != nullptr)
 		{
 			RoadLane lane;
-			lane.material = matLoader.loadMaterial(laneElement->Attribute("material"), dirPath);
+			lane.material = matLoader.loadMaterial(laneElement->Attribute("material"), idPrefix);
 			lane.r1 = toFloat(laneElement->Attribute("x1"));
 			lane.r2 = toFloat(laneElement->Attribute("x2"));
 			lane.height1 = toFloat(laneElement->Attribute("y1"));

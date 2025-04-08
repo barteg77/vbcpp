@@ -58,7 +58,7 @@ void MaterialLoader::loadAllMaterials(std::vector<Material*>& outMaterials, cons
 }
 
 
-Material* MaterialLoader::loadMaterial(const std::string& materialName, const std::string& texPath)
+Material* MaterialLoader::loadMaterial(const std::string& materialName, const std::string& idPrefix)
 {
 	XMLElement* materialElement = NULL;
 	XMLElement* root = _xmlFile->FirstChildElement(XML_MATERIAL_ROOT);
@@ -75,11 +75,11 @@ Material* MaterialLoader::loadMaterial(const std::string& materialName, const st
 		}
 	}
 
-	return loadMaterial(materialElement, materialName, texPath);
+	return loadMaterial(materialElement, materialName, idPrefix);
 }
 
 
-Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::string& materialName, const std::string& texPath)
+Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::string& materialName, const std::string& idPrefix)
 {
     Material* sMaterial = new Material;
     sMaterial->name = materialName;
@@ -121,11 +121,11 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string texturePath = texPath + "/"+ texStr; // to i nastepne przerobic zeby uzywalo Path
+		std::string idString = idPrefix + "/"+ texStr; // to i nastepne przerobic zeby uzywalo Path
 
 
 		if (texStr != "")
-		  sMaterial->diffuseTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->diffuseTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idString));
 	}
 
     // Normal mapa
@@ -139,11 +139,11 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string texturePath = texPath + "/" + texStr;
+		std::string idString = idPrefix + "/" + texStr;
 
 
 		if (texStr != "")
-		  sMaterial->normalmapTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->normalmapTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idString));
 	}
 
     // glass texture - okresla ktora czesc szyby jest zewnetrzna - bialy, wewnetrzna - czarny. Wykorzystywane np w autobusie.
@@ -157,11 +157,11 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
         for(unsigned int i = 0; i < texStr.size(); i++ )
             texStr[i] = tolower(texStr[i]);
 
-		std::string texturePath = texPath + "/" + texStr;
+		std::string idString = idPrefix + "/" + texStr;
 
 
         if(texStr != "")
-	  sMaterial->glassTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
+	  sMaterial->glassTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idString));
     }
 
 	const char* c1 = materialElement->Attribute("metallic_texture");
@@ -174,11 +174,11 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string texturePath = texPath + "/" + texStr;
+		std::string idString = idPrefix + "/" + texStr;
 
 
 		if (texStr != "")
-		  sMaterial->metalicTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->metalicTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idString));
 	}
 
 	const char* c2 = materialElement->Attribute("roughness_texture");
@@ -191,11 +191,11 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string texturePath = texPath + "/" + texStr;
+		std::string idString = idPrefix + "/" + texStr;
 
 
 		if (texStr != "")
-		  sMaterial->roughnessTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->roughnessTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idString));
 	}
 
 	const char* c3 = materialElement->Attribute("ao_texture");
@@ -208,11 +208,11 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string texturePath = texPath + "/" + texStr;
+		std::string idString = idPrefix + "/" + texStr;
 
 
 		if (texStr != "")
-		  sMaterial->aoTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->aoTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idString));
 	}
 
     // reflection texture - global lub local, 1 dla czesci zewnetrznej, 2 dla czesci wewnetrznej szyby
