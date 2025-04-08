@@ -26,6 +26,7 @@ class ResourceId final
 {
 public:
 	typedef std::vector<std::string> IdParts;
+    enum class HierarchyHandling { with, without };
     typedef std::vector<std::string> Defines;
     typedef std::unordered_map<std::string, std::string> Constants;
     enum class NodesAction { skip, include };
@@ -35,7 +36,7 @@ public:
 private:
     ResourceType _resourceType;
     IdParts _idParts;
-    bool _hierarchy;
+    HierarchyHandling _hierarchyHandling;
     Defines _defines;
     Constants _constants;
     NodesAction _nodesAction;
@@ -44,7 +45,7 @@ private:
 
     explicit ResourceId(const ResourceType& resourceType,
                         const IdParts& idParts,
-                        const bool& hierarchy,
+                        const HierarchyHandling hierarchyHandling,
                         const Defines& defines,
                         const Constants& constants,
                         const NodesAction& nodesAction,
@@ -52,7 +53,7 @@ private:
                         const FontPixelSize& fontPixelSize)
     : _resourceType(resourceType),
       _idParts(idParts),
-      _hierarchy(hierarchy),
+      _hierarchyHandling(hierarchyHandling),
       _defines(defines),
       _constants(constants),
       _nodesAction(nodesAction),
@@ -82,7 +83,7 @@ public:
             }
             return ResourceId(resourceType,
                               idParts,
-                              false,
+                              HierarchyHandling::without,
                               {},
                               {},
                               NodesAction::skip,
@@ -92,7 +93,7 @@ public:
         } else {
             return ResourceId(resourceType,
                               {id},
-                              false,
+                              HierarchyHandling::without,
                               {},
                               {},
                               NodesAction::skip,
@@ -104,13 +105,13 @@ public:
 
     template <ResourceType resourceType>
     static ResourceId create (const std::string& id,
-                              const bool hierarchy)
+                              const HierarchyHandling hierarchyHandling)
     {
         static_assert(resourceType == RT_MODEL, "incorrect resource type for this function");
         
         return ResourceId(resourceType,
                           {id},
-                          hierarchy,
+                          hierarchyHandling,
                           {},
                           {},
                           NodesAction::skip,
@@ -128,7 +129,7 @@ public:
         static_assert(resourceType == RT_SHADER, "incorrect resource type for this function");
         return ResourceId(resourceType,
                           {vertexPath, fragmentPath},
-                          false,
+                          HierarchyHandling::without,
                           defines,
                           constants,
                           NodesAction::skip,
@@ -143,7 +144,7 @@ public:
         static_assert(resourceType == RT_TEXTURE, "incorrect resource type for this function");
         return ResourceId(resourceType,
                           idParts,
-                          false,
+                          HierarchyHandling::without,
                           {},
                           {},
                           NodesAction::skip,
@@ -159,7 +160,7 @@ public:
         static_assert(resourceType == RT_FONT_RESOURCE, "incorrect resourcetype for this function");
         return ResourceId(resourceType,
                           {id},
-                          false,
+                          HierarchyHandling::without,
                           {},
                           {},
                           NodesAction::skip,
@@ -177,8 +178,8 @@ public:
 
     std::string getIdString(size_t index) const;
 
-    bool getHierarchy() const
-    { return _hierarchy; }
+    HierarchyHandling getHierarchy() const
+    { return _hierarchyHandling; }
 
     Defines getDefines() const
     { return _defines; }
