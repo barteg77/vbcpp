@@ -54,18 +54,24 @@ class ResourceManager
 
         template <class ResourceTypeT>
         ResourceTypeT* loadResource(const ResourceId& resourceId) {
+            LOG_DEBUG("Looking for resource " + resourceId.getDebugString() + "...");
             ResourceTypeT* foundResource (findResource<ResourceTypeT>(resourceId));
             if (foundResource) {
+                LOG_DEBUG("Resource " + resourceId.getDebugString() + " found in resource manager (it had been already loaded)");
                 return foundResource;
             }
+            LOG_DEBUG("Resource " + resourceId.getDebugString() + " not found in resource manager.");
             for (auto& resourceRepo : _resourceRepos) {
+                LOG_DEBUG("Checking for resource " + resourceId.getDebugString() + " in repo " + resourceRepo->getDebugString());
                 std::unique_ptr<ResourceTypeT> loadedResource (resourceRepo->loadResource<ResourceTypeT>(resourceId));
                 if (loadedResource) {
                     ResourceTypeT* loadedResourceRawPtr (loadedResource.get());
                     getResourceContainer<ResourceTypeT>().push_back(std::move(loadedResource));
+                    LOG_DEBUG("Resource " + resourceId.getDebugString() + " found in repo " + resourceRepo->getDebugString());
                     return loadedResourceRawPtr;
                 }
             }
+            LOG_ERROR("Resource " + resourceId.getDebugString() + " not found in any repository! Program will be terminated.");
             assert(false);
             return nullptr;
         }
