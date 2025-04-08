@@ -11,6 +11,7 @@
 #include "../Game/GameConfig.h"
 #include "Logger.h"
 #include "ResourceId.h"
+#include "ResourceRepoGenerics.h"
 #include "ResourceRepoNative.h"
 #include <algorithm>
 #include <cstddef>
@@ -18,7 +19,7 @@
 #include <string>
 #include <utility>
 #include <vector>
-
+#include <iomanip>
 
 static std::unique_ptr<ResourceManager> rsInstance;
 
@@ -27,6 +28,7 @@ const ResourceId ResourceManager::DEFAULT_WHITE_TEXTURE_RESOURCE_ID = ResourceId
 ResourceManager::ResourceManager()
 {
     LOG_INFO("ResourceManager: Konstruktor");
+    addResourceRepo(std::make_unique<ResourceRepoGenerics>());
 	addResourceRepo(std::make_unique<ResourceRepoNative>("base", "."));
 }
 
