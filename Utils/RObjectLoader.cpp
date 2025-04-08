@@ -193,8 +193,12 @@ RStaticModel* RObjectLoader::loadModel(const ResourceId& resourceId, const std::
 {
 	if (isAnimated)
 	{
-		return ResourceManager::getInstance().loadResource<RAnimatedModel>(resourceId, objectDirPath,
+		/*return ResourceManager::getInstance().loadResource<RAnimatedModel>(resourceId, objectDirPath,
 																hightPollyModel != nullptr ? static_cast<RAnimatedModel*>(hightPollyModel)->getBoneInfos() : std::unordered_map<std::string, BoneInfo*>());
+		*/
+		assert(false);
+		//temporarily disabled ()
+		return nullptr;
 	}
 	else
 	{

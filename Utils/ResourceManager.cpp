@@ -82,6 +82,8 @@ void ResourceManager::reloadTexture(const ResourceId& resourceId)
 
 void ResourceManager::reloadTexture(RTextureCubeMap* texture)
 {
+    //temporarily disabled
+    assert(false);
     /*std::string fileNames[6];
     istringstream stream(texture->getPath());
     std::string s;
