@@ -112,6 +112,18 @@ void ResourceManager::reloadAllTextures()
     }*/
 }
 
+RTexture2D* ResourceManager::loadDefaultWhiteTexture() {
+    return ResourceManager::getInstance().loadOneColorTexture(glm::vec4(1.0, 1.0, 1.0, 1.0));
+}
+
+RTexture2D* ResourceManager::loadOneColorTexture(glm::vec4 color) {
+    std::stringstream idStringS;
+    idStringS << std::setprecision(3) << std::fixed;
+    idStringS << "texture(" << color.r << "," << color.g << "," << color.b << "," << color.a << ")";
+    // Resource repo of type ResourceRepoGenerics will handle this
+    return ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idStringS.str()));
+}
+
 void ResourceManager::reloadShader(RShader* shader)
 {
     //temporarily disabled
