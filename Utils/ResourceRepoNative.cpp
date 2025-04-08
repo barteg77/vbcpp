@@ -9,7 +9,7 @@
 std::unique_ptr<RTexture2D> ResourceRepoNative::loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) {
     const std::string filePath(_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
     bool textureCompression = useCompression && GameConfig::getInstance().textureCompression;
-    std::unique_ptr<RTexture2D> texture = std::make_unique<RTexture2D>(::loadTexture(resourceId, filePath, textureCompression, mipmapping));
+    std::unique_ptr<RTexture2D> texture (::loadTexture(resourceId, filePath, textureCompression, mipmapping));
 
     if ( texture )
     {
@@ -23,7 +23,7 @@ std::unique_ptr<RTexture2D> ResourceRepoNative::loadTexture(const ResourceId& re
 
 std::unique_ptr<RTextureCubeMap> ResourceRepoNative::loadTextureCubeMap(const ResourceId& resourceId) {
     const std::vector<std::string> filePaths(getAllActualFilesystemFilepaths(resourceId));
-    std::unique_ptr<RTextureCubeMap> texture (std::make_unique<RTextureCubeMap>(::loadTextureCubeMap(resourceId, filePaths, true)));
+    std::unique_ptr<RTextureCubeMap> texture (::loadTextureCubeMap(resourceId, filePaths, true));
     return texture;
 }
 
