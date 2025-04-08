@@ -61,8 +61,9 @@ template <> std::unique_ptr<RTexture> ResourceRepo::loadResource(const ResourceI
 template <> std::unique_ptr<RTextureCubeMap> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadTextureCubeMap(resourceId); }
 template <> std::unique_ptr<RShader> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadShader(resourceId); }
 template <> std::unique_ptr<RStaticModel> ResourceRepo::loadResource(const ResourceId& resourceId) {
-    return resourceId.getHierarchy() ? loadModelWithHierarchy(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/", true)
-                                     : loadModel(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/", true);
+    return (resourceId.getHierarchy() == ResourceId::HierarchyHandling::with
+            ? loadModelWithHierarchy(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/", true)
+            : loadModel(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/", true));
 }
 template <> std::unique_ptr<RAnimatedModel> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimatedModel(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/"); }
 template <> std::unique_ptr<RAnimation> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimation(resourceId); }
