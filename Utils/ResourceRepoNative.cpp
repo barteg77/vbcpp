@@ -99,6 +99,9 @@ std::unique_ptr<RDisplayFont> ResourceRepoNative::loadDisplayFont(const Resource
 
 std::unique_ptr<RMaterialsCollection> ResourceRepoNative::loadMaterialsCollection(const ResourceId& resourceId) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+    if (filePath.empty()) {
+        return std::unique_ptr<RMaterialsCollection>(nullptr);
+    }
     std::unique_ptr<RMaterialsCollection> materialsCollection (std::make_unique<RMaterialsCollection>(resourceId));
     const std::string id_string_dir = FilesHelper::getPathToDirectoryFromFileName(resourceId.getIdString(0));
 
