@@ -20,6 +20,8 @@
 #include "RObject.h"
 #include "RObjectLoader.h"
 
+#include "Path.h"
+
 class ResourceRepo
 {
     friend class ResourceManager;// to jest tylko na chwile dopoki loady nie są przeniesione do ResourceRepo
@@ -49,9 +51,23 @@ public:
     virtual std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId) = 0;
     virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId) = 0;
 
+    template <class ResourceT>
+    std::unique_ptr<ResourceT> loadResource(const ResourceId& resourceId);
 private:
     virtual std::string getPropertiesString() const = 0;
 };
 
+template <> std::unique_ptr<RTexture> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadTexture(resourceId, true, true, true); }//defaults was true, handling non-default values to be done later
+template <> std::unique_ptr<RTextureCubeMap> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadTextureCubeMap(resourceId); }
+template <> std::unique_ptr<RShader> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadShader(resourceId); }
+template <> std::unique_ptr<RStaticModel> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadModel(resourceId, "default_texture_path", true); }
+template <> std::unique_ptr<RAnimatedModel> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimatedModel(resourceId, "default_texture_path"); }
+template <> std::unique_ptr<RAnimation> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimation(resourceId); }
+template <> std::unique_ptr<RFont> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadFont(resourceId); }
+template <> std::unique_ptr<RSound> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadSound(resourceId); }
+template <> std::unique_ptr<RObject> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadRObject(resourceId, "default_name"); }
+template <> std::unique_ptr<RRoadProfile> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadRoadProfile(resourceId); }
+template <> std::unique_ptr<RDisplayFont> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadDisplayFont(resourceId); }
+template <> std::unique_ptr<RMaterialsCollection> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadMaterialsCollection(resourceId); }
 
 #endif // RESOURCEREPO_H_INCLUDED
