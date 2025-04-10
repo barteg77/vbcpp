@@ -93,11 +93,38 @@ class ResourceManager
         resourcePtrList _resources;
 
     private:
+        std::list<std::unique_ptr<RTexture>> _resourcesRTexture;
+        std::list<std::unique_ptr<RTextureCubeMap>> _resourcesRTextureCubeMap;
+        std::list<std::unique_ptr<RShader>> _resourcesRShader;
+        std::list<std::unique_ptr<RStaticModel>> _resourcesRStaticModel;
+        std::list<std::unique_ptr<RAnimatedModel>> _resourcesRAnimatedModel;
+        std::list<std::unique_ptr<RAnimation>> _resourcesRAnimation;
+        std::list<std::unique_ptr<RFont>> _resourcesRFont;
+        std::list<std::unique_ptr<RSound>> _resourcesRSound;
+        std::list<std::unique_ptr<RObject>> _resourcesRObject;
+        std::list<std::unique_ptr<RRoadProfile>> _resourcesRRoadProfile;
+        std::list<std::unique_ptr<RDisplayFont>> _resourcesRDisplayFont;
+        std::list<std::unique_ptr<RMaterialsCollection>> _resourcesRMaterialsCollection;
         ResourceManager();
 
         std::vector<std::unique_ptr<ResourceRepo>> _resourceRepos;
-        std::string getPath(const ResourceId& resourceId, const size_t partIdx=0);// to jest tylko na chwile dopoki loady nie są przeniesione do ResourceRepo
-        std::vector<std::string> getPaths(const ResourceId& resourceId);
+        //std::string getPath(const ResourceId& resourceId, const size_t partIdx=0);// to jest tylko na chwile dopoki loady nie są przeniesione do ResourceRepo
+        //std::vector<std::string> getPaths(const ResourceId& resourceId);
+
+        template <class ResourceTypeT> std::list<std::unique_ptr<ResourceTypeT>>& getResourceContainer();
 };
+
+template <> std::list<std::unique_ptr<RTexture>>& ResourceManager::getResourceContainer<RTexture>() { return _resourcesRTexture; }
+template <> std::list<std::unique_ptr<RTextureCubeMap>>& ResourceManager::getResourceContainer<RTextureCubeMap>() { return _resourcesRTextureCubeMap; }
+template <> std::list<std::unique_ptr<RShader>>& ResourceManager::getResourceContainer<RShader>() { return _resourcesRShader; }
+template <> std::list<std::unique_ptr<RStaticModel>>& ResourceManager::getResourceContainer<RStaticModel>() { return _resourcesRStaticModel; }
+template <> std::list<std::unique_ptr<RAnimatedModel>>& ResourceManager::getResourceContainer<RAnimatedModel>() { return _resourcesRAnimatedModel; }
+template <> std::list<std::unique_ptr<RAnimation>>& ResourceManager::getResourceContainer<RAnimation>() { return _resourcesRAnimation; }
+template <> std::list<std::unique_ptr<RFont>>& ResourceManager::getResourceContainer<RFont>() { return _resourcesRFont; }
+template <> std::list<std::unique_ptr<RSound>>& ResourceManager::getResourceContainer<RSound>() { return _resourcesRSound; }
+template <> std::list<std::unique_ptr<RObject>>& ResourceManager::getResourceContainer<RObject>() { return _resourcesRObject; }
+template <> std::list<std::unique_ptr<RRoadProfile>>& ResourceManager::getResourceContainer<RRoadProfile>() { return _resourcesRRoadProfile; }
+template <> std::list<std::unique_ptr<RDisplayFont>>& ResourceManager::getResourceContainer<RDisplayFont>() { return _resourcesRDisplayFont; }
+template <> std::list<std::unique_ptr<RMaterialsCollection>>& ResourceManager::getResourceContainer<RMaterialsCollection>() { return _resourcesRMaterialsCollection; }
 
 #endif // RESOURCEMANAGER_H_INCLUDED
