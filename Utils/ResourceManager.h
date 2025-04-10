@@ -66,6 +66,7 @@ class ResourceManager
                     return loadedResourceRawPtr;
                 }
             }
+            assert(false);
             return nullptr;
         }
 

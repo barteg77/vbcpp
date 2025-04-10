@@ -25,6 +25,7 @@ set (UTILS_SOURCES
 	Utils/ResourceDescriptionUtils.cpp
 	Utils/ResourceId.cpp
 	Utils/ResourceManager.cpp
+	Utils/ResourceRepoGenerics.cpp
 	Utils/ResourceRepoFilesystemHelper.cpp
 	Utils/ResourceRepoNative.cpp
 	Utils/SoundLoader.cpp
@@ -67,6 +68,7 @@ set (UTILS_HEADERS
 	Utils/ResourceId.h
 	Utils/ResourceManager.h
 	Utils/ResourceRepo.h
+	Utils/ResourceRepoGenerics.h
 	Utils/ResourceRepoFilesystemHelper.h
 	Utils/ResourceRepoNative.h
 	Utils/SoundLoader.h

@@ -34,7 +34,7 @@ public:
     {}
     
     std::string getName() const { return _name; }
-    virtual std::string getDebugString() const
+    std::string getDebugString() const
     { return "name:"+getName()+" "+getPropertiesString(); }
     
     virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) = 0;
