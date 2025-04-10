@@ -24,8 +24,6 @@
 
 class ResourceRepo
 {
-    friend class ResourceManager;// to jest tylko na chwile dopoki loady nie są przeniesione do ResourceRepo
-
 	const std::string _name;
 
 public:

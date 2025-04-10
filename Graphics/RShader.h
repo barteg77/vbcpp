@@ -59,8 +59,6 @@ enum ShaderType
 
 class RShader : virtual public Resource
 {
-    friend class ResourceManager;
-
     private:
         GLuint _shaderID;
         int _textureLocation;
