@@ -12,6 +12,7 @@ RSound* loadSound(const ResourceId& resourceId, const std::string& fileName)
     {
         ALenum error = alutGetError ();
         LOG_ERROR("Error loading file: " + std::string(alutGetErrorString(error)));
+        return nullptr;
     }
 
     RSound* sound = new RSound(resourceId, buffer);
