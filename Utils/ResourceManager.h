@@ -40,10 +40,37 @@ class ResourceManager
 
         static ResourceManager& getInstance();
 
-        Resource* findResource(const ResourceId& resourceId);
+        template <class ResourceTypeT>
+        ResourceTypeT* findResource(const ResourceId& resourceId) {
+            const std::list<std::unique_ptr<ResourceTypeT>>& container (getResourceContainer<ResourceTypeT>());
+            for (const auto& resource : container){
+                if (resource->getResourceId() == resourceId) {
+                    return resource.get();
+                }
+            }
+            return nullptr;
+        }
+
         ResourceRepo* findRepoOfResource(const ResourceId& resourceId);
         ResourceLocation findResourceLocation(const ResourceId& resourceId);
         std::string realPath(const std::string& pseudoId); // use wisely or better don't use
+
+        template <class ResourceTypeT>
+        ResourceTypeT* loadResource(const ResourceId& resourceId) {
+            ResourceTypeT* foundResource (findResource<ResourceTypeT>(resourceId));
+            if (foundResource) {
+                return foundResource;
+            }
+            for (auto& resourceRepo : _resourceRepos) {
+                std::unique_ptr<ResourceTypeT> loadedResource (resourceRepo->loadResource<ResourceTypeT>(resourceId));
+                if (loadedResource) {
+                    ResourceTypeT* loadedResourceRawPtr (loadedResource.get());
+                    getResourceContainer<ResourceTypeT>().push_back(std::move(loadedResource));
+                    return loadedResourceRawPtr;
+                }
+            }
+            return nullptr;
+        }
 
         RTexture2D* loadTexture(const ResourceId& resourceId, bool useCompression = true, bool mipmapping = true, bool useAnisotropicFiltering = true);
         // filesNames: pos_x, neg_x, pos_y, neg_y, pos_z, neg_z
