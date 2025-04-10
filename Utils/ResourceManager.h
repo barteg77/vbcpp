@@ -69,9 +69,6 @@ class ResourceManager
             return nullptr;
         }
 
-        RTexture2D* loadTexture(const ResourceId& resourceId, bool useCompression = true, bool mipmapping = true, bool useAnisotropicFiltering = true);
-        // filesNames: pos_x, neg_x, pos_y, neg_y, pos_z, neg_z
-        RTextureCubeMap* loadTextureCubeMap(const ResourceId& resourceId);
         void reloadTexture(RTexture2D* texture);
         void reloadTexture(const ResourceId& resourceId);
         void reloadTexture(RTextureCubeMap* texture);
@@ -80,41 +77,13 @@ class ResourceManager
         RTexture2D* loadDefaultWhiteTexture();
 		RTexture2D* loadOneColorTexture(glm::vec4 color);
 
-        RShader* loadShader(const ResourceId& resourceId);
         void reloadShader(RShader* shader);
         void reloadAllShaders();
-
-        RStaticModel* loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true /*, OGLDriver* driver */);
-        //RStaticModel* loadModelWithHierarchyOnlyNode(std::string path, std::string texturePath, std::string nodeToLoadName, Transform& loadedNodeTransformInModel,
-		//											 bool normalsSmoothing = true);
-        //void loadModelWithHierarchyOnlyNodes(std::string path, std::string texturePath, std::vector<std::string> nodesToLoadNames,
-        //                                     std::vector<Transform>& loadedNodesTransformsInModel, std::vector<RStaticModel*>& loadedNodes,
-		//									 bool normalsSmoothing = true);
-        RStaticModel* loadModel(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true);
-
-        RAnimatedModel* loadAnimatedModel(const ResourceId& resourceId, const std::string& texturePath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel = {});
-        RAnimation* loadAnimation(const ResourceId& resourceId);
-
-        RFont* loadFont(const ResourceId& resourceId);//loadFont(std::string path, int pixelSize = 32);
-
-        RSound* loadSound(const ResourceId& resourceId);
-
 		RObject* loadRObject(const std::string& name);
-        RObject* loadRObject(const ResourceId& resourceId, const std::string& originalName);
-
 		RRoadProfile* loadRoadProfile(const std::string& name);
-        RRoadProfile* loadRoadProfile(const ResourceId& resourceId);
-
 		RDisplayFont* loadDisplayFont(const std::string& name);
-        RDisplayFont* loadDisplayFont(const ResourceId& resourceId);
-
-        RMaterialsCollection* loadMaterialsCollection(const ResourceId& resourceId);
 
         void addResourceRepo(std::unique_ptr<ResourceRepo> resourceRepoPtr);
-
-
-    protected:
-        resourcePtrList _resources;
 
     private:
         std::list<std::unique_ptr<RTexture>> _resourcesRTexture;
