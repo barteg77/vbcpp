@@ -1010,7 +1010,7 @@ namespace vbEditor
 					Material* material = new Material;
 					material->shader = DECAL_MATERIAL;
 					material->shininess = 96.0f;
-					material->diffuseTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("RoadProfiles/decal2.png"));
+					material->diffuseTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("RoadProfiles/decal2.png"));
 					material->diffuseTexture->setFiltering(TFM_TRILINEAR, TFM_LINEAR);
 
 					Cube* decal = new Cube(1, material);

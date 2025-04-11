@@ -77,7 +77,7 @@ namespace BusRepaintLoader
 		const std::string logoFileName = XmlUtils::getAttributeString(descriptionElement, "logo");
 		if (!logoFileName.empty())
 		{
-		  description.logo = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(repaintPath + "/" + logoFileName));
+		  description.logo = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(repaintPath + "/" + logoFileName));
 		}
 		else
 		{

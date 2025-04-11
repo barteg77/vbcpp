@@ -106,8 +106,8 @@ void SceneLoader::loadGrass(XMLElement* grassElement)
 
 		RStaticModel* grassModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(_dirPath + "grass/" + grassModelFileName, false), _dirPath + "grass/");
 
-		RTexture2D * heightmapTextureForGrass = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(_dirPath + terrainHeightmapForGrassFileName), false);
-		RTexture2D * grassDensityTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(_dirPath + grassDensityTextureFileName), false);
+		RTexture2D * heightmapTextureForGrass = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(_dirPath + terrainHeightmapForGrassFileName));
+		RTexture2D * grassDensityTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(_dirPath + grassDensityTextureFileName));
 		heightmapTextureForGrass->setClampMode(TCM_CLAMP_TO_EDGE);
 		heightmapTextureForGrass->setFiltering(TFM_LINEAR, TFM_LINEAR);
 
@@ -124,7 +124,7 @@ void SceneLoader::loadGrass(XMLElement* grassElement)
 			std::string textureName(grassTextureElement->Attribute("path"));
 			float scale = atof(grassTextureElement->Attribute("scale"));
 
-			grassComponent->getAdditionalRandomGrassTextures().push_back(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(_dirPath + "grass/" + textureName), false));
+			grassComponent->getAdditionalRandomGrassTextures().push_back(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(_dirPath + "grass/" + textureName)));
 			grassComponent->getAdditionalRandomGrassTexturesScale().push_back(scale);
 
 			grassTextureElement = grassTextureElement->NextSiblingElement("Texture");

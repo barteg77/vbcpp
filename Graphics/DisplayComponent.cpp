@@ -22,7 +22,7 @@ DisplayComponent::DisplayComponent(RDisplayFont* font, int displayWidth, int dis
 	_matrixTexture = new RTexture2D(ResourceId::create<RT_TEXTURE>(""), _matrixTextureData, TF_RGBA, glm::uvec2(_displayWidth, _displayHeight), false);
 	_matrixTexture->setFiltering(TFM_NEAREST, TFM_NEAREST);
 
-	_ledOffTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("doroff.bmp"));
+	_ledOffTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("doroff.bmp"));
 
 	int pointWidth = _ledOffTexture->getSize().x;
 	int pointHeight = _ledOffTexture->getSize().y;

@@ -188,7 +188,7 @@ void MenuSelectBusScene::showBusLogo(glm::vec2 windowPosition, int windowWidth, 
 	const std::string& logoFileName = _buses2[_selectedBus]->bus->getBusDescription().logo;
 	if (!logoFileName.empty())
 	{
-	  _busLogo->setTexture(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(logoFileName)));
+	  _busLogo->setTexture(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(logoFileName)));
 
 		float scale = windowWidth / _busLogo->getSize().x * 0.8;
 		if (_busLogo->getTexture()->getSize().y * scale > windowHeight)
@@ -519,7 +519,7 @@ void MenuSelectBusScene::initialize()
 	description->setScale(0.4f, 0.4f);
 	description->setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 	*/
-	/*RTexture2D* logoTexture = ResourceManager::getInstance().loadTexture("Data/logo.jpg");
+	/*RTexture2D* logoTexture = ResourceManager::getInstance().loadResource<RTexture2D>("Data/logo.jpg");
 	Image* logoImage = _gui->addImage(logoTexture);
 
 	float scale = _window->getWidth() / 10.0f / logoTexture->getSize().x;

@@ -125,7 +125,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 
 
 		if (texStr != "")
-		  sMaterial->diffuseTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->diffuseTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
 	}
 
     // Normal mapa
@@ -143,7 +143,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 
 
 		if (texStr != "")
-		  sMaterial->normalmapTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->normalmapTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
 	}
 
     // glass texture - okresla ktora czesc szyby jest zewnetrzna - bialy, wewnetrzna - czarny. Wykorzystywane np w autobusie.
@@ -161,7 +161,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 
 
         if(texStr != "")
-	  sMaterial->glassTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(texturePath));
+	  sMaterial->glassTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
     }
 
 	const char* c1 = materialElement->Attribute("metallic_texture");
@@ -178,7 +178,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 
 
 		if (texStr != "")
-		  sMaterial->metalicTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->metalicTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
 	}
 
 	const char* c2 = materialElement->Attribute("roughness_texture");
@@ -195,7 +195,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 
 
 		if (texStr != "")
-		  sMaterial->roughnessTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->roughnessTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
 	}
 
 	const char* c3 = materialElement->Attribute("ao_texture");
@@ -212,7 +212,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 
 
 		if (texStr != "")
-		  sMaterial->aoTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(texturePath));
+		  sMaterial->aoTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(texturePath));
 	}
 
     // reflection texture - global lub local, 1 dla czesci zewnetrznej, 2 dla czesci wewnetrznej szyby

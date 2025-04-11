@@ -209,7 +209,7 @@ namespace vbEditor
 					{
 						FilesHelper::copyFile(path, newPath);
 					}
-					texture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(newPath));
+					texture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(newPath));
 
 					isMaterialModified = true;
 				}

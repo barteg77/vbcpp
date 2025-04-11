@@ -87,7 +87,7 @@ class ResourceManager
         void addResourceRepo(std::unique_ptr<ResourceRepo> resourceRepoPtr);
 
     private:
-        std::list<std::unique_ptr<RTexture>> _resourcesRTexture;
+        std::list<std::unique_ptr<RTexture2D>> _resourcesRTexture2D;
         std::list<std::unique_ptr<RTextureCubeMap>> _resourcesRTextureCubeMap;
         std::list<std::unique_ptr<RShader>> _resourcesRShader;
         std::list<std::unique_ptr<RStaticModel>> _resourcesRStaticModel;

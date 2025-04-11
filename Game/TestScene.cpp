@@ -167,10 +167,10 @@ void TestScene::initGui()
 		label->setScale(0.8, 0.8);
 		label->setPosition(680 + (400 - label->getWidth()) / 2.0f, 250);
 
-		Button* b1 = _gui->addButton(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/arrow_back3.png")));
+		Button* b1 = _gui->addButton(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Data/arrow_back3.png")));
 		b1->setPosition(680, 250);
 
-		Button* b2 = _gui->addButton(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/arrow_forward3.png")));
+		Button* b2 = _gui->addButton(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Data/arrow_forward3.png")));
 		b2->setPosition(680 + 400 - b2->getRealSize().x, 250);
 	}
 
@@ -185,10 +185,10 @@ void TestScene::initGui()
 		label2->setPosition(680 + label->getWidth() + 50 + (400 - label->getWidth() - 50 - label2->getWidth()) / 2.0f, 200);
 		label2->setScale(0.8, 0.8);
 
-		Button* b1 = _gui->addButton(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/arrow_back3.png")));
+		Button* b1 = _gui->addButton(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Data/arrow_back3.png")));
 		b1->setPosition(680 + label->getWidth() + 50, 200);
 
-		Button* b2 = _gui->addButton(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/arrow_forward3.png")));
+		Button* b2 = _gui->addButton(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Data/arrow_forward3.png")));
 		b2->setPosition(680 + 400 - b2->getRealSize().x, 200);
 	}
 
@@ -203,10 +203,10 @@ void TestScene::initGui()
 		label2->setPosition(680 + label->getWidth() + 50 + (400 - label->getWidth() - 50 - label2->getWidth()) / 2.0f, 150);
 		label2->setScale(0.8, 0.8);
 
-		Button* b1 = _gui->addButton(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/arrow_back3.png")));
+		Button* b1 = _gui->addButton(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Data/arrow_back3.png")));
 		b1->setPosition(680 + label->getWidth() + 50, 150);
 
-		Button* b2 = _gui->addButton(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/arrow_forward3.png")));
+		Button* b2 = _gui->addButton(ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Data/arrow_forward3.png")));
 		b2->setPosition(680 + 400 - b2->getRealSize().x, 150);
 	}
 
