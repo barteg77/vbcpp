@@ -182,7 +182,7 @@ void SceneLoader::loadSky(XMLElement* skyElement)
 
 			SceneObject* skySceneObject = _sceneManager->addSceneObject("sky");
 
-			RTextureCubeMap* skyboxTexture = ResourceManager::getInstance().loadTextureCubeMap(ResourceId::create<RT_TEXTURE>(skyboxFileNamesArray));
+			RTextureCubeMap* skyboxTexture = ResourceManager::getInstance().loadResource<RTextureCubeMap>(ResourceId::create<RT_TEXTURE>(skyboxFileNamesArray));
 			Sky* skyComponent = _sceneManager->getGraphicsManager()->addSky(skyboxTexture, skySceneObject);
 
 			_sceneManager->getGraphicsManager()->addGlobalEnvironmentCaptureComponent(skyboxTexture);

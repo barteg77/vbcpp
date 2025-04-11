@@ -379,7 +379,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			std::string textures = components[i]["textures"];
 			std::vector<std::string> t = split(textures, ',');
 
-			RTextureCubeMap* cubeMap = ResourceManager::getInstance().loadTextureCubeMap(ResourceId::create<RT_TEXTURE>(t));
+			RTextureCubeMap* cubeMap = ResourceManager::getInstance().loadResource<RTextureCubeMap>(ResourceId::create<RT_TEXTURE>(t));
 			EnvironmentCaptureComponent* component = graphicsManager->addEnvironmentCaptureComponent(cubeMap);
 			sceneObject->addComponent(component);
 		}

@@ -1110,7 +1110,7 @@ void BusLoader::loadEnvironmentCaptureComponents(XMLElement* moduleElement, BusR
             while (getline(stream, s, ',')) {
                 t[index++] = _busPath + s;
             }
-            RTextureCubeMap* cubeMap = ResourceManager::getInstance().loadTextureCubeMap(ResourceId::create<RT_TEXTURE>(t));
+            RTextureCubeMap* cubeMap = ResourceManager::getInstance().loadResource<RTextureCubeMap>(ResourceId::create<RT_TEXTURE>(t));
             busModule.sceneObject->addComponent(_gMgr->addEnvironmentCaptureComponent(cubeMap));
         }
     }
