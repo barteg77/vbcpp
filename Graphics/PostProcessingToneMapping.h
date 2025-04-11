@@ -55,7 +55,7 @@ class PostProcessingToneMapping : public PostProcessingEffect
 					break;
 			}
 
-			return ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/postProcessingToneMapping.frag", defines));
+			return ResourceManager::getInstance().loadResource<RShader>(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/postProcessingToneMapping.frag", defines));
 		}
 
 		void initUniformLocations()

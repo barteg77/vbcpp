@@ -12,7 +12,7 @@ DisplayComponent::DisplayComponent(RDisplayFont* font, int displayWidth, int dis
 	_font(font), _displayWidth(displayWidth), _displayHeight(displayHeight), _emissiveColor(textColor)//(2 * 0.66, 2 * 0.77, 2 * 0.32)
 	, _isTextChanged(false)
 {
-  _tabGeneratorShader = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/tabGenerator.frag"));
+  _tabGeneratorShader = ResourceManager::getInstance().loadResource<RShader>(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/tabGenerator.frag"));
 
 	_matrixTextureData = new unsigned char[_displayWidth * _displayHeight * 4];
 	for (int i = 0; i < _displayWidth * _displayHeight * 4; ++i)
