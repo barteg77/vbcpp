@@ -125,11 +125,11 @@ uniform int grassTexturesCount;
 flat in int tIndex;
 
 vec4 textureColor;
-vec4 ambient;
-vec4 diffuse;
-vec4 specular;
+vec4 ambient = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+vec4 diffuse = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+vec4 specular = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
-vec3 Position;
+vec3 Position = vec3(0.0f, 0.0f, 0.0f);
 
 
 vec4 CalculateLight(Light l, vec3 normal, vec3 dir, float ratio)

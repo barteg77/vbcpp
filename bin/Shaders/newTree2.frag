@@ -89,9 +89,9 @@ uniform vec3 CameraPosition;
 uniform sampler2DShadow ShadowMap[CASCADES_COUNT];
 
 vec4 textureColor;
-vec4 ambient;
-vec4 diffuse;
-vec4 specular;
+vec4 ambient = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+vec4 diffuse = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+vec4 specular = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 uniform vec3 color1;
 uniform vec3 color2;
