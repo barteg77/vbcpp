@@ -198,7 +198,7 @@ RStaticModel* RObjectLoader::loadModel(const ResourceId& resourceId, const std::
 	}
 	else
 	{
-		return ResourceManager::getInstance().loadModel(resourceId, objectDirPath, normalSmoothing);
+		return ResourceManager::getInstance().loadResource<RStaticModel>(resourceId);
 	}
 }
 
@@ -271,7 +271,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 
 			const std::string& modelFile = components[i]["model"];
 			//const ResourceId modelId = ResourceId::create<RT_MODEL>(GameDirectories::OBJECTS + "/" + name + "/" + modelFile);
-			const ResourceId modelId = ResourceId::create<RT_MODEL>(objectDirPath + "/" + modelFile);
+			const ResourceId modelId = ResourceId::create<RT_MODEL>(objectDirPath + "/" + modelFile, ResourceId::HierarchyHandling::without);
 			bool isAnimated = toBool(components[i]["animated"]);
 
 			model = loadModel(modelId, objectDirPath, isAnimated, toBool(components[i]["normalsSmoothing"]));
@@ -283,7 +283,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			const std::string& lowPolyModeFile = components[i]["lowPolyModel"];
 			if (!lowPolyModeFile.empty())
 			{
-			  const ResourceId lowPolyModelId = ResourceId::create<RT_MODEL>(objectDirPath + lowPolyModeFile);
+			  const ResourceId lowPolyModelId = ResourceId::create<RT_MODEL>(objectDirPath + lowPolyModeFile, ResourceId::HierarchyHandling::without);
 
 				RStaticModel* lowPolyModel = loadModel(lowPolyModelId, objectDirPath, isAnimated, toBool(components[i]["lowPolyModelNormalsSmoothing"]), model);
 				renderObject->setModel(lowPolyModel, 1);
@@ -357,7 +357,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 
 			std::string soundPath = objectDirPath + soundFile;
 
-			RSound* soundResource = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(soundPath));
+			RSound* soundResource = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(soundPath));
 			SoundComponent* sound = new SoundComponent(soundResource, EST_AMBIENT, looping);
 			sceneManager->getSoundManager()->addSoundComponent(sound);
 

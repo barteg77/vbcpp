@@ -82,7 +82,7 @@ void MenuSelectBusScene::addBus(const std::string& modelFileName, const std::str
 {
 	SceneObject* busSceneObject = _sceneManager->addSceneObject("bus");
 
-	RStaticModel* busModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelFileName), texturePath);
+	RStaticModel* busModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelFileName, false), texturePath);
 	RenderObject* busRenderObject = _graphicsManager->addRenderObject(new RenderObject(busModel, true), busSceneObject);
 
 	_buses.push_back(busSceneObject);

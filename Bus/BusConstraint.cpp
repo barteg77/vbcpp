@@ -112,7 +112,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
         busModule.sceneObject->setPosition(modulePosition);
 
-        busModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelPath), texturePath);
+        busModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath));
         //GraphicsManager::getInstance().addRenderObject(new RenderObject(busModel), _sceneObject);
         _gMgr->addRenderObject(new RenderObject(busModel), busModule.sceneObject);
 
@@ -185,7 +185,7 @@ void BusConstraint::loadXMLdata(std::string busname)
             btVector3 btWheelPos(wheelPosition.x, wheelPosition.y, wheelPosition.z);
 
             std::string modelPath = "Buses/" + busname + "/" + wheelModel;
-            RStaticModel* wheel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelPath), texturePath);
+            RStaticModel* wheel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath));
             _gMgr->addRenderObject(new RenderObject(wheel), wheelObj);
 
             //wheelObj->addComponent(wheelRender);
@@ -291,7 +291,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
             _steeringWheelObject = _sMgr->addSceneObject("steeringWheel");
 
-            RStaticModel* steeringWheelModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelPath), "./");
+            RStaticModel* steeringWheelModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath));
             _gMgr->addRenderObject(new RenderObject(steeringWheelModel), _steeringWheelObject);
 
             const char* cPosition = steeringWheelElement->Attribute("position");
@@ -371,11 +371,11 @@ void BusConstraint::loadXMLdata(std::string busname)
 
 
             // Create sound component
-            RSound* openSoundResource = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(openSound));
+            RSound* openSoundResource = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(openSound));
             SoundComponent* openSoundComp = new SoundComponent(openSoundResource, EST_PLAYER);
             _sndMgr->addSoundComponent(openSoundComp);
 
-            RSound* closeSoundResource = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(closeSound));
+            RSound* closeSoundResource = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(closeSound));
             SoundComponent* closeSoundComp = new SoundComponent(closeSoundResource, EST_PLAYER);
             _sndMgr->addSoundComponent(closeSoundComp);
 
@@ -396,7 +396,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
                 std::string modelPath = "Buses/" + busname + "/" + doorModel;
 
-                RStaticModel* dr = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelPath), texturePath);
+                RStaticModel* dr = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath));
                 _gMgr->addRenderObject(new RenderObject(dr), doorObj);
 
                 btVector3 btDoorPos(relativePos.x, relativePos.y, relativePos.z);
@@ -446,7 +446,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
                 std::string armPath = "Buses/" + busname + "/" + armModel;
 
-                RStaticModel* arm = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(armPath), texturePath);
+                RStaticModel* arm = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armPath));
                 _gMgr->addRenderObject(new RenderObject(arm), armObj);
 
                 btVector3 btArmPos(armRelPos.x, armRelPos.y, armRelPos.z);
@@ -480,7 +480,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
                 std::string arm2Path = "Buses/" + busname + "/" + arm2Model;
 
-                RStaticModel* arm2 = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(arm2Path), texturePath);
+                RStaticModel* arm2 = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(arm2Path));
                 _gMgr->addRenderObject(new RenderObject(arm2), arm2Obj);
                 //arm2Obj->addComponent(arm2Render);
 
@@ -512,7 +512,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
                 std::string doorPath = "Buses/" + busname + "/" + doorModel;
 
-                RStaticModel* door = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(doorPath), texturePath);
+                RStaticModel* door = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(doorPath));
                 _gMgr->addRenderObject(new RenderObject(door), doorObj);
                 //doorObj->addComponent(doorRender);
 
@@ -567,7 +567,7 @@ void BusConstraint::loadXMLdata(std::string busname)
     // Create Sound Component if sound filename is defined in Engine XML config file
     if (_engine->getEngineLoopedSounds().size() > 0)
     {
-      RSound* engineSound = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(_engine->getEngineLoopedSounds()[0].soundFilename));
+      RSound* engineSound = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(_engine->getEngineLoopedSounds()[0].soundFilename));
         SoundComponent* soundComp = new SoundComponent(engineSound, EST_PLAYER, true);
         //_sceneObject->addComponent(soundComp);
         _modules[0].sceneObject->addComponent(soundComp);

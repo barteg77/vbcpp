@@ -779,7 +779,7 @@ void showRenderComponentDetails(RenderObject* renderComponent)
 			ImGui::PushID(i);
 			if (newNode("LOD", "%d", i))
 			{
-			  COMPONENT_RESOURCE_EDIT(renderComponent, Model, "Model", [renderComponent](const std::string& path) { return ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(path), renderComponent->getSceneObject()->getObjectDefinition()->getPath()); })
+			  COMPONENT_RESOURCE_EDIT(renderComponent, Model, "Model", [renderComponent](const std::string& path) { return ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(path, false), renderComponent->getSceneObject()->getObjectDefinition()->getPath()); })
 
 				if (newNode("Materials", ""))
 				{
