@@ -273,7 +273,22 @@ float isGrass = 0.0f;
 	float c = (textureColor.r + textureColor.g + textureColor.b) / 3.0f;
 	//textureColor = diffuse = vec4(c, c, c, textureColor.a) * grassColor;
 
-	textureColor = texture2D(t[tIndex], TexCoord);
+	//textureColor = texture2D(t[tIndex], TexCoord);
+	if(tIndex == 0)
+		textureColor = texture2D(t[0], TexCoord);
+	else if(tIndex == 1)
+		textureColor = texture2D(t[1], TexCoord);
+	else if(tIndex == 2)
+		textureColor = texture2D(t[2], TexCoord);
+	else if(tIndex == 3)
+		textureColor = texture2D(t[3], TexCoord);
+	else if(tIndex == 4)
+		textureColor = texture2D(t[4], TexCoord);
+	else if(tIndex == 5)
+		textureColor = texture2D(t[5], TexCoord);
+	else
+		textureColor = texture2D(t[6], TexCoord);
+	
 	textureColor.rgb = pow(textureColor.rgb, vec3(gamma));
 
 	if (tIndex == grassTexturesCount - 1)
@@ -334,22 +349,36 @@ float isGrass = 0.0f;
 		float Ratio = 1.0f;
 #ifdef SHADOWMAPPING
 		Ratio = 0.0f;
-		vec3 Coords = PositionLightSpace[cascadeIndex].xyz / PositionLightSpace[cascadeIndex].w;
+		vec3 Coords = vec3(0.0f, 0.0f, 0.0f);
+		if (cascadeIndex == 0) {
+				Coords = PositionLightSpace[0].xyz / PositionLightSpace[0].w;
+		} else {
+				Coords = PositionLightSpace[1].xyz / PositionLightSpace[1].w;
+    }		
 		Coords = Coords * 0.5f + 0.5f;
 
 		//float Depth = texture(ShadowMap[cascadeIndex], Coords.xy).r;
 		float CurrentDepth = Coords.z;
 
-		Coords.z -= bias[cascadeIndex];//0.0005f;//
-
-		// only hardware 2x2 PCF
-		Ratio = texture(ShadowMap[cascadeIndex], Coords);//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+		if (cascadeIndex == 0) {
+				Coords.z -= bias[0];//0.0005f;//
+				// only hardware 2x2 PCF
+				Ratio = texture(ShadowMap[0], Coords);//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+    } else {
+				Coords.z -= bias[1];//0.0005f;//
+				// only hardware 2x2 PCF
+				Ratio = texture(ShadowMap[1], Coords);//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+		}
 
 		// 4x4 PCF
 		/*vec2 TexelSize = 1.0f / textureSize(ShadowMap[cascadeIndex], 0) / 2.0f;
 		for (float i = -1.5; i <= 1.5; ++i) {
 			for (float j = -1.5; j <= 1.5; ++j) {
-				Ratio += texture(ShadowMap[cascadeIndex], Coords + vec3(i * TexelSize.x, j * TexelSize.y, 0.0f));//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+				if (cascadeIndex == 0) {
+					 Ratio += texture(ShadowMap[0], Coords + vec3(i * TexelSize.x, j * TexelSize.y, 0.0f));//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+			  } else {
+					 Ratio += texture(ShadowMap[1], Coords + vec3(i * TexelSize.x, j * TexelSize.y, 0.0f));//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+				}
 			}
 		}
 

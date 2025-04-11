@@ -177,13 +177,23 @@ void main()
 			}
 		}
 
-		vec3 Coords = PositionLightSpace[cascadeIndex].xyz / PositionLightSpace[cascadeIndex].w;
+		vec3 Coords = vec3(0.0f, 0.0f, 0.0f);
+		if (cascadeIndex == 0) {
+			Coords = PositionLightSpace[0].xyz / PositionLightSpace[0].w;
+		} else {
+			Coords = PositionLightSpace[1].xyz / PositionLightSpace[1].w;
+		}		
 		Coords = Coords * 0.5f + 0.5f;
 
 		float CurrentDepth = Coords.z;
-
-		Coords.z -= bias[cascadeIndex];//0.0005f;//
-		attenuation = texture(ShadowMap[cascadeIndex], Coords);//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+		
+		if (cascadeIndex == 0) {
+			Coords.z -= bias[0];//0.0005f;//
+			attenuation = texture(ShadowMap[0], Coords);//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+    } else {
+			Coords.z -= bias[1];//0.0005f;//
+			attenuation = texture(ShadowMap[1], Coords);//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
+		}
 #endif
 		vec3 radiance = lightColor * attenuation;
 	
