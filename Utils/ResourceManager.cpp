@@ -72,7 +72,10 @@ ResourceRepo* ResourceManager::findRepoOfResource(const ResourceId& resourceId)
     LOG_DEBUG("Finding repository of resource "+resourceId.getDebugString()+" files...");
     auto it = std::find_if(_resourceRepos.begin(), _resourceRepos.end(),
                            [&resourceId] (const std::unique_ptr<ResourceRepo>& resourceRepo)
-                           {  return FilesHelper::doFilesExist(resourceId.getIdParts(), resourceRepo->getPath()); });
+                           {
+                               LOG_DEBUG("Checking for resource in repo " + resourceRepo->getPath());
+                               return resourceRepo->doResourceExists(resourceId);
+                           });
     if (it == _resourceRepos.end()){
         LOG_ERROR("Resource "+resourceId.getDebugString()+" file(s) NOT FOUND in any repository!");
         return nullptr;
