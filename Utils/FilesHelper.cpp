@@ -136,7 +136,9 @@ std::vector<std::string> FilesHelper::getDirectoriesList(const std::string& path
 
     while (entity != NULL)
     {
-        if (entity->d_type == DT_DIR)
+        if (entity->d_type == DT_DIR
+            && ::strcmp(entity->d_name, ".") != 0
+            && ::strcmp(entity->d_name, "..") != 0)
         {
             directories.push_back(entity->d_name);
         }
