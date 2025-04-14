@@ -360,7 +360,7 @@ RStaticModel* createRoadModel(std::vector<RoadLane>& roadLanes, std::vector<glm:
 		modelNode->meshesCount = lanesCount;
 		modelNode->parent = NULL;
 
-		model = new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials, GL_TRIANGLES, collisionMesh, indicesCountInAllMeshes);
+		model = new RStaticModel(ResourceId::create<RT_MODEL>("", ResourceId::HierarchyHandling::without), modelNode, materials, GL_TRIANGLES, collisionMesh, indicesCountInAllMeshes);
 	}
 	else
 	{

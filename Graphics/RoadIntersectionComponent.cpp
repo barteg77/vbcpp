@@ -739,7 +739,7 @@ void RoadIntersectionComponent::createPolygon()
 		modelNode->meshesCount = 1;
 		modelNode->parent = nullptr;
 
-		_generatedModel = new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials, GL_TRIANGLE_STRIP);
+		_generatedModel = new RStaticModel(ResourceId::create<RT_MODEL>("", ResourceId::HierarchyHandling::without), modelNode, materials, GL_TRIANGLE_STRIP);
 
 		RenderObject* renderObject = getSceneObject()->getSceneManager()->getGraphicsManager()->addRenderObject(new RenderObject(_generatedModel), getSceneObject());
 		renderObject->setCastShadows(false);

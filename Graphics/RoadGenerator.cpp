@@ -219,7 +219,7 @@ namespace RoadGenerator
 		modelNode->meshesCount = lanesCount;
 		modelNode->parent = nullptr;
 
-		return new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials, GL_TRIANGLES);
+		return new RStaticModel(ResourceId::create<RT_MODEL>("", ResourceId::HierarchyHandling::without), modelNode, materials, GL_TRIANGLES);
 	}
 
 	RStaticModel* updateOldModel(RStaticModel* oldModel)

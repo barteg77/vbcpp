@@ -200,7 +200,7 @@ bool BusLoader::loadBusModules(XMLElement* busElement)
         std::vector<std::string> nodeToSkip;
         fetchOptionalModelNodes(moduleElement, nodeToSkip);
 
-        _currentBusModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, !nodeToSkip.empty()), _texturePath, _normalsSmoothing);
+        _currentBusModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, nodeToSkip.empty() ? ResourceId::HierarchyHandling::without : ResourceId::HierarchyHandling::with));
 
         RenderObject* busRenderObject = _gMgr->addRenderObject(new RenderObject(_currentBusModel, nodeToSkip, true), busModule.sceneObject);
 
@@ -381,7 +381,7 @@ void BusLoader::loadWheels(XMLElement* moduleElement, BusRayCastModule& busModul
         wheelObj->addChild(wheelSubObjectForModel);
 
         std::string modelPath = _busPath + wheelModel;
-        RStaticModel* wheel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, false), _texturePath, _normalsSmoothing);
+        RStaticModel* wheel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, ResourceId::HierarchyHandling::without));
         RenderObject* wheelRenderObject = _gMgr->addRenderObject(new RenderObject(wheel), wheelSubObjectForModel);
 		wheelRenderObject->setDynamicObject(true);
 
@@ -481,7 +481,7 @@ void BusLoader::loadSteeringWheel(XMLElement* moduleElement, BusRayCastModule& b
         steeringWheelObject->setScale(scale);
 
         std::string modelPath = _busPath + modelFile;
-        RStaticModel* steeringWheelModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, false), _texturePath, _normalsSmoothing);
+        RStaticModel* steeringWheelModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, ResourceId::HierarchyHandling::with));
         RenderObject* renderObject = _gMgr->addRenderObject(new RenderObject(steeringWheelModel), steeringWheelObject);
 		renderObject->setDynamicObject(true);
 
@@ -561,7 +561,7 @@ void BusLoader::loadDesktop(XMLElement* moduleElement, BusRayCastModule& busModu
         desktopObject->addComponent(_bus->_desktopClickableObject);
 
         std::string modelPath = _busPath + modelFile;
-        RStaticModel* desktopModel = ResourceManager::getInstance().loadModelWithHierarchy(ResourceId::create<RT_MODEL>(modelPath, true), _texturePath, _normalsSmoothing);
+        RStaticModel* desktopModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, ResourceId::HierarchyHandling::with));
         _bus->_desktopRenderObject = _gMgr->addRenderObject(new RenderObject(desktopModel), desktopObject);
 		_bus->_desktopRenderObject->setDynamicObject(true);
 
@@ -737,7 +737,7 @@ void BusLoader::loadDoors(XMLElement* moduleElement, BusRayCastModule& busModule
         {
             std::string doorModelPath = _busPath + doorModelName;
 
-            doorModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(doorModelPath, false), _texturePath, _normalsSmoothing);
+            doorModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(doorModelPath, ResourceId::HierarchyHandling::without));
             doorModelNode = doorModel->getRootNode();
             doorCollisionNode = nullptr; // tymczasowe - zamiast tego bedzie brany collisionMesh utworzony na podstawie materialu
 
@@ -858,7 +858,7 @@ void BusLoader::loadDoorSE(XMLElement* doorElement, BusRayCastModule& busModule,
 
     std::string armPath = _busPath + armModel;
 
-    RStaticModel* arm = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armPath, false), _texturePath, _normalsSmoothing);
+    RStaticModel* arm = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armPath, ResourceId::HierarchyHandling::without));
     RenderObject* armRenderObject = _gMgr->addRenderObject(new RenderObject(arm), armObj);
 	armRenderObject->setDynamicObject(true);
 
@@ -889,7 +889,7 @@ void BusLoader::loadDoorSE(XMLElement* doorElement, BusRayCastModule& busModule,
 
     std::string arm2Path = _busPath + arm2Model;
 
-    RStaticModel* arm2 = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(arm2Path, false), _texturePath, _normalsSmoothing);
+    RStaticModel* arm2 = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(arm2Path, ResourceId::HierarchyHandling::without));
     RenderObject* arm2RenderObject = _gMgr->addRenderObject(new RenderObject(arm2), arm2Obj);
 	arm2RenderObject->setDynamicObject(true);
 
@@ -974,7 +974,7 @@ void BusLoader::loadDoorClassic(XMLElement* doorElement, BusRayCastModule& busMo
     {
         std::string armModelPath = _busPath + armModelName;
 
-        armModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armModelPath, false), _texturePath, _normalsSmoothing);
+        armModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armModelPath, ResourceId::HierarchyHandling::without));
         armModelNode = armModel->getRootNode();
         armCollisionNode = nullptr; // tymczasowe - zamiast tego bedzie brany collisionMesh utworzony na podstawie materialu
 

@@ -313,7 +313,7 @@ class RStaticModel : public Resource
         RStaticModel(const ResourceId& resourceId, StaticModelNode* rootNode, const std::vector<Material*>& materials,
                      GLenum primitiveType = GL_TRIANGLES, glm::vec3* collisionMesh = NULL, unsigned int collisionMeshSize = 0, float aabbScaleFactor = 1.0f);
         RStaticModel()
-	  : Resource(RT_MODEL, ResourceId::create<RT_MODEL>(""))
+	  : Resource(RT_MODEL, ResourceId::create<RT_MODEL>("", ResourceId::HierarchyHandling::without))
         {
             _rootNode = NULL;
 

@@ -214,7 +214,7 @@ void ShapePolygonComponent::buildAndCreateRenderObject(bool useMeshMender)
 		modelNode->meshesCount = 1;
 		modelNode->parent = nullptr;
 
-		_generatedModel = new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials, GL_TRIANGLES, collisionMesh, collisionMeshSize);
+		_generatedModel = new RStaticModel(ResourceId::create<RT_MODEL>("", ResourceId::HierarchyHandling::without), modelNode, materials, GL_TRIANGLES, collisionMesh, collisionMeshSize);
 
 		RenderObject* renderObject = getSceneObject()->getSceneManager()->getGraphicsManager()->addRenderObject(new RenderObject(_generatedModel), getSceneObject());
 	}

@@ -122,7 +122,7 @@ void BusPreviewLoader::loadWheels(XMLElement* moduleElement, BusRayCastModule& b
         busModule.sceneObject->addChild(wheelObj);
 
         const std::string modelPath = _busPath + wheelModel;
-        RStaticModel* wheel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, false), _texturePath, _normalsSmoothing);
+        RStaticModel* wheel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, ResourceId::HierarchyHandling::without));
         RenderObject* wheelRenderObject = _gMgr->addRenderObject(new RenderObject(wheel, true), wheelObj);
     }
 }
@@ -149,7 +149,7 @@ void BusPreviewLoader::loadDoors(XMLElement* moduleElement, BusRayCastModule& bu
         {
             const std::string doorModelPath = _busPath + doorModelName;
 
-            doorModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(doorModelPath, false), _texturePath, _normalsSmoothing);
+            doorModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(doorModelPath, ResourceId::HierarchyHandling::without));
             doorModelNode = doorModel->getRootNode();
 
             doorPosition = XmlUtils::getAttributeVec3(doorElement, "position");
@@ -185,7 +185,7 @@ void BusPreviewLoader::loadDoors(XMLElement* moduleElement, BusRayCastModule& bu
         {
             const std::string armModelPath = _busPath + armModelName;
 
-            armModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armModelPath, false), _texturePath, _normalsSmoothing);
+            armModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armModelPath, ResourceId::HierarchyHandling::without));
             armModelNode = armModel->getRootNode();
 
             armPosition = XmlUtils::getAttributeVec3(doorElement, "armPosition");

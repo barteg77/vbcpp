@@ -112,7 +112,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
         busModule.sceneObject->setPosition(modulePosition);
 
-        busModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath));
+        busModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, ResourceId::HierarchyHandling::without));
         //GraphicsManager::getInstance().addRenderObject(new RenderObject(busModel), _sceneObject);
         _gMgr->addRenderObject(new RenderObject(busModel), busModule.sceneObject);
 
@@ -185,7 +185,7 @@ void BusConstraint::loadXMLdata(std::string busname)
             btVector3 btWheelPos(wheelPosition.x, wheelPosition.y, wheelPosition.z);
 
             std::string modelPath = "Buses/" + busname + "/" + wheelModel;
-            RStaticModel* wheel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath));
+            RStaticModel* wheel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, ResourceId::HierarchyHandling::without));
             _gMgr->addRenderObject(new RenderObject(wheel), wheelObj);
 
             //wheelObj->addComponent(wheelRender);
@@ -291,7 +291,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
             _steeringWheelObject = _sMgr->addSceneObject("steeringWheel");
 
-            RStaticModel* steeringWheelModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath));
+            RStaticModel* steeringWheelModel = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, ResourceId::HierarchyHandling::without));
             _gMgr->addRenderObject(new RenderObject(steeringWheelModel), _steeringWheelObject);
 
             const char* cPosition = steeringWheelElement->Attribute("position");
@@ -396,7 +396,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
                 std::string modelPath = "Buses/" + busname + "/" + doorModel;
 
-                RStaticModel* dr = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath));
+                RStaticModel* dr = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(modelPath, ResourceId::HierarchyHandling::without));
                 _gMgr->addRenderObject(new RenderObject(dr), doorObj);
 
                 btVector3 btDoorPos(relativePos.x, relativePos.y, relativePos.z);
@@ -446,7 +446,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
                 std::string armPath = "Buses/" + busname + "/" + armModel;
 
-                RStaticModel* arm = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armPath));
+                RStaticModel* arm = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(armPath, ResourceId::HierarchyHandling::without));
                 _gMgr->addRenderObject(new RenderObject(arm), armObj);
 
                 btVector3 btArmPos(armRelPos.x, armRelPos.y, armRelPos.z);
@@ -480,7 +480,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
                 std::string arm2Path = "Buses/" + busname + "/" + arm2Model;
 
-                RStaticModel* arm2 = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(arm2Path));
+                RStaticModel* arm2 = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(arm2Path, ResourceId::HierarchyHandling::without));
                 _gMgr->addRenderObject(new RenderObject(arm2), arm2Obj);
                 //arm2Obj->addComponent(arm2Render);
 
@@ -512,7 +512,7 @@ void BusConstraint::loadXMLdata(std::string busname)
 
                 std::string doorPath = "Buses/" + busname + "/" + doorModel;
 
-                RStaticModel* door = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(doorPath));
+                RStaticModel* door = ResourceManager::getInstance().loadResource<RStaticModel>(ResourceId::create<RT_MODEL>(doorPath, ResourceId::HierarchyHandling::without));
                 _gMgr->addRenderObject(new RenderObject(door), doorObj);
                 //doorObj->addComponent(doorRender);
 
