@@ -29,8 +29,6 @@ public:
     enum class HierarchyHandling { with, without };
     typedef std::vector<std::string> Defines;
     typedef std::unordered_map<std::string, std::string> Constants;
-    enum class NodesAction { skip, include };
-    typedef std::vector<std::string> Nodes;
     typedef int FontPixelSize;
 
 private:
@@ -39,8 +37,6 @@ private:
     HierarchyHandling _hierarchyHandling;
     Defines _defines;
     Constants _constants;
-    NodesAction _nodesAction;
-    Nodes _nodes;
     FontPixelSize _fontPixelSize;
 
     explicit ResourceId(const ResourceType& resourceType,
@@ -48,16 +44,12 @@ private:
                         const HierarchyHandling hierarchyHandling,
                         const Defines& defines,
                         const Constants& constants,
-                        const NodesAction& nodesAction,
-                        const Nodes& nodes,
                         const FontPixelSize& fontPixelSize)
     : _resourceType(resourceType),
       _idParts(idParts),
       _hierarchyHandling(hierarchyHandling),
       _defines(defines),
       _constants(constants),
-      _nodesAction(nodesAction),
-      _nodes(nodes),
       _fontPixelSize(fontPixelSize)
     {};
 
@@ -86,8 +78,6 @@ public:
                               HierarchyHandling::without,
                               {},
                               {},
-                              NodesAction::skip,
-                              {},
                               0
                               );
         } else {
@@ -95,8 +85,6 @@ public:
                               {id},
                               HierarchyHandling::without,
                               {},
-                              {},
-                              NodesAction::skip,
                               {},
                               0
                               );
@@ -114,8 +102,6 @@ public:
                           hierarchyHandling,
                           {},
                           {},
-                          NodesAction::skip,
-                          {},
                           0
                           );
     }
@@ -132,8 +118,6 @@ public:
                           HierarchyHandling::without,
                           defines,
                           constants,
-                          NodesAction::skip,
-                          {},
                           0
                           );
     }
@@ -146,8 +130,6 @@ public:
                           idParts,
                           HierarchyHandling::without,
                           {},
-                          {},
-                          NodesAction::skip,
                           {},
                           0
                           );
@@ -162,8 +144,6 @@ public:
                           {id},
                           HierarchyHandling::without,
                           {},
-                          {},
-                          NodesAction::skip,
                           {},
                           fontPixelSize
                           );
@@ -187,12 +167,6 @@ public:
     Constants getConstants() const
     { return _constants; }
 
-    NodesAction getNodesAction() const
-    { return _nodesAction; }
-
-    Nodes getNodes() const
-    { return _nodes; }
-
     int getFontPixelSize() const
     {
         assert(_resourceType == RT_FONT_RESOURCE);
@@ -206,8 +180,6 @@ public:
           && _idParts == other._idParts
           && _defines == other._defines
           && _constants == other._constants
-          && _nodesAction == other._nodesAction
-          && _nodes == other._nodes
           && _fontPixelSize == other._fontPixelSize; }
     
     bool operator!=(const ResourceId& other)
@@ -215,8 +187,6 @@ public:
           || _idParts != other._idParts
           || _defines != other._defines
           || _constants != other._constants
-          || _nodesAction != other._nodesAction
-          || _nodes != other._nodes
           || _fontPixelSize != other._fontPixelSize; }
 };
 

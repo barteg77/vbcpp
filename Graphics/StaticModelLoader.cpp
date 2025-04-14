@@ -232,13 +232,6 @@ StaticModelNode* StaticModelLoader::createModelNode(aiNode* assimpNode, glm::mat
 RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceId& resourceId, const std::string& fileName , std::string texturesPath)
 {
     _texturesPath = texturesPath;
-    if (resourceId.getNodesAction() == ResourceId::NodesAction::skip){
-        _nodesToSkipNames = resourceId.getNodes();
-    } else {//resourceLocation.getResourceId().getNodesAction() == ResourceId::NodesAction::include
-        assert(resourceId.getNodes().size() == 1);
-        _nodeToLoadName = resourceId.getNodes().at(0);
-    }
-
 
     if (_assimpScene == NULL)
     {
@@ -273,9 +266,6 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceId& resour
 
     _materialLoader->closeFile();
 	_collisionMesh.clear();
-    _nodesToSkipNames.clear();
-    _nodeToLoadName.clear();
-
     return model;
 }
 
