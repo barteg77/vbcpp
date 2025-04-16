@@ -28,8 +28,15 @@ const ResourceId ResourceManager::DEFAULT_WHITE_TEXTURE_RESOURCE_ID = ResourceId
 ResourceManager::ResourceManager()
 {
     LOG_INFO("ResourceManager: Konstruktor");
-    addResourceRepo(std::make_unique<ResourceRepoGenerics>());
-	addResourceRepo(std::make_unique<ResourceRepoNative>("base", "."));
+    for (const GameConfig::RepoDefinition& repoDef : GameConfig::getInstance().resourceRepos) {
+        if (repoDef._type == GameConfig::RepoType::Generics) {
+            addResourceRepo(std::make_unique<ResourceRepoGenerics>());
+        } else if (repoDef._type == GameConfig::RepoType::Native) {
+            addResourceRepo(std::make_unique<ResourceRepoNative>(repoDef._name, repoDef._path));
+        } else {
+            assert(false); // unhandled repo type
+        }
+    }
 }
 
 

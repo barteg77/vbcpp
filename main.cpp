@@ -18,7 +18,6 @@ int main()
 
 #ifdef DEVELOPMENT_RESOURCES
 	gameConfig.loadDevelopmentConfig("devSettings.xml");
-	ResourceManager::getInstance().addResourceRepo(std::make_unique<ResourceRepoNative>("development_resources", gameConfig.alternativeResourcesPath));
 #endif // DEVELOPMENT_RESOURCES
 
 

@@ -843,7 +843,6 @@ namespace vbEditor
 	{
 #ifdef DEVELOPMENT_RESOURCES
 		GameConfig::getInstance().loadDevelopmentConfig("devSettings.xml");
-		ResourceManager::getInstance().addResourceRepo(std::make_unique<ResourceRepoNative>("development_resources", GameConfig::getInstance().alternativeResourcesPath));
 #endif // DEVELOPMENT_RESOURCES
 
 		GameConfig::getInstance().mode = GM_EDITOR;
@@ -882,11 +881,13 @@ namespace vbEditor
 		std::vector<std::string> objectsPaths = { GameDirectories::OBJECTS };
 		std::vector<std::string> roadProfilesPaths = { GameDirectories::ROAD_PROFILES };
 
+/*
 #ifdef DEVELOPMENT_RESOURCES
 		mapsPaths.push_back(GameConfig::getInstance().alternativeResourcesPath + GameDirectories::MAPS);
 		objectsPaths.push_back(GameConfig::getInstance().alternativeResourcesPath + GameDirectories::OBJECTS);
 		roadProfilesPaths.push_back(GameConfig::getInstance().alternativeResourcesPath + GameDirectories::ROAD_PROFILES);
 #endif // DEVELOPMENT_RESOURCES
+*/
 
 		_imGuiInterface = new ImGuiInterface(_sceneManager);
 		_imGuiInterface->setIsOpen(true);

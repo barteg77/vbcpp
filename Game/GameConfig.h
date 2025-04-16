@@ -7,6 +7,8 @@
 #include "../Utils/tinyxml2.h"
 #include <sstream>
 #include <cstdlib>
+#include <vector>
+#include <assert.h>
 using namespace tinyxml2;
 
 
@@ -19,6 +21,30 @@ enum GameMode
 
 class GameConfig
 {
+    public:
+    enum class RepoType {
+        Generics,
+        Native
+    };
+
+    struct RepoDefinition {
+        RepoDefinition(const RepoType type,
+                    const std::string& name,
+                    const std::string& path)
+        : _type(type)
+        , _name(name)
+        , _path(path)
+        {
+            if (_type == RepoType::Native) {
+                assert(!_name.empty());
+                assert(!_path.empty());
+            }
+        }
+        RepoType _type;
+        std::string _name;
+        std::string _path;
+    };
+
     private:
         static GameConfig* instance;
 
@@ -56,6 +82,8 @@ class GameConfig
         std::string busModel;
         std::string busRepaint;
         std::string busConfiguration;
+
+        std::vector<RepoDefinition> resourceRepos;
 
         int fullscreenMode;
 		bool verticalSync;

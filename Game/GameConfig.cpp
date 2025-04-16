@@ -36,6 +36,24 @@ void GameConfig::loadGameConfig(const char* filename)
             busConfiguration = XmlUtils::getAttributeStringOptional(child, "configuration");
         }
         else
+        if (strcmp(ename,"ResourceRepos") == 0) // no document structure validation! (as in rest of code) // to do: use xml parser with builtin structure validation maybe
+        {
+            for (XMLElement* configElement = child->FirstChildElement(); configElement != NULL; configElement = configElement->NextSiblingElement())
+            {
+                const char* ename = configElement->Name();
+                if (strcmp(ename,"ResourceRepoGenerics") == 0)
+                {
+                    resourceRepos.push_back(RepoDefinition(RepoType::Generics, "", ""));
+                }
+                if (strcmp(ename,"ResourceRepoNative") == 0)
+                {
+                    resourceRepos.push_back(RepoDefinition(RepoType::Native,
+                                            configElement->Attribute("name"),
+                                            configElement->Attribute("path")));
+                }
+            }
+
+        }
         if (strcmp(ename,"Configuration") == 0)
         {
             for (XMLElement* configElement = child->FirstChildElement(); configElement != NULL; configElement = configElement->NextSiblingElement())
