@@ -22,6 +22,8 @@ set (UTILS_SOURCES
 	Utils/RTexture2D.cpp
 	Utils/RTextureCubeMap.cpp
 	Utils/ResourceDescriptionUtils.cpp
+	Utils/ResourceId.cpp
+	Utils/ResourceLocation.cpp
 	Utils/ResourceManager.cpp
 	Utils/SoundLoader.cpp
 	Utils/stb_image.cpp
@@ -59,7 +61,10 @@ set (UTILS_HEADERS
 	Utils/Resource.h
 	Utils/ResourceDescription.h
 	Utils/ResourceDescriptionUtils.h
+	Utils/ResourceId.h
+	Utils/ResourceLocation.h
 	Utils/ResourceManager.h
+	Utils/ResourceRepo.h
 	Utils/SoundLoader.h
 	Utils/Strings.h
 	Utils/Timer.h

@@ -1,9 +1,10 @@
 #include "RStaticModel.h"
+#include "ResourceId.h"
 
 
-RStaticModel::RStaticModel(const std::string& path, StaticModelNode* rootNode, const std::vector<Material*>& materials,
+RStaticModel::RStaticModel(const ResourceId& resourceId, StaticModelNode* rootNode, const std::vector<Material*>& materials,
                            GLenum primitiveType, glm::vec3* collisionMesh, unsigned int collisionMeshSize, float aabbScaleFactor)
-    : Resource(RT_MODEL, path)
+    : Resource(RT_MODEL, resourceId)
 {
     _rootNode = rootNode;
 

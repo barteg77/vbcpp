@@ -27,12 +27,9 @@ BusLoader::BusLoader(SceneManager* sceneManager, GraphicsManager* gmgr, PhysicsM
 
 Bus* BusLoader::loadBus(const std::string& busName, const std::unordered_map<std::string, std::string>& variables)
 {
-    std::string configFileName = GameDirectories::BUSES + busName + "/" + BUS_CONFIG_FILENAME;
-
-#ifdef DEVELOPMENT_RESOURCES
-	if (!FilesHelper::isFileExists(configFileName))
-		configFileName = ResourceManager::getInstance().getAlternativeResourcePath() + configFileName;
-#endif // DEVELOPMENT_RESOURCES
+  const ResourceId resourceId = ResourceId::create<RT_OTHER>(GameDirectories::BUSES + busName + "/" + BUS_CONFIG_FILENAME);
+    ResourceLocation resourceLocation = ResourceManager::getInstance().findResourceLocation(resourceId);
+    const std::string configFileName = resourceLocation.getPath();
 
     XMLDocument doc;
     doc.LoadFile(configFileName.c_str());
@@ -152,15 +149,13 @@ void BusLoader::loadTexts(XMLElement* busElement)
         std::string defaultLanguage = XmlUtils::getAttributeStringOptional(textsElement, "defaultLanguage", LocalizationSystem::getGlobalInstance().getDefaultLanguage());
 
         path = _busPath + path + "/";
+        const ResourceId resourceId = ResourceId::create<RT_OTHER>(path + "texts-" + defaultLanguage + ".xml");
+		ResourceLocation resourceLocation = ResourceManager::getInstance().findResourceLocation(resourceId);
+		const std::string configFileName = resourceLocation.getPath();
 
-#ifdef DEVELOPMENT_RESOURCES
-        if (!FilesHelper::isDirectoryExists(path))
-            path = ResourceManager::getInstance().getAlternativeResourcePath() + path;
-#endif // DEVELOPMENT_RESOURCES
+        LOG_DEBUG("Loaded texts. Path: " + configFileName + ", default language: " + defaultLanguage);
 
-        LOG_DEBUG("Loaded texts. Path: " + path + ", default language: " + defaultLanguage);
-
-        _bus->_texts.initialize(path, defaultLanguage);
+        _bus->_texts.initialize(configFileName, defaultLanguage);
         _bus->_texts.setLanguage(LocalizationSystem::getGlobalInstance().getLanguage());
     }
 }
@@ -210,9 +205,9 @@ bool BusLoader::loadBusModules(XMLElement* busElement)
         fetchOptionalModelNodes(moduleElement, nodeToSkip);
 
         if (nodeToSkip.empty())
-            _currentBusModel = ResourceManager::getInstance().loadModel(modelPath, _texturePath, _normalsSmoothing);
+	  _currentBusModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelPath), _texturePath, _normalsSmoothing);
         else
-            _currentBusModel = ResourceManager::getInstance().loadModelWithHierarchy(modelPath, _texturePath, _normalsSmoothing);
+	  _currentBusModel = ResourceManager::getInstance().loadModelWithHierarchy(ResourceId::create<RT_MODEL>(modelPath), _texturePath, _normalsSmoothing);
 
         RenderObject* busRenderObject = _gMgr->addRenderObject(new RenderObject(_currentBusModel, nodeToSkip, true), busModule.sceneObject);
 
@@ -393,7 +388,7 @@ void BusLoader::loadWheels(XMLElement* moduleElement, BusRayCastModule& busModul
         wheelObj->addChild(wheelSubObjectForModel);
 
         std::string modelPath = _busPath + wheelModel;
-        RStaticModel* wheel = ResourceManager::getInstance().loadModel(modelPath, _texturePath, _normalsSmoothing);
+        RStaticModel* wheel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelPath), _texturePath, _normalsSmoothing);
         RenderObject* wheelRenderObject = _gMgr->addRenderObject(new RenderObject(wheel), wheelSubObjectForModel);
 		wheelRenderObject->setDynamicObject(true);
 
@@ -493,7 +488,7 @@ void BusLoader::loadSteeringWheel(XMLElement* moduleElement, BusRayCastModule& b
         steeringWheelObject->setScale(scale);
 
         std::string modelPath = _busPath + modelFile;
-        RStaticModel* steeringWheelModel = ResourceManager::getInstance().loadModel(modelPath, _texturePath, _normalsSmoothing);
+        RStaticModel* steeringWheelModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelPath), _texturePath, _normalsSmoothing);
         RenderObject* renderObject = _gMgr->addRenderObject(new RenderObject(steeringWheelModel), steeringWheelObject);
 		renderObject->setDynamicObject(true);
 
@@ -573,7 +568,7 @@ void BusLoader::loadDesktop(XMLElement* moduleElement, BusRayCastModule& busModu
         desktopObject->addComponent(_bus->_desktopClickableObject);
 
         std::string modelPath = _busPath + modelFile;
-        RStaticModel* desktopModel = ResourceManager::getInstance().loadModelWithHierarchy(modelPath, _texturePath, _normalsSmoothing);
+        RStaticModel* desktopModel = ResourceManager::getInstance().loadModelWithHierarchy(ResourceId::create<RT_MODEL>(modelPath), _texturePath, _normalsSmoothing);
         _bus->_desktopRenderObject = _gMgr->addRenderObject(new RenderObject(desktopModel), desktopObject);
 		_bus->_desktopRenderObject->setDynamicObject(true);
 
@@ -749,7 +744,7 @@ void BusLoader::loadDoors(XMLElement* moduleElement, BusRayCastModule& busModule
         {
             std::string doorModelPath = _busPath + doorModelName;
 
-            doorModel = ResourceManager::getInstance().loadModel(doorModelPath, _texturePath, _normalsSmoothing);
+            doorModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(doorModelPath), _texturePath, _normalsSmoothing);
             doorModelNode = doorModel->getRootNode();
             doorCollisionNode = nullptr; // tymczasowe - zamiast tego bedzie brany collisionMesh utworzony na podstawie materialu
 
@@ -781,11 +776,11 @@ void BusLoader::loadDoors(XMLElement* moduleElement, BusRayCastModule& busModule
 
 
         // Create sound component
-        RSound* openSoundResource = ResourceManager::getInstance().loadSound(openSound);
+        RSound* openSoundResource = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(openSound));
         SoundComponent* openSoundComp = new SoundComponent(openSoundResource, EST_PLAYER);
         _sndMgr->addSoundComponent(openSoundComp);
 
-        RSound* closeSoundResource = ResourceManager::getInstance().loadSound(closeSound);
+        RSound* closeSoundResource = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(closeSound));
         SoundComponent* closeSoundComp = new SoundComponent(closeSoundResource, EST_PLAYER);
         _sndMgr->addSoundComponent(closeSoundComp);
 
@@ -870,7 +865,7 @@ void BusLoader::loadDoorSE(XMLElement* doorElement, BusRayCastModule& busModule,
 
     std::string armPath = _busPath + armModel;
 
-    RStaticModel* arm = ResourceManager::getInstance().loadModel(armPath, _texturePath, _normalsSmoothing);
+    RStaticModel* arm = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(armPath), _texturePath, _normalsSmoothing);
     RenderObject* armRenderObject = _gMgr->addRenderObject(new RenderObject(arm), armObj);
 	armRenderObject->setDynamicObject(true);
 
@@ -901,7 +896,7 @@ void BusLoader::loadDoorSE(XMLElement* doorElement, BusRayCastModule& busModule,
 
     std::string arm2Path = _busPath + arm2Model;
 
-    RStaticModel* arm2 = ResourceManager::getInstance().loadModel(arm2Path, _texturePath, _normalsSmoothing);
+    RStaticModel* arm2 = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(arm2Path), _texturePath, _normalsSmoothing);
     RenderObject* arm2RenderObject = _gMgr->addRenderObject(new RenderObject(arm2), arm2Obj);
 	arm2RenderObject->setDynamicObject(true);
 
@@ -986,7 +981,7 @@ void BusLoader::loadDoorClassic(XMLElement* doorElement, BusRayCastModule& busMo
     {
         std::string armModelPath = _busPath + armModelName;
 
-        armModel = ResourceManager::getInstance().loadModel(armModelPath, _texturePath, _normalsSmoothing);
+        armModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(armModelPath), _texturePath, _normalsSmoothing);
         armModelNode = armModel->getRootNode();
         armCollisionNode = nullptr; // tymczasowe - zamiast tego bedzie brany collisionMesh utworzony na podstawie materialu
 
@@ -1115,14 +1110,14 @@ void BusLoader::loadEnvironmentCaptureComponents(XMLElement* moduleElement, BusR
             LOG_INFO("XML: environmentCapture component data");
 
             std::string textures = std::string(componentElement->Attribute("textures"));
-            std::string t[6];
+            std::vector<std::string> t(6);
             istringstream stream(textures);
             std::string s;
             int index = 0;
             while (getline(stream, s, ',')) {
                 t[index++] = _busPath + s;
             }
-            RTextureCubeMap* cubeMap = ResourceManager::getInstance().loadTextureCubeMap(t);
+            RTextureCubeMap* cubeMap = ResourceManager::getInstance().loadTextureCubeMap(ResourceId::create<RT_TEXTURE>(t));
             busModule.sceneObject->addComponent(_gMgr->addEnvironmentCaptureComponent(cubeMap));
         }
     }
@@ -1248,7 +1243,7 @@ void BusLoader::loadModulesConnectionData(XMLElement* moduleElement, BusRayCastM
 
 SoundComponent* BusLoader::createSound(SceneObject* soundObject, const SoundDefinition& soundDefinition)
 {
-    RSound* engineSound = ResourceManager::getInstance().loadSound(soundDefinition.soundFilename);
+  RSound* engineSound = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(soundDefinition.soundFilename));
     SoundComponent* soundComp = new SoundComponent(engineSound, EST_PLAYER, soundDefinition.looped);
     soundObject->addComponent(soundComp);
     soundComp->setGain(soundDefinition.volume);

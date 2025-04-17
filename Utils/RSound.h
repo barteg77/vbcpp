@@ -9,6 +9,7 @@
 #include <AL/alut.h>
 
 #include "Resource.h"
+#include "ResourceId.h"
 
 
 class RSound : public Resource
@@ -17,8 +18,8 @@ class RSound : public Resource
         ALuint _buffer;
 
     public:
-        RSound(string path, ALuint buffer)
-            : Resource(RT_SOUND, path),
+        RSound(const ResourceId& resourceId, ALuint buffer)
+            : Resource(RT_SOUND, resourceId),
             _buffer(buffer)
         {
 

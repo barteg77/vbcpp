@@ -130,8 +130,8 @@ glm::mat4 Bone::calculateLocalTransform(float animationTime)
 }
 
 
-RAnimation::RAnimation(const std::string& path)
-	: Resource(RT_ANIMATION, path),
+RAnimation::RAnimation(const ResourceId& resourceId)
+	: Resource(RT_ANIMATION, resourceId),
 	_duration(0.0f), _ticksPerSecond(0)
 {
 

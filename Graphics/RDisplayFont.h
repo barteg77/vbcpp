@@ -6,6 +6,8 @@
 
 #include "../Utils/Resource.h"
 
+#include "../Utils/ResourceLocation.h" // to do remove
+
 
 struct RDisplayFontSize
 {
@@ -30,7 +32,7 @@ class RDisplayFont : public Resource
 		void loadOneFont(std::string fileName, int index);
 
 	public:
-		RDisplayFont(std::string path);
+		RDisplayFont(const ResourceLocation& resourceLocation);
 		~RDisplayFont();
 
 		RDisplayFontSize* getFontInSize(int sizeIndex);

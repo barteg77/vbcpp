@@ -104,10 +104,10 @@ void SceneLoader::loadGrass(XMLElement* grassElement)
 		LOG_INFO("heightmap: " + terrainHeightmapForGrassFileName);
 		LOG_INFO("density texture: " + grassDensityTextureFileName);
 
-		RStaticModel* grassModel = ResourceManager::getInstance().loadModel(_dirPath + "grass/" + grassModelFileName, _dirPath + "grass/");
+		RStaticModel* grassModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(_dirPath + "grass/" + grassModelFileName), _dirPath + "grass/");
 
-		RTexture2D * heightmapTextureForGrass = ResourceManager::getInstance().loadTexture(_dirPath + terrainHeightmapForGrassFileName, false);
-		RTexture2D * grassDensityTexture = ResourceManager::getInstance().loadTexture(_dirPath + grassDensityTextureFileName, false);
+		RTexture2D * heightmapTextureForGrass = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(_dirPath + terrainHeightmapForGrassFileName), false);
+		RTexture2D * grassDensityTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(_dirPath + grassDensityTextureFileName), false);
 		heightmapTextureForGrass->setClampMode(TCM_CLAMP_TO_EDGE);
 		heightmapTextureForGrass->setFiltering(TFM_LINEAR, TFM_LINEAR);
 
@@ -124,7 +124,7 @@ void SceneLoader::loadGrass(XMLElement* grassElement)
 			std::string textureName(grassTextureElement->Attribute("path"));
 			float scale = atof(grassTextureElement->Attribute("scale"));
 
-			grassComponent->getAdditionalRandomGrassTextures().push_back(ResourceManager::getInstance().loadTexture(_dirPath + "grass/" + textureName, false));
+			grassComponent->getAdditionalRandomGrassTextures().push_back(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(_dirPath + "grass/" + textureName), false));
 			grassComponent->getAdditionalRandomGrassTexturesScale().push_back(scale);
 
 			grassTextureElement = grassTextureElement->NextSiblingElement("Texture");
@@ -182,7 +182,7 @@ void SceneLoader::loadSky(XMLElement* skyElement)
 
 			SceneObject* skySceneObject = _sceneManager->addSceneObject("sky");
 
-			RTextureCubeMap* skyboxTexture = ResourceManager::getInstance().loadTextureCubeMap(&skyboxFileNamesArray[0]);
+			RTextureCubeMap* skyboxTexture = ResourceManager::getInstance().loadTextureCubeMap(ResourceId::create<RT_TEXTURE>(skyboxFileNamesArray));
 			Sky* skyComponent = _sceneManager->getGraphicsManager()->addSky(skyboxTexture, skySceneObject);
 
 			_sceneManager->getGraphicsManager()->addGlobalEnvironmentCaptureComponent(skyboxTexture);
@@ -751,11 +751,6 @@ RoadObject* SceneLoader::findRoadObjectBySceneObjectName(const std::string& name
 void SceneLoader::loadMap(std::string name)
 {
 	_dirPath = GameDirectories::MAPS + name + "/";
-
-#ifdef DEVELOPMENT_RESOURCES
-	if (!FilesHelper::isDirectoryExists(_dirPath))
-		_dirPath = ResourceManager::getInstance().getAlternativeResourcePath() + _dirPath;
-#endif // DEVELOPMENT_RESOURCES
 
 	std::string fullPath = _dirPath + MAP_FILE_NAME;
 

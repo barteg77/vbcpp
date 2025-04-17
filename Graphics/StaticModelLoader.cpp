@@ -1,6 +1,8 @@
 #include "StaticModelLoader.h"
+#include <cassert>
 #include <iostream>
 #include <algorithm>
+#include <string>
 
 #include "MaterialSaver.h"
 
@@ -227,21 +229,28 @@ StaticModelNode* StaticModelLoader::createModelNode(aiNode* assimpNode, glm::mat
 }
 
 
-RStaticModel* StaticModelLoader::loadModelWithHierarchy(std::string fileName, std::string texturesPath)
+RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceLocation& resourceLocation, std::string texturesPath)
 {
     _texturesPath = texturesPath;
+    if (resourceLocation.getResourceId().getNodesAction() == ResourceId::NodesAction::skip){
+        _nodesToSkipNames = resourceLocation.getResourceId().getNodes();
+    } else {//resourceLocation.getResourceId().getNodesAction() == ResourceId::NodesAction::include
+        assert(resourceLocation.getResourceId().getNodes().size() == 1);
+        _nodeToLoadName = resourceLocation.getResourceId().getNodes().at(0);
+    }
+
 
     if (_assimpScene == NULL)
     {
-        _assimpScene = _assimpImporter.ReadFile(fileName.c_str(), IMPORT_FLAGS_FOR_LOADING_WITH_HIERARCHY);
+        _assimpScene = _assimpImporter.ReadFile(resourceLocation.getPath().c_str(), IMPORT_FLAGS_FOR_LOADING_WITH_HIERARCHY);
     }
     if (_assimpScene == NULL)
     {
-        LOG_ERROR("Error parsing file: " + fileName + ": " + _assimpImporter.GetErrorString());
+        LOG_ERROR("Error parsing file: " + resourceLocation.getPath() + ": " + _assimpImporter.GetErrorString());
         return NULL;
     }
 
-    std::string materialXmlFileName = MaterialLoader::createMaterialFileName(fileName);
+    std::string materialXmlFileName = MaterialLoader::createMaterialFileName(resourceLocation.getPath());
     if (!FilesHelper::isFileExists(materialXmlFileName))
     {
         MaterialSaver::saveMaterialsFromAssimpModel(materialXmlFileName, _assimpScene);
@@ -260,7 +269,7 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchy(std::string fileName, st
         colMesh[i] = _collisionMesh[i];
     }
 
-    RStaticModel* model = new RStaticModel(fileName, rootNode, _materials, GL_TRIANGLES, colMesh, _collisionMesh.size());
+    RStaticModel* model = new RStaticModel(resourceLocation.getResourceId(), rootNode, _materials, GL_TRIANGLES, colMesh, _collisionMesh.size());
 
     _materialLoader->closeFile();
 	_collisionMesh.clear();
@@ -270,28 +279,18 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchy(std::string fileName, st
     return model;
 }
 
-
-RStaticModel* StaticModelLoader::loadModelWithHierarchy(std::string fileName, std::string texturesPath, std::vector<std::string> nodesToSkipNames)
+RStaticModel* StaticModelLoader::loadModelWithHierarchyOnlyNode(const ResourceLocation& resourceLocation, std::string texturesPath, Transform& loadedNodeTransformInModel)
 {
-    _nodesToSkipNames = nodesToSkipNames;
-
-    return loadModelWithHierarchy(fileName, texturesPath);
-}
-
-
-RStaticModel* StaticModelLoader::loadModelWithHierarchyOnlyNode(std::string fileName, std::string texturesPath, std::string nodeToLoadName, Transform& loadedNodeTransformInModel)
-{
-    _nodeToLoadName = nodeToLoadName;
-
-    RStaticModel* staticModel = loadModelWithHierarchy(fileName, texturesPath);
+    RStaticModel* staticModel = loadModelWithHierarchy(resourceLocation, texturesPath);
     loadedNodeTransformInModel = _lastNodeTransform;
 
     return staticModel;
 }
 
 
-RStaticModel* StaticModelLoader::loadModel(std::string fileName, std::string texturesPath)
+RStaticModel* StaticModelLoader::loadModel(const ResourceLocation& resourceLocation, std::string texturesPath)
 {
+    const std::string fileName = resourceLocation.getPath();
     _texturesPath = texturesPath;
 
     _assimpScene = _assimpImporter.ReadFile(fileName.c_str(), IMPORT_FLAGS_FOR_LOADING_WITHOUT_HIERARCHY);
@@ -423,7 +422,7 @@ RStaticModel* StaticModelLoader::loadModel(std::string fileName, std::string tex
     rootNode->meshesCount = !isCollisionMeshExist ? meshesCount : (meshesCount - 1);
     rootNode->parent = NULL;
 
-    RStaticModel* model = new RStaticModel(fileName, rootNode, materials, GL_TRIANGLES, colMesh, collisionMesh.size());
+    RStaticModel* model = new RStaticModel(resourceLocation.getResourceId(), rootNode, materials, GL_TRIANGLES, colMesh, collisionMesh.size());
 
     return model;
 }

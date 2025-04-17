@@ -20,16 +20,12 @@ namespace BusRepaintLoader
 	XMLElement* loadBusRepaintRootNodeRootNode(XMLDocument& doc, const std::string& repaintPath)
 	{
 		std::string configFileName = repaintPath + "/" + CONFIG_FILENAME;
+		const std::string configFileLocationPath = ResourceManager::getInstance().findResourceLocation(ResourceId::create<RT_OTHER>(configFileName)).getPath();
 
-#ifdef DEVELOPMENT_RESOURCES
-		if (!FilesHelper::isFileExists(configFileName))
-			configFileName = ResourceManager::getInstance().getAlternativeResourcePath() + configFileName;
-#endif // DEVELOPMENT_RESOURCES
-
-		XMLError result = doc.LoadFile(configFileName.c_str());
+		XMLError result = doc.LoadFile(configFileLocationPath.c_str());
 		if (result != XML_SUCCESS)
 		{
-			LOG_ERROR("Cannot read xml file: " + configFileName + "! Result: " + Strings::toString((int)result));
+			LOG_ERROR("Cannot read xml file: " + configFileLocationPath + "! Result: " + Strings::toString((int)result));
 			return nullptr;
 		}
 
@@ -54,7 +50,7 @@ namespace BusRepaintLoader
 		{
 			const std::string fileName = XmlUtils::getAttributeString(materialsElement, "fileName");
 
-			RMaterialsCollection* materialsCollection = ResourceManager::getInstance().loadMaterialsCollection(repaintPath + "/" + fileName);
+			RMaterialsCollection* materialsCollection = ResourceManager::getInstance().loadMaterialsCollection(ResourceId::create<RT_MATERIALS_COLLECTION>(repaintPath + "/" + fileName));
 			outMaterialsCollections.push_back(materialsCollection);
 		}
 	}
@@ -81,7 +77,7 @@ namespace BusRepaintLoader
 		const std::string logoFileName = XmlUtils::getAttributeString(descriptionElement, "logo");
 		if (!logoFileName.empty())
 		{
-			description.logo = ResourceManager::getInstance().loadTexture(repaintPath + "/" + logoFileName);
+		  description.logo = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(repaintPath + "/" + logoFileName));
 		}
 		else
 		{

@@ -5,12 +5,13 @@
 #include "../Graphics/Model.h"
 #include "../Graphics/OGLDriver.h"
 #include "../Graphics/AABB.h"
+#include "ResourceId.h"
 
 
 class RModel : virtual public Resource
 {
     public:
-        RModel(std::string path, Model* m);
+        RModel(const ResourceId& resourceId, Model* m);
         virtual ~RModel();
 
         VBO* getVBO();

@@ -13,7 +13,7 @@ PhysicsDebugRenderer::PhysicsDebugRenderer()
 {
 	_drawMode = btIDebugDraw::DBG_DrawWireframe + btIDebugDraw::DBG_DrawContactPoints + btIDebugDraw::DBG_DrawConstraints;
 
-	_shader = ResourceManager::getInstance().loadShader("Shaders/debugPhysics.vert", "Shaders/debugPhysics.frag");
+	_shader = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/debugPhysics.vert", "Shaders/debugPhysics.frag"));
 
 	_vbo = OGLDriver::getInstance().createVBO(MAX_VERICES_COUNT * sizeof(DebugVertex), GL_DYNAMIC_DRAW);
 

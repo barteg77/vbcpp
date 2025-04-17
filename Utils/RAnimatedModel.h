@@ -9,6 +9,7 @@
 #include "RStaticModel.h"
 
 #include "../Graphics/AnimationNodeData.h"
+#include "ResourceId.h"
 
 
 struct BoneInfo final
@@ -28,7 +29,7 @@ class RAnimatedModel : public RStaticModel
 		AnimationNodeData _bonesRootNode;
 
 	public:
-		RAnimatedModel(const std::string& path, StaticModelNode* rootNode, const std::vector<Material*>& materials,
+		RAnimatedModel(const ResourceId& resourceId, StaticModelNode* rootNode, const std::vector<Material*>& materials,
 					   const std::unordered_map<std::string, BoneInfo*>& boneInfos,
 					   GLenum primitiveType = GL_TRIANGLES, glm::vec3* collisionMesh = nullptr, unsigned int collisionMeshSize = 0);
 		virtual ~RAnimatedModel();

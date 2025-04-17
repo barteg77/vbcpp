@@ -51,9 +51,9 @@ namespace vbEditor
 		{
 			reloadCurrentMaterialInAllObjects();
 
-			std::string modelFileName = currentRenderObject->getModel()->getPath();
+			std::string modelFileName = ResourceManager::getInstance().findResourceLocation(currentRenderObject->getModel()->getResourceId()).getPath();
 			std::string materialXmlFileName = MaterialLoader::createMaterialFileName(modelFileName);
-			std::string objectDirPath = currentRenderObject->getSceneObject()->getObjectDefinition()->getPath();
+			std::string objectDirPath = ResourceManager::getInstance().findResourceLocation(currentRenderObject->getSceneObject()->getObjectDefinition()->getResourceId()).getPath();
 
 			LOG_INFO("modelFileName: " + modelFileName);
 			LOG_INFO("materialXmlFileName: " + materialXmlFileName);
@@ -173,13 +173,13 @@ namespace vbEditor
 
 		ImGui::PushID(id);
 
-		ImGuiTreeNodeFlags headerFlag = texture != nullptr && texture->getPath() != ".defaultTexture" ? ImGuiTreeNodeFlags_DefaultOpen : ImGuiTreeNodeFlags_None;
+		ImGuiTreeNodeFlags headerFlag = texture != nullptr && texture->getResourceId() != ResourceId::create<RT_TEXTURE>(".defaultTexture") ? ImGuiTreeNodeFlags_DefaultOpen : ImGuiTreeNodeFlags_None;//to do zamienic to ResourceId
 		if (ImGui::CollapsingHeader(name, headerFlag))
 		{
 			char buffer[1024] = { '\0' };
 
 			if (texture != nullptr)
-				strncpy(buffer, texture->getPath().c_str(), sizeof buffer);
+				strncpy(buffer, texture->getResourceId().getIdString(0).c_str(), sizeof buffer);
 
 			buffer[sizeof buffer - 1] = '\0';
 
@@ -201,14 +201,15 @@ namespace vbEditor
 					LOG_INFO(result[0]);
 
 					std::string path = result[0];
-					std::string objectDirPath = currentRenderObject->getSceneObject()->getObjectDefinition()->getPath();
+					const RObject* const object = currentRenderObject->getSceneObject()->getObjectDefinition();
+					std::string objectDirPath = ResourceManager::getInstance().findResourceLocation(object->getResourceId()).getPath();
 
 					std::string newPath = objectDirPath + FilesHelper::getFileNameFromPath(path);
 					if (!FilesHelper::isInPathSubdir(path, objectDirPath))
 					{
 						FilesHelper::copyFile(path, newPath);
 					}
-					texture = ResourceManager::getInstance().loadTexture(newPath);
+					texture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(newPath));
 
 					isMaterialModified = true;
 				}

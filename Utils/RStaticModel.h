@@ -9,6 +9,7 @@
 #include "../Graphics/IBO.h"
 #include "../Graphics/AABB.h"
 #include "../Graphics/Transform.h"
+#include "ResourceId.h"
 
 
 struct StaticModelMesh
@@ -309,10 +310,10 @@ class RStaticModel : public Resource
         virtual void calculateAABB();
 
     public:
-        RStaticModel(const std::string& path, StaticModelNode* rootNode, const std::vector<Material*>& materials,
+        RStaticModel(const ResourceId& resourceId, StaticModelNode* rootNode, const std::vector<Material*>& materials,
                      GLenum primitiveType = GL_TRIANGLES, glm::vec3* collisionMesh = NULL, unsigned int collisionMeshSize = 0, float aabbScaleFactor = 1.0f);
         RStaticModel()
-            : Resource(RT_MODEL, "")
+	  : Resource(RT_MODEL, ResourceId::create<RT_MODEL>(""))
         {
             _rootNode = NULL;
 

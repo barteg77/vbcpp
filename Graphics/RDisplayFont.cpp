@@ -3,9 +3,12 @@
 #include "../Utils/Strings.h"
 #include "../Utils/Logger.h"
 
+#include <string>
+#include <vector>
 
-RDisplayFont::RDisplayFont(std::string path)
-	: Resource(RT_DISPLAY_FONT, path), _availableSizes{ 5, 7, 9, 12, 16 }
+
+RDisplayFont::RDisplayFont(const ResourceLocation& resourceLocation)
+	: Resource(RT_DISPLAY_FONT, resourceLocation.getResourceId()), _availableSizes{ 5, 7, 9, 12, 16 }
 {
 	for (int i = 0; i < NUMBER_OF_SIZES; ++i)
 	{
@@ -19,10 +22,10 @@ RDisplayFont::RDisplayFont(std::string path)
 		}
 	}
 
+	std::vector<std::string> paths = resourceLocation.getPaths();
 	for (int i = 0; i < NUMBER_OF_SIZES; ++i)
 	{
-		std::string fileName = path + toString(_availableSizes[i]) + ".csv";
-		loadOneFont(fileName, i);
+		loadOneFont(paths.at(i), i);
 	}
 }
 

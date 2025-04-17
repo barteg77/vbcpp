@@ -7,6 +7,8 @@
 
 #include <glm/glm.hpp>
 
+#include "ResourceId.h"
+#include "ResourceLocation.h"
 
 namespace tinyxml2
 {
@@ -33,10 +35,10 @@ class RObjectLoader
 		static void loadCrossroadComponent(tinyxml2::XMLElement* componentElement, RObject* object, int componentIndex);
 		static void loadSkeletalAnimation(tinyxml2::XMLElement* componentElement, RObject* object, int componentIndex);
 
-		static RStaticModel* loadModel(const std::string& modelPath, const std::string& objectDirPath, bool isAnimated, bool normalSmoothing, RStaticModel* hightPollyModel = nullptr);
+		static RStaticModel* loadModel(const ResourceId& resourceId, const std::string& objectDirPath, bool isAnimated, bool normalSmoothing, RStaticModel* hightPollyModel = nullptr);
 	
 	public:
-		static RObject* loadObject(const std::string& dirPath, const std::string& originalName);
+		static RObject* loadObject(const ResourceLocation& resourceLocation, const std::string& originalName);
 
 		static SceneObject* createSceneObjectFromRObject(RObject* objectDefinition, const std::string& name,
 														 const glm::vec3& position, const glm::vec3& rotation, SceneManager* sceneManager);

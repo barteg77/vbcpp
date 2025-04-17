@@ -1,6 +1,9 @@
 #include "LoadShader.h"
 
+#include <cassert>
 #include <sstream>
+#include <string>
+#include <vector>
 
 #include "../Utils/Logger.h"
 
@@ -23,7 +26,7 @@ std::string ShaderLoader::replaceConstatnsInLine(std::string line, const std::un
 }
 
 
-bool ShaderLoader::loadShaderCode(const char* fileName, std::string& code, const std::vector<std::string>& defines, const std::unordered_map<std::string, std::string>& constants)
+bool ShaderLoader::loadShaderCode(const std::string& fileName, std::string& code, const std::vector<std::string>& defines, const std::unordered_map<std::string, std::string>& constants)
 {
     std::ifstream file;
 
@@ -143,17 +146,21 @@ GLuint ShaderLoader::linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId)
 }
 
 
-GLuint ShaderLoader::loadShader(const char* vertexShaderFileName, const char* fragmentShaderFileName, const std::vector<std::string>& defines,
-                                const std::unordered_map<std::string, std::string>& constants)
+GLuint ShaderLoader::loadShader(const ResourceLocation& resourceLocation)
 {
+    const std::vector<std::string> resourceLocationPaths = resourceLocation.getPaths();
+    assert(resourceLocationPaths.size() == 2);// todo jak bedzie ResourceType w ResourceId i tam assert to zrobic assert na resource type
+    const std::string& vertexShaderFileName = resourceLocationPaths.at(0);
+    const std::string& fragmentShaderFileName = resourceLocationPaths.at(1);
+
 	std::string vertexShaderCode;
 	std::string fragmentShaderCode;
 
-	if (!loadShaderCode(vertexShaderFileName, vertexShaderCode, defines, constants))
+	if (!loadShaderCode(vertexShaderFileName, vertexShaderCode, resourceLocation.getResourceId().getDefines(), resourceLocation.getResourceId().getConstants()))
     {
         LOG_ERROR("Can not open VertexShaderFile: " + std::string(vertexShaderFileName) + "!");
     }
-    if (!loadShaderCode(fragmentShaderFileName, fragmentShaderCode, defines, constants))
+    if (!loadShaderCode(fragmentShaderFileName, fragmentShaderCode, resourceLocation.getResourceId().getDefines(), resourceLocation.getResourceId().getConstants()))
     {
         LOG_ERROR("Can not open FragmentShaderFile: " + std::string(fragmentShaderFileName) + "!");
     }

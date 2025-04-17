@@ -65,11 +65,10 @@ class StaticModelLoader
 			delete _materialLoader;
 		}
 
-        RStaticModel* loadModelWithHierarchy(std::string fileName, std::string texturesPath);
-        RStaticModel* loadModelWithHierarchy(std::string fileName, std::string texturesPath, std::vector<std::string> nodesToSkipNames);
-        RStaticModel* loadModelWithHierarchyOnlyNode(std::string fileName, std::string texturesPath, std::string nodeToLoadName, Transform& loadedNodeTransformInModel);
+        RStaticModel* loadModelWithHierarchy(const ResourceLocation& resourceLocation, std::string texturesPath);
+        RStaticModel* loadModelWithHierarchyOnlyNode(const ResourceLocation& resourceLocation, std::string texturesPath, Transform& loadedNodeTransformInModel);
 
-        RStaticModel* loadModel(std::string fileName, std::string texturesPath);
+        RStaticModel* loadModel(const ResourceLocation& resourceLocation, std::string texturesPath);
 
 };
 

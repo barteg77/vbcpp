@@ -27,7 +27,7 @@ class RRoadProfile : public Resource
 		float _minX;			bool _minXIsCalculated;
 
 	public:
-		RRoadProfile(std::string path, std::string author, std::string name, std::string comment, Material* intersectionMaterial = nullptr, float intersectionRoadY = 0.0f);
+		RRoadProfile(const ResourceId& resourceId, std::string author, std::string name, std::string comment, Material* intersectionMaterial = nullptr, float intersectionRoadY = 0.0f);
 		~RRoadProfile();
 
 		std::string getAuthor();

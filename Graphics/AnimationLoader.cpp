@@ -3,6 +3,7 @@
 
 #include "../Utils/AssimpGlmConverter.h"
 #include "../Utils/Logger.h"
+#include <string>
 
 
 void AnimationLoader::loadNode(const aiNode* assimpNode, AnimationNodeData& outNode)
@@ -66,8 +67,9 @@ void AnimationLoader::loadBones(const aiAnimation* assimpAnimation, std::unorder
 }
 
 
-RAnimation* AnimationLoader::loadAnimation(const std::string& fileName)
+RAnimation* AnimationLoader::loadAnimation(const ResourceLocation& resourceLocation)
 {
+	const std::string fileName = resourceLocation.getPath();
 	Assimp::Importer assimpImporter;
 	const aiScene* assimpScene = assimpImporter.ReadFile(fileName, IMPORT_FLAGS);
 
@@ -85,7 +87,7 @@ RAnimation* AnimationLoader::loadAnimation(const std::string& fileName)
 
 	aiAnimation* assimpAnimation = assimpScene->mAnimations[0];
 
-	RAnimation* animation = new RAnimation(fileName);
+	RAnimation* animation = new RAnimation(resourceLocation.getResourceId());
 
 	animation->_duration = assimpAnimation->mDuration;
 	animation->_ticksPerSecond = assimpAnimation->mTicksPerSecond;

@@ -779,7 +779,7 @@ void showRenderComponentDetails(RenderObject* renderComponent)
 			ImGui::PushID(i);
 			if (newNode("LOD", "%d", i))
 			{
-				COMPONENT_RESOURCE_EDIT(renderComponent, Model, "Model", [renderComponent](const std::string& path) { return ResourceManager::getInstance().loadModel(path, renderComponent->getSceneObject()->getObjectDefinition()->getPath()); })
+			  COMPONENT_RESOURCE_EDIT(renderComponent, Model, "Model", [renderComponent](const std::string& path) { return ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(path), renderComponent->getSceneObject()->getObjectDefinition()->getPath()); })
 
 				if (newNode("Materials", ""))
 				{
@@ -878,7 +878,7 @@ void showSkeletalAnimationComponentDetails(SkeletalAnimationComponent* component
 		ImGui::Columns(2);
 		ImGui::Separator();
 
-		COMPONENT_RESOURCE_EDIT(component, Animation, "Animation file", [](const std::string& path) { return ResourceManager::getInstance().loadAnimation(path); })
+		COMPONENT_RESOURCE_EDIT(component, Animation, "Animation file", [](const std::string& path) { return ResourceManager::getInstance().loadAnimation(ResourceId::create<RT_ANIMATION>(path)); })
 		COMPONENT_PROPERTY_EDIT_WITH_CALLBACK(component, CurrentTime, float, "Current time", [component](float newValue) { component->recalculateAllBonesTransform(); }, "")
 		COMPONENT_PROPERTY_EDIT(component, StartFrame, int, "Start frame")
 		COMPONENT_PROPERTY_EDIT(component, EndFrame, int, "End frame")

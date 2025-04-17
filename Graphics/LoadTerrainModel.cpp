@@ -128,7 +128,7 @@ RStaticModel* TerrainLoader::loadTerFile(const char* fileName, std::string mater
     modelNode->meshesCount = 1;
     modelNode->parent = NULL;
 
-    RStaticModel* model = new RStaticModel("", modelNode, materials, GL_TRIANGLES, collisionMesh, collisionMeshSize);
+    RStaticModel* model = new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials, GL_TRIANGLES, collisionMesh, collisionMeshSize);
 
     return model;
 }
@@ -351,7 +351,7 @@ RStaticModel* TerrainLoader::loadTerrainFromHeightmap(const char* heightmapFilen
     modelNode->meshesCount = 1;
     modelNode->parent = NULL;
 
-    RStaticModel* model = new RStaticModel("", modelNode, materials, GL_TRIANGLES, collisionMesh, indicesSize);
+    RStaticModel* model = new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials, GL_TRIANGLES, collisionMesh, indicesSize);
 
 
 	if (heightmapData != NULL)

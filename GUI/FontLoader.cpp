@@ -4,6 +4,7 @@
 
 #include "../Utils/Logger.h"
 #include "../Utils/Strings.h"
+#include <string>
 
 
 FontLoader::FontLoader()
@@ -83,8 +84,11 @@ void FontLoader::releaseTextureData()
 }
 
 
-RFont* FontLoader::loadFont(const std::string& fontName, int pixelSize)
+RFont* FontLoader::loadFont(const ResourceLocation& resourceLocation)
 {
+    LOG_INFO("load font paths[] len "+std::to_string(resourceLocation.getPaths().size()));
+    const std::string fontName = resourceLocation.getPath();
+    const int& pixelSize = resourceLocation.getResourceId().getFontPixelSize();
     LOG_INFO("Loading font: " + fontName);
 
     if (pixelSize <= 0)
@@ -109,7 +113,7 @@ RFont* FontLoader::loadFont(const std::string& fontName, int pixelSize)
     _currentLineY = 0;
     _linesHeights.push_back(0);
 
-    _font = new RFont(createFontResourceName(fontName.c_str(), pixelSize), pixelSize);
+    _font = new RFont(resourceLocation.getResourceId());
 
     int charsCount = 0;
     unsigned int glyphIndex;

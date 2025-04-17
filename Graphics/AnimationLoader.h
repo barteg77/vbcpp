@@ -7,6 +7,7 @@
 #include <assimp/postprocess.h>
 
 #include "RAnimation.h"
+#include "../Utils/ResourceLocation.h"
 
 
 class AnimationLoader final
@@ -19,7 +20,7 @@ class AnimationLoader final
 		void loadBones(const aiAnimation* assimpAnimation, std::unordered_map<std::string, Bone*>& outBones);
 
 	public:
-		RAnimation* loadAnimation(const std::string& fileName);
+		RAnimation* loadAnimation(const ResourceLocation& resourceLocation);
 		
 };
 

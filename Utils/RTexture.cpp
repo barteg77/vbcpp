@@ -5,8 +5,8 @@
 #include <iostream>
 
 
-RTexture::RTexture(std::string path, TextureType type, TextureFormat internalFormat, glm::uvec2 size, bool fromFile, bool compressed)
-    : Resource(RT_TEXTURE, path),
+RTexture::RTexture(const ResourceId& resourceId, TextureType type, TextureFormat internalFormat, glm::uvec2 size, bool fromFile, bool compressed)
+    : Resource(RT_TEXTURE, resourceId),
     _textureType(type),
     _internalFormat(internalFormat),
     _size(size),
@@ -25,7 +25,7 @@ RTexture::RTexture(std::string path, TextureType type, TextureFormat internalFor
 
 RTexture::~RTexture()
 {
-    LOG_INFO("RTexture - Destruktor: " + _path);
+    LOG_INFO("RTexture - Destruktor: " + _resourceId.getDebugString());
     glDeleteTextures(1, &_texID);
 }
 

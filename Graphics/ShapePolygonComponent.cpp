@@ -205,8 +205,8 @@ void ShapePolygonComponent::buildAndCreateRenderObject(bool useMeshMender)
 		materials.push_back(new Material);
 		materials[0]->shader = NORMALMAPPING_MATERIAL;
 		materials[0]->shininess = 96.0f;
-		materials[0]->diffuseTexture = ResourceManager::getInstance().loadTexture("RoadProfiles/Road1/PavingStones_col.jpg");
-		materials[0]->normalmapTexture = ResourceManager::getInstance().loadTexture("RoadProfiles/Road1/PavingStones_normal.jpg");
+		materials[0]->diffuseTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("RoadProfiles/Road1/PavingStones_col.jpg"));
+		materials[0]->normalmapTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("RoadProfiles/Road1/PavingStones_normal.jpg"));
 
 		StaticModelNode* modelNode = new StaticModelNode;
 		modelNode->name = "road";
@@ -214,7 +214,7 @@ void ShapePolygonComponent::buildAndCreateRenderObject(bool useMeshMender)
 		modelNode->meshesCount = 1;
 		modelNode->parent = nullptr;
 
-		_generatedModel = new RStaticModel("", modelNode, materials, GL_TRIANGLES, collisionMesh, collisionMeshSize);
+		_generatedModel = new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials, GL_TRIANGLES, collisionMesh, collisionMeshSize);
 
 		RenderObject* renderObject = getSceneObject()->getSceneManager()->getGraphicsManager()->addRenderObject(new RenderObject(_generatedModel), getSceneObject());
 	}

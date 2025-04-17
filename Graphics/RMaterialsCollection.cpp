@@ -3,8 +3,8 @@
 #include "Material.h"
 
 
-RMaterialsCollection::RMaterialsCollection(const std::string& path)
-	: Resource(RT_MATERIALS_COLLECTION, path)
+RMaterialsCollection::RMaterialsCollection(const ResourceId& resourceId)
+	: Resource(RT_MATERIALS_COLLECTION, resourceId)
 {
 
 }

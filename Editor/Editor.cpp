@@ -842,7 +842,7 @@ namespace vbEditor
 	{
 #ifdef DEVELOPMENT_RESOURCES
 		GameConfig::getInstance().loadDevelopmentConfig("devSettings.xml");
-		ResourceManager::getInstance().setAlternativeResourcePath(GameConfig::getInstance().alternativeResourcesPath);
+		ResourceManager::getInstance().addResourceRepo(ResourceRepo("development_resources", GameConfig::getInstance().alternativeResourcesPath));
 #endif // DEVELOPMENT_RESOURCES
 
 		GameConfig::getInstance().mode = GM_EDITOR;
@@ -1009,7 +1009,7 @@ namespace vbEditor
 					Material* material = new Material;
 					material->shader = DECAL_MATERIAL;
 					material->shininess = 96.0f;
-					material->diffuseTexture = ResourceManager::getInstance().loadTexture("RoadProfiles/decal2.png");
+					material->diffuseTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("RoadProfiles/decal2.png"));
 					material->diffuseTexture->setFiltering(TFM_TRILINEAR, TFM_LINEAR);
 
 					Cube* decal = new Cube(1, material);

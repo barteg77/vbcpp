@@ -8,6 +8,7 @@
 #include "../Utils/Strings.h"
 #include "../Utils/XmlUtils.h"
 #include "../Utils/tinyxml2.h"
+#include <string>
 
 
 using namespace tinyxml2;
@@ -33,12 +34,9 @@ namespace BusConfigurationsLoader
 
 	void loadBusPredefinedConfigurationByName(const std::string& busName, const std::string& configurationName, std::unordered_map<std::string, std::string>& outVariables)
 	{
-		std::string configFileName = GameDirectories::BUSES + busName + "/" + CONFIG_FILENAME;
-
-#ifdef DEVELOPMENT_RESOURCES
-		if (!FilesHelper::isFileExists(configFileName))
-			configFileName = ResourceManager::getInstance().getAlternativeResourcePath() + configFileName;
-#endif // DEVELOPMENT_RESOURCES
+	  const ResourceId resourceId = ResourceId::create<RT_OTHER>(GameDirectories::BUSES + busName + "/" + CONFIG_FILENAME);
+		ResourceLocation resourceLocation = ResourceManager::getInstance().findResourceLocation(resourceId);
+		const std::string configFileName = resourceLocation.getPath();
 
 		XMLDocument doc;
 		XMLError result = doc.LoadFile(configFileName.c_str());
@@ -71,12 +69,9 @@ namespace BusConfigurationsLoader
 	void loadAllBusPredefinedConfigurations(const std::string& busName, std::vector<PredefinedConfiguration>& outPredefinedConfigurations,
 											const std::unordered_map<std::string, std::string>& variablesDefaultValues)
 	{
-		std::string configFileName = GameDirectories::BUSES + busName + "/" + CONFIG_FILENAME;
-
-#ifdef DEVELOPMENT_RESOURCES
-		if (!FilesHelper::isFileExists(configFileName))
-			configFileName = ResourceManager::getInstance().getAlternativeResourcePath() + configFileName;
-#endif // DEVELOPMENT_RESOURCES
+	  const ResourceId resourceId = ResourceId::create<RT_OTHER>(GameDirectories::BUSES + busName + "/" + CONFIG_FILENAME);
+		ResourceLocation resourceLocation = ResourceManager::getInstance().findResourceLocation(resourceId);
+		const std::string configFileName = resourceLocation.getPath();
 
 		XMLDocument doc;
 		XMLError result = doc.LoadFile(configFileName.c_str());

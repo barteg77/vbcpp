@@ -72,7 +72,7 @@ class RAnimation final : public Resource
 		std::vector<std::string> _boneNames;
 
 	public:
-		RAnimation(const std::string& path);
+		RAnimation(const ResourceId& resourceId);
 		~RAnimation();
 
 		inline float getDuration() { return _duration; }

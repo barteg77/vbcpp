@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include "Resource.h"
+#include "ResourceId.h"
 
 
 class RObject : public Resource
@@ -20,7 +21,7 @@ class RObject : public Resource
 		std::vector<std::unordered_map<std::string, std::string>> _components;
 
 	public:
-		RObject(const std::string& path, const std::string& author, const std::string& name, const std::string& comment, const std::string& originalName);
+		RObject(const ResourceId& resourceId, const std::string& author, const std::string& name, const std::string& comment, const std::string& originalName);
 
 		std::vector<std::unordered_map<std::string, std::string>>& getComponents();
 

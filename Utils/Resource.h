@@ -5,34 +5,27 @@
 using std::string;
 
 #include "RefCounter.h"
-
-enum ResourceType
-{
-    RT_TEXTURE,
-    RT_SHADER,
-    RT_MODEL,
-    RT_FONT_RESOURCE,
-    RT_SOUND,
-	RT_OBJECT,
-	RT_ROAD_PROFILE,
-	RT_DISPLAY_FONT,
-    RT_MATERIALS_COLLECTION,
-    RT_ANIMATION
-};
+#include "ResourceId.h"
 
 class Resource
 {
     public:
-        Resource(ResourceType type, string path)
-        : _type(type), _path(path) {}
+        Resource(ResourceType type, const ResourceId& resourceId)
+        : _type(type), _resourceId(resourceId) {}
 
         virtual ~Resource() {}
 
-        string getPath() { return _path; }
-        ResourceType getType() { return _type; }
+        ResourceId getResourceId() const
+        { return _resourceId; }
+
+        std::string getPath() const// use ONLY! in Editor/Windows/ObjectPropertiesWindow.cpp
+        { return _resourceId.getIdString(0); }
+
+        ResourceType getType() const
+        { return _type; }
 
     protected:
-        string  _path;
+        ResourceId _resourceId;
 
     private:
         ResourceType _type;

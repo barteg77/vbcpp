@@ -1,9 +1,10 @@
 #include "RModel.h"
+#include "ResourceId.h"
 
-RModel::RModel(std::string path, Model* m)
-: Resource(RT_MODEL, path)
+RModel::RModel(const ResourceId& resourceId, Model* m)
+: Resource(RT_MODEL, resourceId)
 {
-    LOG_INFO("*** RModel: Konstruktor: " + _path);
+    LOG_INFO("*** RModel: Konstruktor: " + _resourceId.getIdString(0));
 
     //_oglDriver = m->getDriver();
 
@@ -31,7 +32,7 @@ RModel::RModel(std::string path, Model* m)
 
 RModel::~RModel()
 {
-    LOG_INFO("*** RModel: Destruktor: " + _path);
+    LOG_INFO("*** RModel: Destruktor: " + _resourceId.getIdString(0));
 
     LOG_DEBUG("*** RModel: Usuwanie _vbo");
     if (_vbo)

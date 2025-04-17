@@ -3,6 +3,7 @@
 #include "MaterialSaver.h"
 
 #include "../Utils/AssimpGlmConverter.h"
+#include <string>
 
 
 AnimatedModelLoader::AnimatedModelLoader()
@@ -171,8 +172,9 @@ bool AnimatedModelLoader::loadMeshFromNode(const aiMesh* assimpMesh, StaticModel
 }
 
 
-RAnimatedModel* AnimatedModelLoader::loadAnimatedModelWithHierarchy(const std::string& fileName, const std::string& texturesPath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel/* = {}*/)
+RAnimatedModel* AnimatedModelLoader::loadAnimatedModelWithHierarchy(const ResourceLocation& resourceLocation, const std::string& texturesPath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel/* = {}*/)
 {
+    const std::string fileName  = resourceLocation.getPath();
     LOG_INFO("Load animated model: " + fileName);
 
     _texturesPath = texturesPath;
@@ -210,7 +212,7 @@ RAnimatedModel* AnimatedModelLoader::loadAnimatedModelWithHierarchy(const std::s
         colMesh[i] = _collisionMesh[i];
     }
 
-    RAnimatedModel* model = new RAnimatedModel(fileName, rootNode, _materials, _boneInfos, GL_TRIANGLES, colMesh, _collisionMesh.size());
+    RAnimatedModel* model = new RAnimatedModel(resourceLocation.getResourceId(), rootNode, _materials, _boneInfos, GL_TRIANGLES, colMesh, _collisionMesh.size());
 
     loadNode(_assimpScene->mRootNode, model->_bonesRootNode);
 

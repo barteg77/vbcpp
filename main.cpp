@@ -18,7 +18,7 @@ int main()
 
 #ifdef DEVELOPMENT_RESOURCES
 	gameConfig.loadDevelopmentConfig("devSettings.xml");
-	ResourceManager::getInstance().setAlternativeResourcePath(gameConfig.alternativeResourcesPath);
+	ResourceManager::getInstance().addResourceRepo(ResourceRepo("development_resources", gameConfig.alternativeResourcesPath));
 #endif // DEVELOPMENT_RESOURCES
 
 

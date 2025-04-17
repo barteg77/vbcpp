@@ -14,9 +14,9 @@
 Hud::Hud(GUIManager* gui, Bus* bus)
 	: _gui(gui), _bus(bus)
 {
-	RFont* font = ResourceManager::getInstance().loadFont("fonts/arial.ttf");
+  RFont* font = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/arial.ttf"));
 
-	_hudImage = gui->addImage(ResourceManager::getInstance().loadTexture("Data/HUD/HUD.bmp"));
+  _hudImage = gui->addImage(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/HUD/HUD.bmp")));
 	_hudImage->setPosition(0, 0);
 
 	_labelSpeed = gui->addLabel(font, "0");
@@ -49,27 +49,27 @@ Hud::Hud(GUIManager* gui, Bus* bus)
 	_labelPassengersGettingOff->setColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	_labelPassengersGettingOff->scale(0.4f, 0.4f);
 
-	_imageEngineControl = gui->addImage(ResourceManager::getInstance().loadTexture("Data/HUD/HEN.bmp"));
+	_imageEngineControl = gui->addImage(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/HUD/HEN.bmp")));
 	_imageEngineControl->setPosition(54, 7);
 	_imageEngineControl->setIsActive(false);
 
-	_imageHeadlightsControl = gui->addImage(ResourceManager::getInstance().loadTexture("Data/HUD/HLS.bmp"));
+	_imageHeadlightsControl = gui->addImage(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/HUD/HLS.bmp")));
 	_imageHeadlightsControl->setPosition(54, 25);
 	_imageHeadlightsControl->setIsActive(false);
 
-	_imageStopControl = gui->addImage(ResourceManager::getInstance().loadTexture("Data/HUD/HST.bmp"));
+	_imageStopControl = gui->addImage(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/HUD/HST.bmp")));
 	_imageStopControl->setPosition(98, 25);
 	_imageStopControl->setIsActive(false);
 
 	for (int i = 0; i < _bus->getDoorsCount(); ++i)
 	{
-		Image* imageDoor = gui->addImage(ResourceManager::getInstance().loadTexture("Data/HUD/HDC.bmp"));
+	  Image* imageDoor = gui->addImage(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/HUD/HDC.bmp")));
 		imageDoor->setPosition(115 - i * 15, 62);
 		imageDoor->setIsActive(true);
 
 		_imagesDoorClosed.push_back(imageDoor);
 
-		imageDoor = gui->addImage(ResourceManager::getInstance().loadTexture("Data/HUD/HDO.bmp"));
+		imageDoor = gui->addImage(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/HUD/HDO.bmp")));
 		imageDoor->setPosition(115 - i * 15, 62);
 		imageDoor->setIsActive(false);
 

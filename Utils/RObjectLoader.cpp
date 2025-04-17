@@ -5,6 +5,9 @@
 
 #include "Logger.h"
 #include "Helpers.hpp"
+#include "RSound.h"
+#include "ResourceId.h"
+#include "ResourceLocation.h"
 #include "Strings.h"
 #include "XmlUtils.h"
 
@@ -187,23 +190,23 @@ void RObjectLoader::loadSkeletalAnimation(tinyxml2::XMLElement* componentElement
 
 
 // flag normalSmoothing only for non animated objects
-RStaticModel* RObjectLoader::loadModel(const std::string& modelPath, const std::string& objectDirPath, bool isAnimated, bool normalSmoothing, RStaticModel* hightPollyModel/* = nullptr*/)
+RStaticModel* RObjectLoader::loadModel(const ResourceId& resourceId, const std::string& objectDirPath, bool isAnimated, bool normalSmoothing, RStaticModel* hightPollyModel/* = nullptr*/)
 {
 	if (isAnimated)
 	{
-		return ResourceManager::getInstance().loadAnimatedModel(modelPath, objectDirPath,
+		return ResourceManager::getInstance().loadAnimatedModel(resourceId, objectDirPath,
 																hightPollyModel != nullptr ? static_cast<RAnimatedModel*>(hightPollyModel)->getBoneInfos() : std::unordered_map<std::string, BoneInfo*>());
 	}
 	else
 	{
-		return ResourceManager::getInstance().loadModel(modelPath, objectDirPath, normalSmoothing);
+		return ResourceManager::getInstance().loadModel(resourceId, objectDirPath, normalSmoothing);
 	}
 }
 
 
-RObject* RObjectLoader::loadObject(const std::string& dirPath, const std::string& originalName)
+RObject* RObjectLoader::loadObject(const ResourceLocation& resourceLocation, const std::string& originalName)
 {
-	const std::string& fullPath = dirPath + OBJECT_FILE_NAME;
+	const std::string fullPath = resourceLocation.getPath() + OBJECT_FILE_NAME;
 
 	XMLDocument doc;
 	XMLError result = doc.LoadFile(fullPath.c_str());
@@ -238,7 +241,7 @@ RObject* RObjectLoader::loadObject(const std::string& dirPath, const std::string
 	LOG_INFO("Comment: " + comment);
 
 
-	RObject* object = new RObject(dirPath, author, objectName, comment, originalName);
+	RObject* object = new RObject(resourceLocation.getResourceId(), author, objectName, comment, originalName);
 
 
 	loadComponents(objElement, object);
@@ -251,7 +254,7 @@ RObject* RObjectLoader::loadObject(const std::string& dirPath, const std::string
 SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefinition, const std::string& name,
 														 const glm::vec3& position, const glm::vec3& rotation, SceneManager* sceneManager)
 {
-	std::string objectDirPath = objectDefinition->getPath();
+	std::string objectDirPath = ResourceManager::getInstance().findResourceLocation(objectDefinition->getResourceId()).getPath();
 
 	SceneObject* sceneObject = sceneManager->addSceneObject(name, objectDefinition);
 	sceneObject->setPosition(position);
@@ -270,10 +273,10 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			GraphicsManager* graphicsManager = sceneManager->getGraphicsManager();
 
 			const std::string& modelFile = components[i]["model"];
-			const std::string& modelPath = objectDirPath + modelFile;
+			const ResourceId modelId = ResourceId::create<RT_MODEL>(objectDirPath + modelFile);
 			bool isAnimated = toBool(components[i]["animated"]);
 
-			model = loadModel(modelPath, objectDirPath, isAnimated, toBool(components[i]["normalsSmoothing"]));
+			model = loadModel(modelId, objectDirPath, isAnimated, toBool(components[i]["normalsSmoothing"]));
 
 			RenderObject* renderObject = graphicsManager->addRenderObject(new RenderObject(model), sceneObject);
 			renderObject->setDynamicObject(toBool(components[i]["dynamic"]));
@@ -282,9 +285,9 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			const std::string& lowPolyModeFile = components[i]["lowPolyModel"];
 			if (!lowPolyModeFile.empty())
 			{
-				const std::string lowPolyModelPath = objectDirPath + lowPolyModeFile;
+			  const ResourceId lowPolyModelId = ResourceId::create<RT_MODEL>(objectDirPath + lowPolyModeFile);
 
-				RStaticModel* lowPolyModel = loadModel(lowPolyModelPath, objectDirPath, isAnimated, toBool(components[i]["lowPolyModelNormalsSmoothing"]), model);
+				RStaticModel* lowPolyModel = loadModel(lowPolyModelId, objectDirPath, isAnimated, toBool(components[i]["lowPolyModelNormalsSmoothing"]), model);
 				renderObject->setModel(lowPolyModel, 1);
 			}
 		}
@@ -356,7 +359,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 
 			std::string soundPath = objectDirPath + soundFile;
 
-			RSound* soundResource = ResourceManager::getInstance().loadSound(soundPath);
+			RSound* soundResource = ResourceManager::getInstance().loadSound(ResourceId::create<RT_SOUND>(soundPath));
 			SoundComponent* sound = new SoundComponent(soundResource, EST_AMBIENT, looping);
 			sceneManager->getSoundManager()->addSoundComponent(sound);
 
@@ -378,7 +381,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			std::string textures = components[i]["textures"];
 			std::vector<std::string> t = split(textures, ',');
 
-			RTextureCubeMap* cubeMap = ResourceManager::getInstance().loadTextureCubeMap(&t[0]);
+			RTextureCubeMap* cubeMap = ResourceManager::getInstance().loadTextureCubeMap(ResourceId::create<RT_TEXTURE>(t));
 			EnvironmentCaptureComponent* component = graphicsManager->addEnvironmentCaptureComponent(cubeMap);
 			sceneObject->addComponent(component);
 		}
@@ -411,7 +414,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			bool lockRootBoneTranslation = toBool(components[i]["lockRootBoneTranslation"]);
 			float scale = toFloat(components[i]["scale"]);
 
-			RAnimation* animation = ResourceManager::getInstance().loadAnimation(GameDirectories::ANIMATIONS + animationFile);
+			RAnimation* animation = ResourceManager::getInstance().loadAnimation(ResourceId::create<RT_ANIMATION>(GameDirectories::ANIMATIONS + animationFile));
 			SkeletalAnimationComponent* skeletalAnimation = graphicsManager->addSkeletalAnimation(animation);
 			sceneObject->addComponent(skeletalAnimation);
 			sceneObject->setScale(scale);

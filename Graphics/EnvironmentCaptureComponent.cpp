@@ -66,14 +66,14 @@ void EnvironmentCaptureComponent::initIrradianceFramebufferAndShader()
 	_irradianceFramebuffer->addCubeMapTexture(TF_RGB_16F, 32);
 	OGLDriver::getInstance().registerFramebufferForInitialization(_irradianceFramebuffer);
 
-	_irradianceShader = ResourceManager::getInstance().loadShader("Shaders/pbr/irradiance.vert", "Shaders/pbr/irradiance.frag");
+	_irradianceShader = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/pbr/irradiance.vert", "Shaders/pbr/irradiance.frag"));
 
 
 	_prefilterEnvMapFramebuffer = OGLDriver::getInstance().createFramebuffer();
 	_prefilterEnvMapFramebuffer->addCubeMapTexture(TF_RGBA_16F, 128, true);
 	OGLDriver::getInstance().registerFramebufferForInitialization(_prefilterEnvMapFramebuffer);
 
-	_prefilterEnvMapShader = ResourceManager::getInstance().loadShader("Shaders/pbr/irradiance.vert", "Shaders/pbr/prefilterEnvironment.frag");
+	_prefilterEnvMapShader = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/pbr/irradiance.vert", "Shaders/pbr/prefilterEnvironment.frag"));
 
 
 	_cube = new Cube(1, new Material);

@@ -74,43 +74,43 @@ void saveMaterial(XMLElement* materialsElement, XMLDocument& doc, Material* mate
 
 	if (material->diffuseTexture != nullptr && material->diffuseTexture->isLoadedFromFile())
 	{
-		std::string diffuseTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->diffuseTexture->getPath(), texPath);
+		std::string diffuseTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->diffuseTexture->getResourceId().getIdString(0), texPath);
 		matElement->SetAttribute("diffuse_texture", diffuseTexturePath.c_str());
 	}
 
 	if (material->normalmapTexture != nullptr && material->normalmapTexture->isLoadedFromFile())
 	{
-		std::string normalmapPath = FilesHelper::getRelativePathToDirInGameDir(material->normalmapTexture->getPath(), texPath);
+		std::string normalmapPath = FilesHelper::getRelativePathToDirInGameDir(material->normalmapTexture->getResourceId().getIdString(0), texPath);
 		matElement->SetAttribute("normalmap_texture", normalmapPath.c_str());
 	}
 
 	if (material->glassTexture != nullptr && material->glassTexture->isLoadedFromFile())
 	{
-		std::string glassTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->glassTexture->getPath(), texPath);
+		std::string glassTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->glassTexture->getResourceId().getIdString(0), texPath);
 		matElement->SetAttribute("glass_texture", glassTexturePath.c_str());
 	}
 	
 	if (material->metalicTexture != nullptr && material->metalicTexture->isLoadedFromFile())
 	{
-		std::string metalicTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->metalicTexture->getPath(), texPath);
+		std::string metalicTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->metalicTexture->getResourceId().getIdString(0), texPath);
 		matElement->SetAttribute("metallic_texture", metalicTexturePath.c_str());
 	}
 
 	if (material->roughnessTexture != nullptr && material->roughnessTexture->isLoadedFromFile())
 	{
-		std::string roughnessTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->roughnessTexture->getPath(), texPath);
+		std::string roughnessTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->roughnessTexture->getResourceId().getIdString(0), texPath);
 		matElement->SetAttribute("roughness_texture", roughnessTexturePath.c_str());
 	}
 
 	if (material->aoTexture != nullptr && material->aoTexture->isLoadedFromFile())
 	{
-		std::string aoTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->aoTexture->getPath(), texPath);
+		std::string aoTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->aoTexture->getResourceId().getIdString(0), texPath);
 		matElement->SetAttribute("ao_texture", aoTexturePath.c_str());
 	}
 
 	if (material->emissiveTexture != nullptr && material->emissiveTexture->isLoadedFromFile())
 	{
-		std::string emissiveTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->emissiveTexture->getPath(), texPath);
+		std::string emissiveTexturePath = FilesHelper::getRelativePathToDirInGameDir(material->emissiveTexture->getResourceId().getIdString(0), texPath);
 		matElement->SetAttribute("emissive_texture", emissiveTexturePath.c_str());
 	}
 

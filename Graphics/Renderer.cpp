@@ -40,7 +40,7 @@ Renderer::Renderer()
     _quadVBO = OGLDriver::getInstance().createVBO(4 * 2 * sizeof(float));
     _quadVBO->addVertexData(quadVertices, 4 * 2);
 
-	_brdfLutTexture = ResourceManager::getInstance().loadTexture("brdfLut.png", false);
+    _brdfLutTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("brdfLut.png"), false);
 }
 
 Renderer::~Renderer()
@@ -153,7 +153,7 @@ void Renderer::initPostProcessingEffectsStack()
 		std::unordered_map<std::string, std::string> constants;
 		constants["samplesCount"] = toString(_msaaAntialiasingLevel);
 
-		RShader* shader = ResourceManager::getInstance().loadShader("Shaders/quad.vert", "Shaders/postProcessingMsaa.frag", defines, constants);
+		RShader* shader = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/postProcessingMsaa.frag", defines, constants));
 
 		PostProcessingEffect* postProcessingMsaa = new PostProcessingEffect(PPT_MSAA, _quadVBO, shader);
 		addPostProcessingEffect(postProcessingMsaa);
@@ -511,7 +511,7 @@ void Renderer::addStaticModelNodeToRenderList(ModelNode* modelNode, RenderListEl
         {
             if (tempRenderElement.material->shader == ALPHA_TEST_MATERIAL || tempRenderElement.material->shader == TREE_MATERIAL)
                 renderList.insert(renderList.begin(), tempRenderElement);
-            else if (tempRenderElement.material->transparency == 0.0f) // czy materia³ nie jest przezroczysty lub skybox itd.
+            else if (tempRenderElement.material->transparency == 0.0f) // czy materiaï¿½ nie jest przezroczysty lub skybox itd.
                 renderList.push_back(tempRenderElement);
         }
         else
@@ -777,7 +777,7 @@ bool Renderer::isObjectInCamera(RenderObject* object, CameraStatic* camera)
 
                     if (tempRenderElement.mesh->material.shader == ALPHA_TEST_MATERIAL || tempRenderElement.mesh->material.shader == TREE_MATERIAL)
                         _renderDataList[j]->renderList.insert(_renderDataList[j]->renderList.begin(), tempRenderElement);
-                    else if (tempRenderElement.mesh->material.transparency == 0.0f) // czy materia³ nie jest przezroczysty lub skybox itd.
+                    else if (tempRenderElement.mesh->material.transparency == 0.0f) // czy materiaï¿½ nie jest przezroczysty lub skybox itd.
                         _renderDataList[j]->renderList.push_back(tempRenderElement);
                 }
             }
@@ -1002,24 +1002,24 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
     // SOLID_MATERIAL
     defines.push_back("SOLID");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-	_shaderList[SOLID_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[SOLID_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // NOTEXTURE_MATERIAL
-    _shaderList[NOTEXTURE_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader_notexture.frag", defines);
+    _shaderList[NOTEXTURE_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader_notexture.frag", defines));
 
     // NORMALMAPPING_MATERIAL
     defines.clear();
     defines.push_back("NORMALMAPPING");
     defines.push_back("SOLID");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[NORMALMAPPING_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[NORMALMAPPING_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
 	// SOLID_EMISSIVE_MATERIAL
 	defines.clear();
 	defines.push_back("SOLID");
 	defines.push_back("EMISSIVE");
 	if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-	_shaderList[SOLID_EMISSIVE_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+	_shaderList[SOLID_EMISSIVE_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // CAR_PAINT_MATERIAL
     defines.clear();
@@ -1027,17 +1027,17 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
     defines.push_back("CAR_PAINT");
     defines.push_back("REFLECTION");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-	_shaderList[CAR_PAINT_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[CAR_PAINT_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // MIRROR_MATERIAL
-	_shaderList[MIRROR_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/mirror.frag");
+    _shaderList[MIRROR_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/mirror.frag"));
 
     // ALPHA_TEST_MATERIAL
     defines.clear();
     defines.push_back("SOLID");
     defines.push_back("ALPHA_TEST");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[ALPHA_TEST_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[ALPHA_TEST_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // TREE_MATERIAL
     defines.clear();
@@ -1045,7 +1045,7 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
     defines.push_back("ALPHA_TEST");
     defines.push_back("SUBSURFACE_SCATTERING");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[TREE_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/tree.vert", "Shaders/shader.frag", defines);
+    _shaderList[TREE_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/tree.vert", "Shaders/shader.frag", defines));
 
     // DECAL_MATERIAL
     defines.clear();
@@ -1053,14 +1053,14 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
     defines.push_back("DECALS");
     defines.push_back("ALPHA_TEST");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[DECAL_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[DECAL_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // SOLID_ANIMATED_MATERIAL
     defines.clear();
     defines.push_back("SOLID");
     defines.push_back("ANIMATED");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[SOLID_ANIMATED_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[SOLID_ANIMATED_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // NORMALMAPPING_ANIMATED_MATERIAL
     defines.clear();
@@ -1068,7 +1068,7 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
     defines.push_back("SOLID");
     defines.push_back("ANIMATED");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[NORMALMAPPING_ANIMATED_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[NORMALMAPPING_ANIMATED_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // ALPHA_TEST_ANIMATED_MATERIAL
     defines.clear();
@@ -1076,7 +1076,7 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
     defines.push_back("ALPHA_TEST");
     defines.push_back("ANIMATED");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[ALPHA_TEST_ANIMATED_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[ALPHA_TEST_ANIMATED_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // GRASS_MATERIAL
     defines.clear();
@@ -1085,10 +1085,10 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
     defines.push_back("SUBSURFACE_SCATTERING");
     defines.push_back("GRASS");
     if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[GRASS_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/grass.vert", "Shaders/shader.frag", defines);
+    _shaderList[GRASS_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/grass.vert", "Shaders/shader.frag", defines));
 
     // SKY_MATERIAL
-    _shaderList[SKY_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/sky.vert", "Shaders/sky.frag");
+    _shaderList[SKY_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/sky.vert", "Shaders/sky.frag"));
 
     // GLASS_MATERIAL
     defines.clear();
@@ -1096,70 +1096,70 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
     defines.push_back("REFLECTION");
     //defines.push_back("TRANSPARENCY");
     //if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-    _shaderList[GLASS_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[GLASS_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // NOTEXTURE_ALWAYS_VISIBLE_MATERIAL
     _shaderList[NOTEXTURE_ALWAYS_VISIBLE_MATERIAL] = _shaderList[NOTEXTURE_MATERIAL];
 
     // GUI_IMAGE_SHADER
-    _shaderList[GUI_IMAGE_SHADER] = ResourceManager::getInstance().loadShader("Shaders/GUIshader.vert", "Shaders/GUIshader.frag");
+    _shaderList[GUI_IMAGE_SHADER] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/GUIshader.vert", "Shaders/GUIshader.frag"));
 
     // GUI_LABEL_SHADER
-    _shaderList[GUI_LABEL_SHADER] = ResourceManager::getInstance().loadShader("Shaders/GUIshader.vert", "Shaders/LabelShader.frag");
+    _shaderList[GUI_LABEL_SHADER] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/GUIshader.vert", "Shaders/LabelShader.frag"));
 
     // GUI_PROGRESS_BAR_SHADER
-    _shaderList[GUI_PROGRESS_BAR_SHADER] = ResourceManager::getInstance().loadShader("Shaders/GUIshader.vert", "Shaders/GUIProgressBarshader.frag");
+    _shaderList[GUI_PROGRESS_BAR_SHADER] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/GUIshader.vert", "Shaders/GUIProgressBarShader.frag"));
 
     // DEBUG_SHADER
-    _shaderList[DEBUG_SHADER] = ResourceManager::getInstance().loadShader("Shaders/debug.vert", "Shaders/debug.frag");
+    _shaderList[DEBUG_SHADER] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/debug.vert", "Shaders/debug.frag"));
 
     // SHADOWMAP_SHADER
-    _shaderList[SHADOWMAP_SHADER] = ResourceManager::getInstance().loadShader("Shaders/shadowmap.vert", "Shaders/shadowmap.frag");
+    _shaderList[SHADOWMAP_SHADER] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shadowmap.vert", "Shaders/shadowmap.frag"));
 
     // SHADOWMAP_ALPHA_TEST_SHADER
     defines.clear();
     defines.push_back("ALPHA_TEST");
-    _shaderList[SHADOWMAP_ALPHA_TEST_SHADER] = ResourceManager::getInstance().loadShader("Shaders/shadowmap.vert", "Shaders/shadowmap.frag", defines);
+    _shaderList[SHADOWMAP_ALPHA_TEST_SHADER] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shadowmap.vert", "Shaders/shadowmap.frag", defines));
 
     // SHADOWMAP_ANIMATED_SHADER
     defines.clear();
     defines.push_back("ANIMATED");
-    _shaderList[SHADOWMAP_ANIMATED_SHADER] = ResourceManager::getInstance().loadShader("Shaders/shadowmap.vert", "Shaders/shadowmap.frag", defines);
+    _shaderList[SHADOWMAP_ANIMATED_SHADER] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shadowmap.vert", "Shaders/shadowmap.frag", defines));
 
     // MIRROR_SOLID_MATERIAL
     defines.clear();
     defines.push_back("SOLID");
-	_shaderList[MIRROR_SOLID_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[MIRROR_SOLID_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // MIRROR_ALPHA_TEST_MATERIAL
     defines.clear();
     defines.push_back("SOLID");
     defines.push_back("ALPHA_TEST");
-    _shaderList[MIRROR_ALPHA_TEST_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[MIRROR_ALPHA_TEST_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // MIRROR_GLASS_MATERIAL
     defines.clear();
     defines.push_back("GLASS");
     defines.push_back("REFLECTION");
-    _shaderList[MIRROR_GLASS_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[MIRROR_GLASS_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // MIRROR_SOLID_ANIMATED_MATRIAL
     defines.clear();
     defines.push_back("SOLID");
     defines.push_back("ANIMATED");
-    _shaderList[MIRROR_SOLID_ANIMATED_MATRIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[MIRROR_SOLID_ANIMATED_MATRIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
     // MIRROR_ALPHA_TEST_ANIMATED_MATERIAL
     defines.clear();
     defines.push_back("SOLID");
     defines.push_back("ALPHA_TEST");
     defines.push_back("ANIMATED");
-    _shaderList[MIRROR_ALPHA_TEST_ANIMATED_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/shader.frag", defines);
+    _shaderList[MIRROR_ALPHA_TEST_ANIMATED_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/shader.frag", defines));
 
 	// PBR_MATERIAL
 	defines.clear();
 	if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-	_shaderList[PBR_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/pbr.vert", "Shaders/pbr.frag", defines);
+	_shaderList[PBR_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/pbr.vert", "Shaders/pbr.frag", defines));
 
 	// PBR_TREE_MATERIAL
 	_shaderList[PBR_TREE_MATERIAL] = _shaderList[PBR_MATERIAL];
@@ -1169,14 +1169,14 @@ void Renderer::init(unsigned int screenWidth, unsigned int screenHeight)
 	defines.push_back("NORMALMAPPING");
 	defines.push_back("TREE");
 	if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-	_shaderList[NEW_TREE_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/newTree.frag", defines);
+	_shaderList[NEW_TREE_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/newTree.frag", defines));
 
 	// NEW_TREE_2_MATERIAL
 	defines.clear();
 	defines.push_back("NORMALMAPPING");
 	defines.push_back("TREE");
 	if (_isShadowMappingEnable) defines.push_back("SHADOWMAPPING");
-	_shaderList[NEW_TREE_2_MATERIAL] = ResourceManager::getInstance().loadShader("Shaders/shader.vert", "Shaders/newTree2.frag", defines);
+	_shaderList[NEW_TREE_2_MATERIAL] = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/shader.vert", "Shaders/newTree2.frag", defines));
 
     // EDITOR_AXIS_SHADER
     _shaderList[EDITOR_AXIS_SHADER] = _shaderList[SOLID_MATERIAL];

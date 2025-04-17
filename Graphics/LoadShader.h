@@ -8,6 +8,7 @@
 #include <unordered_map>
 
 #include <GL/glew.h>
+#include "../Utils/ResourceLocation.h"
 
 
 //GLuint loadShader(const char* VertexShaderFileName, const char* FragmentShaderFileName);
@@ -26,14 +27,13 @@ class ShaderLoader
 
         static std::string replaceConstatnsInLine(std::string line, const std::unordered_map<std::string, std::string>& constants);
 
-        static bool loadShaderCode(const char* fileName, std::string& code, const std::vector<std::string>& defines,
+        static bool loadShaderCode(const std::string& fileName, std::string& code, const std::vector<std::string>& defines,
                                    const std::unordered_map<std::string, std::string>& constants);
         static GLuint compileShader(ShaderType type, std::string& code);
         static GLuint linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId);
 
     public:
-        static GLuint loadShader(const char* VertexShaderFileName, const char* FragmentShaderFileName, const std::vector<std::string>& defines = std::vector<std::string>(),
-                                 const std::unordered_map<std::string, std::string>& constants = std::unordered_map<std::string, std::string>());
+        static GLuint loadShader(const ResourceLocation& resourceLocation);
 
 };
 

@@ -2,6 +2,7 @@
 #define FILESHELPER_H_INCLUDED
 
 
+#include "imgui.h"
 #include <vector>
 #include <string>
 
@@ -9,17 +10,25 @@
 class FilesHelper
 {
     public:
-        static bool isFileExists(const std::string& fileName)
+        static bool isFileExists(const std::string& fileName, const std::string& basePath = std::string())
         {
             FILE* file;
-            file = fopen(fileName.c_str(), "r");
+            file = fopen((basePath.empty() ? fileName : basePath + '/' + fileName).c_str(), "r");
             if (file)
             {
                 fclose(file);
-                return 1;
+                return true;
             }
 
-            return 0;
+            return file;
+        }
+        static bool doFilesExist(const std::vector<std::string>& fileNames, const std::string& basePath) {
+            for(auto& fileName : fileNames) {
+                if (!isFileExists(fileName, basePath)) {
+                    return false;
+                }
+            }
+            return true;
         }
 
 		static bool isDirectoryExists(const std::string& dirPath);

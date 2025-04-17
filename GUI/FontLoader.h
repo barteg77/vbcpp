@@ -6,6 +6,8 @@
 
 #include "../Utils/Helpers.hpp"
 
+#include "../Utils/ResourceLocation.h"
+
 
 class FontLoader
 {
@@ -34,7 +36,7 @@ class FontLoader
         FontLoader();
         ~FontLoader();
 
-        RFont* loadFont(const std::string& fontName, int pixelSize = 32);
+        RFont* loadFont(const ResourceLocation& resourceLocation);
 
         static std::string createFontResourceName(const char* fontName, int pixelSize);
 };

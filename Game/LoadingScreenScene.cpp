@@ -51,7 +51,7 @@ void LoadingScreenScene::initialize()
 	skyboxFileNamesArray.push_back("Skybox/skybox_posz.hdr");
 	skyboxFileNamesArray.push_back("Skybox/skybox_negz.hdr");
 
-	RTextureCubeMap* skyboxTexture = ResourceManager::getInstance().loadTextureCubeMap(&skyboxFileNamesArray[0]);
+	RTextureCubeMap* skyboxTexture = ResourceManager::getInstance().loadTextureCubeMap(ResourceId::create<RT_TEXTURE>(skyboxFileNamesArray));
 	_graphicsManager->addGlobalEnvironmentCaptureComponent(skyboxTexture);
 
 	//glm::vec4 backgroundColor = glm::vec4(0.161f, 0.329f, 0.494f, 1.0f);
@@ -64,7 +64,7 @@ void LoadingScreenScene::initialize()
 	progressBar->setSpeed(0.5);
 	progressBar->setPosition((_window->getWidth() - progressBar->getSize()) / 2.0f, _window->getHeight() / 10.0f);
 
-	Image* logo = _gui->addImage(ResourceManager::getInstance().loadTexture("Data/logo.png"));
+	Image* logo = _gui->addImage(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("Data/logo.png")));
 	logo->setPosition((_window->getWidth() - logo->getRealSize().x) / 2.0f, (_window->getHeight() - logo->getRealSize().y) / 2.0f);
 }
 

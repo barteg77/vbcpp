@@ -61,7 +61,7 @@ class RTexture : public Resource
         //RTexture(string path, GLuint id, TextureType type, glm::uvec2 size);
         //RTexture(string path, unsigned char* data, TextureType type, TextureFormat format, glm::uvec2 size);
         //RTexture(TextureType type, TextureFormat format, glm::uvec2 size);
-        RTexture(std::string path, TextureType type, TextureFormat internalFormat, glm::uvec2 size, bool fromFile, bool compressed = false);
+        RTexture(const ResourceId& resourceId, TextureType type, TextureFormat internalFormat, glm::uvec2 size, bool fromFile, bool compressed = false);
         virtual ~RTexture();
 
         GLuint getID() { return _texID; }

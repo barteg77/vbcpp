@@ -320,7 +320,7 @@ void RoadIntersectionComponent::updateEdgeRoadProfile()
 	}
 
 	// copy of original road profile;
-	_edgeRoadProfile = new RRoadProfile(_originalEdgeRoadProfile->getPath(), _originalEdgeRoadProfile->getAuthor(), _originalEdgeRoadProfile->getName(), _originalEdgeRoadProfile->getComment(),
+	_edgeRoadProfile = new RRoadProfile(_originalEdgeRoadProfile->getResourceId(), _originalEdgeRoadProfile->getAuthor(), _originalEdgeRoadProfile->getName(), _originalEdgeRoadProfile->getComment(),
 										_originalEdgeRoadProfile->getIntersectionMaterial(), _originalEdgeRoadProfile->getIntersectionRoadY());
 
 	const std::vector<RoadLane>& roadLanes = _originalEdgeRoadProfile->getRoadLanes();
@@ -606,9 +606,9 @@ void RoadIntersectionComponent::createPolygon()
 	// vertices
 	unsigned int numberOfPointsInAllBezierCurves = _roads.size() * _quality;
 	unsigned int numberOfVertices =
-		numberOfPointsInAllBezierCurves + // liczba punktów w krzywych beziera
-		_roads.size() * numberOfPointsOnRoadAxis + // liczba punktów na osiach drog
-		1; // punkt œrodkowy
+		numberOfPointsInAllBezierCurves + // liczba punktï¿½w w krzywych beziera
+		_roads.size() * numberOfPointsOnRoadAxis + // liczba punktï¿½w na osiach drog
+		1; // punkt ï¿½rodkowy
 
 	Vertex* vertices = new Vertex[numberOfVertices];
 
@@ -739,7 +739,7 @@ void RoadIntersectionComponent::createPolygon()
 		modelNode->meshesCount = 1;
 		modelNode->parent = nullptr;
 
-		_generatedModel = new RStaticModel("", modelNode, materials, GL_TRIANGLE_STRIP);
+		_generatedModel = new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials, GL_TRIANGLE_STRIP);
 
 		RenderObject* renderObject = getSceneObject()->getSceneManager()->getGraphicsManager()->addRenderObject(new RenderObject(_generatedModel), getSceneObject());
 		renderObject->setCastShadows(false);

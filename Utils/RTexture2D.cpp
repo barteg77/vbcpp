@@ -3,13 +3,14 @@
 #include <iostream>
 
 #include "Logger.h"
+#include "ResourceId.h"
 #include "Strings.h"
 
 
-RTexture2D::RTexture2D(string path, unsigned char* data, TextureFormat internalFormat, glm::uvec2 size, bool fromFile, bool useCompression)
-    : RTexture(path, TT_2D, internalFormat, size, fromFile, useCompression)
+RTexture2D::RTexture2D(const ResourceId& resourceId, unsigned char* data, TextureFormat internalFormat, glm::uvec2 size, bool fromFile, bool useCompression)
+    : RTexture(resourceId, TT_2D, internalFormat, size, fromFile, useCompression)
 {
-    LOG_INFO("RTexture2D - Konstruktor: " + _path);
+    LOG_INFO("RTexture2D - Konstruktor: " + _resourceId.getDebugString());
 
 
     glGenTextures(1, &_texID);
@@ -25,10 +26,10 @@ RTexture2D::RTexture2D(string path, unsigned char* data, TextureFormat internalF
 }
 
 
-RTexture2D::RTexture2D(string path, float* data, TextureFormat internalFormat, glm::uvec2 size, bool fromFile, bool useCompression)
-    : RTexture(path, TT_2D, internalFormat, size, fromFile, useCompression)
+RTexture2D::RTexture2D(const ResourceId& resourceId, float* data, TextureFormat internalFormat, glm::uvec2 size, bool fromFile, bool useCompression)
+    : RTexture(resourceId, TT_2D, internalFormat, size, fromFile, useCompression)
 {
-	LOG_INFO("RTexture2D - Konstruktor: " + _path);
+	LOG_INFO("RTexture2D - Konstruktor: " + _resourceId.getDebugString());
 	 
 
     glGenTextures(1, &_texID);
@@ -45,9 +46,9 @@ RTexture2D::RTexture2D(string path, float* data, TextureFormat internalFormat, g
 
 
 RTexture2D::RTexture2D(TextureFormat internalFormat, glm::uvec2 size, bool isMultisample, int samplesCount)
-    : RTexture("", isMultisample ? TT_2D_MULTISAMPLE : TT_2D, internalFormat, size, false, false)
+  : RTexture(ResourceId::create<RT_TEXTURE>(""), isMultisample ? TT_2D_MULTISAMPLE : TT_2D, internalFormat, size, false, false)
 {
-	LOG_INFO("RTexture2D - Konstruktor: " + _path);
+	LOG_INFO("RTexture2D - Konstruktor: " + _resourceId.getDebugString());
 
 
     glGenTextures(1, &_texID);
@@ -60,8 +61,8 @@ RTexture2D::RTexture2D(TextureFormat internalFormat, glm::uvec2 size, bool isMul
 }
 
 
-RTexture2D::RTexture2D(string path, GLuint textureId, glm::uvec2 size, TextureFilterMode minFilter, TextureFilterMode magFilter, bool fromFile)
-	: RTexture(path, TT_2D, TF_RGBA, size, fromFile, false)
+RTexture2D::RTexture2D(const ResourceId& resourceId, GLuint textureId, glm::uvec2 size, TextureFilterMode minFilter, TextureFilterMode magFilter, bool fromFile)
+	: RTexture(resourceId, TT_2D, TF_RGBA, size, fromFile, false)
 {
 
 	_texID = textureId;
@@ -120,24 +121,24 @@ void RTexture2D::setTexSubImage(float* data, int offsetX, int offsetY, int width
 }
 
 
-RTexture2D* RTexture2D::createWhiteTexture(string path, glm::uvec2 size, bool useCompression)
+RTexture2D* RTexture2D::createWhiteTexture(const ResourceId& resourceId, glm::uvec2 size, bool useCompression)
 {
-    return createOneColorTexture(path, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), useCompression);
+    return createOneColorTexture(resourceId, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), useCompression);
 }
 
 
-RTexture2D* RTexture2D::createOneColorTexture(string name, glm::vec4 color, bool useCompression)
+RTexture2D* RTexture2D::createOneColorTexture(const ResourceId& resourceId, glm::vec4 color, bool useCompression)
 {
 	glm::uvec4 c(static_cast<unsigned int>(color.r * 255.0f), static_cast<unsigned int>(color.g * 255.0f), static_cast<unsigned int>(color.b * 255.0f), static_cast<unsigned int>(color.a * 255.0f));
 
 	unsigned char data[16] = {
-		c.r, c.g, c.b, c.a,
-		c.r, c.g, c.b, c.a,
-		c.r, c.g, c.b, c.a,
-		c.r, c.g, c.b, c.a
+		static_cast<unsigned char>(c.r), static_cast<unsigned char>(c.g), static_cast<unsigned char>(c.b), static_cast<unsigned char>(c.a),
+		static_cast<unsigned char>(c.r), static_cast<unsigned char>(c.g), static_cast<unsigned char>(c.b), static_cast<unsigned char>(c.a),
+		static_cast<unsigned char>(c.r), static_cast<unsigned char>(c.g), static_cast<unsigned char>(c.b), static_cast<unsigned char>(c.a),
+		static_cast<unsigned char>(c.r), static_cast<unsigned char>(c.g), static_cast<unsigned char>(c.b), static_cast<unsigned char>(c.a)
 	};
 
-	RTexture2D* texture = new RTexture2D(name, data, TF_RGBA, glm::uvec2(2, 2), false, useCompression);
+	RTexture2D* texture = new RTexture2D(resourceId, data, TF_RGBA, glm::uvec2(2, 2), false, useCompression);
 	texture->setFiltering(TFM_TRILINEAR, TFM_LINEAR);
 	texture->setClampMode(TCM_REPEAT);
 

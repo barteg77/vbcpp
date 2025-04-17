@@ -10,7 +10,7 @@ PostProcessingBloom::PostProcessingBloom(VBO* quadVbo, float screenWidth, float 
 	: PostProcessingEffect(PPT_BLOOM, quadVbo),
 	_brightnessTexture(brightnessTexture)
 {
-	setShader(ResourceManager::getInstance().loadShader("Shaders/quad.vert", "Shaders/postProcessingBloom.frag"));
+  setShader(ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/postProcessingBloom.frag")));
 
 
 	std::vector<std::string> defines;
@@ -21,14 +21,14 @@ PostProcessingBloom::PostProcessingBloom(VBO* quadVbo, float screenWidth, float 
 	defines.push_back(mssaaAntialiasingEnabled ? "MULTISAMPLE" : "NOT_MULTISAMPLE");
 	constants.clear();
 	constants["samplesCount"] = toString(msaaAntialiasingLevel);
-	_blurShaderMsaa = ResourceManager::getInstance().loadShader("Shaders/quad.vert", "Shaders/blur.frag", defines, constants);
+	_blurShaderMsaa = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/blur.frag", defines, constants));
 
 	// BLUR_SHADER
 	defines.clear();
 	defines.push_back("NOT_MULTISAMPLE");
 	constants.clear();
 	constants["samplesCount"] = toString(msaaAntialiasingLevel);
-	_blurShader = ResourceManager::getInstance().loadShader("Shaders/quad.vert", "Shaders/blur.frag", defines, constants);
+	_blurShader = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/blur.frag", defines, constants));
 
 
 	for (int i = 0; i < 2; ++i)

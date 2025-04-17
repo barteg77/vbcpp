@@ -11,9 +11,10 @@
 #include <AL/alut.h>
 
 #include "RSound.h"
+#include "ResourceLocation.h"
 
 
-RSound* loadSound(const char* fileName);
+RSound* loadSound(const ResourceLocation& resourceLocation);
 
 
 #endif // SOUNDLOADER_H_INCLUDED

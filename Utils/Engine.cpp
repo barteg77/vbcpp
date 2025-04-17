@@ -172,11 +172,6 @@ void Engine::loadData(std::string filename)
 {
     std::string fullPath = GameDirectories::BUS_PARTS + filename + ".xml";
 
-#ifdef DEVELOPMENT_RESOURCES
-	if (!FilesHelper::isFileExists(fullPath))
-		fullPath = ResourceManager::getInstance().getAlternativeResourcePath() + fullPath;
-#endif // DEVELOPMENT_RESOURCES
-
     XMLDocument doc;
     doc.LoadFile(fullPath.c_str());
 

@@ -5,13 +5,15 @@
 #include "../Utils/Logger.h"
 
 #include "../Utils/tinyxml2.h"
+#include <string>
 using namespace tinyxml2;
 
 
-RRoadProfile* RoadProfileLoader::loadRoadProfile(std::string dirPath)
+RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceLocation& resourceLocation)
 {
-	std::string fullPath = dirPath + PROFILE_FILE_NAME;
-	std::string materialFullPath = MaterialLoader::createMaterialFileName(fullPath);
+	const std::string dirPath = resourceLocation.getPath();
+	const std::string fullPath = dirPath + PROFILE_FILE_NAME;
+	const std::string materialFullPath = MaterialLoader::createMaterialFileName(fullPath);
 
 	XMLDocument doc;
 	XMLError result = doc.LoadFile(fullPath.c_str());
@@ -61,7 +63,7 @@ RRoadProfile* RoadProfileLoader::loadRoadProfile(std::string dirPath)
 	}
 
 
-	RRoadProfile* roadProfile = new RRoadProfile(dirPath, author, profName, comment, intersectionMaterial, intersectionRoadY);
+	RRoadProfile* roadProfile = new RRoadProfile(resourceLocation.getResourceId(), author, profName, comment, intersectionMaterial, intersectionRoadY);
 
 
 	XMLElement* lanesElement = profileElement->FirstChildElement("Lanes");

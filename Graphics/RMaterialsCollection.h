@@ -16,7 +16,7 @@ class RMaterialsCollection : public Resource
 		std::vector<Material*> _materials;
 
 	public:
-		RMaterialsCollection(const std::string& path);
+		RMaterialsCollection(const ResourceId& resourceId);
 		~RMaterialsCollection();
 
 		std::vector<Material*>& getMaterials();

@@ -1,10 +1,10 @@
 #include "RFont.h"
+#include "ResourceId.h"
 
 
-RFont::RFont(const std::string& path, int pixelSize)
-    : Resource(RT_FONT_RESOURCE, path),
-    _characterTexture(NULL), _vbo(NULL),
-    _pixelSize(pixelSize)
+RFont::RFont(const ResourceId& resourceId)
+    : Resource(RT_FONT_RESOURCE, resourceId),
+    _characterTexture(NULL), _vbo(NULL)
 {
 
 }
@@ -40,5 +40,5 @@ VBO* RFont::getVBO()
 
 int RFont::getPixelSize()
 {
-    return _pixelSize;
+    return _resourceId.getFontPixelSize();
 }

@@ -8,12 +8,14 @@
 #include <gli/texture2d.hpp>
 #include <gli/load.hpp>
 #include <gli/generate_mipmaps.hpp>
+#include <string>
+#include <vector>
 
 
 // only for 2d textures
-RTexture2D* loadDdsTexture(char const* filename)
+RTexture2D* loadDdsTexture(const std::string& fileName)
 {
-	gli::texture Texture = gli::load(filename);
+	gli::texture Texture = gli::load(fileName);
 	if (Texture.empty())
 		return 0;
 
@@ -127,7 +129,7 @@ RTexture2D* loadDdsTexture(char const* filename)
 				default: assert(0); break;
 				}
 			}
-	return new RTexture2D(filename, TextureName, glm::uvec2(0, 0), TFM_TRILINEAR, TFM_LINEAR, true);
+	return new RTexture2D(ResourceId::create<RT_TEXTURE>(fileName), TextureName, glm::uvec2(0, 0), TFM_TRILINEAR, TFM_LINEAR, true);
 ;
 }
 
@@ -136,19 +138,19 @@ const std::string HDR_FILE_EXTENSION = "hdr";
 const std::string DDS_FILE_EXTENSION = "dds";
 
 
-RTexture2D* loadTexture(const char* fileName, bool useCompression, bool mipmaping, RTexture2D* oldTexture)
+RTexture2D* loadTexture(const ResourceLocation& resourceLocation, bool useCompression, bool mipmaping, RTexture2D* oldTexture)
 {
-	std::string fileNameStr(fileName);
-	std::string extension = FilesHelper::getFileExtension(fileNameStr);
+	std::string fileName(resourceLocation.getPath());
+	std::string extension = FilesHelper::getFileExtension(fileName);
 	bool hdrImage = extension == HDR_FILE_EXTENSION;
 
-	LOG_INFO("Loading texture: " + fileNameStr);
+	LOG_INFO("Loading texture: " + fileName);
 
 	if (extension == DDS_FILE_EXTENSION)
 	{
 		return loadDdsTexture(fileName);
 	}
-
+//:)
 	if (hdrImage)
 		stbi_set_flip_vertically_on_load(true);
 	else
@@ -157,9 +159,9 @@ RTexture2D* loadTexture(const char* fileName, bool useCompression, bool mipmapin
     int width, height, chanels;
 	void* image;
 	if (hdrImage)
-		image = stbi_loadf(fileName, &width, &height, &chanels, 0);
+		image = stbi_loadf(fileName.c_str(), &width, &height, &chanels, 0);
 	else
-		image = stbi_load(fileName, &width, &height, &chanels, STBI_rgb_alpha);
+		image = stbi_load(fileName.c_str(), &width, &height, &chanels, STBI_rgb_alpha);
     
 
     if(image == NULL)
@@ -171,10 +173,11 @@ RTexture2D* loadTexture(const char* fileName, bool useCompression, bool mipmapin
     RTexture2D* texture;
     if (oldTexture == NULL)
     {
+      const ResourceId resourceId = ResourceId::create<RT_TEXTURE>(fileName);
 		if (hdrImage)
-			texture = new RTexture2D(fileName, static_cast<float*>(image), chanels == 4 ? TF_RGBA_16F : TF_RGB_16F, glm::uvec2(width, height), true, useCompression);
+			texture = new RTexture2D(resourceId, static_cast<float*>(image), chanels == 4 ? TF_RGBA_16F : TF_RGB_16F, glm::uvec2(width, height), true, useCompression);
 		else
-			texture = new RTexture2D(fileName, static_cast<unsigned char*>(image), TF_RGBA, glm::uvec2(width, height), true, useCompression);
+			texture = new RTexture2D(resourceId, static_cast<unsigned char*>(image), TF_RGBA, glm::uvec2(width, height), true, useCompression);
 
 		if (mipmaping)
 		{
@@ -206,8 +209,11 @@ RTexture2D* loadTexture(const char* fileName, bool useCompression, bool mipmapin
 }
 
 
-RTextureCubeMap* loadTextureCubeMap(std::string* filesNames, const char* path, bool mipmaping, RTextureCubeMap* oldTexture)
+RTextureCubeMap* loadTextureCubeMap(const ResourceLocation& resourceLocation, bool mipmaping, RTextureCubeMap* oldTexture)
 {
+	const std::vector<std::string> filesNames(resourceLocation.getPaths());
+	assert(filesNames.size() == 6);
+
 	bool hdrImage = FilesHelper::getFileExtension(filesNames[0]) == HDR_FILE_EXTENSION;
 
     LOG_INFO("Loading cube map");
@@ -247,9 +253,9 @@ RTextureCubeMap* loadTextureCubeMap(std::string* filesNames, const char* path, b
 	if (oldTexture == NULL)
 	{
 		if (hdrImage)
-			texture = new RTextureCubeMap(path, (float**)cubeMapFaces, chanels == 4 ? TF_RGBA_16F : TF_RGB_16F, width, true);
+			texture = new RTextureCubeMap(resourceLocation.getResourceId(), (float**)cubeMapFaces, chanels == 4 ? TF_RGBA_16F : TF_RGB_16F, width, true);
 		else
-			texture = new RTextureCubeMap(path, (unsigned char**)cubeMapFaces, TF_RGBA, width, true);
+			texture = new RTextureCubeMap(resourceLocation.getResourceId(), (unsigned char**)cubeMapFaces, TF_RGBA, width, true);
 	}
     else
         texture = oldTexture;

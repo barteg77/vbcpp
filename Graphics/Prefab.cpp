@@ -140,7 +140,7 @@ RStaticModel* Cube::generateModel()
     modelNode->meshesCount = 1;
     modelNode->parent = NULL;
 
-    return new RStaticModel("", modelNode, materials);
+    return new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials);
 }
 
 
@@ -224,7 +224,7 @@ RStaticModel* PlanePrefab::generateModel()
     modelNode->meshesCount = 1;
     modelNode->parent = NULL;
 
-    return new RStaticModel("", modelNode, materials);
+    return new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials);
 }
 
 
@@ -391,7 +391,7 @@ RStaticModel* CylinderPrefab::generateModel()
     modelNode->meshesCount = 1;
     modelNode->parent = NULL;
 
-    return new RStaticModel("", modelNode, materials);
+    return new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials);
 }
 
 
@@ -538,7 +538,7 @@ RStaticModel* SpherePrefab::generateModel()
     modelNode->meshesCount = 1;
     modelNode->parent = NULL;
 
-    return new RStaticModel("", modelNode, materials);
+    return new RStaticModel(ResourceId::create<RT_MODEL>(""), modelNode, materials);
     return nullptr;
 }
 

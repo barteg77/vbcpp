@@ -3,6 +3,7 @@
 
 
 #include "RTexture.h"
+#include "ResourceId.h"
 
 
 enum CubeMapFace
@@ -23,8 +24,8 @@ class RTextureCubeMap : public RTexture
 
     public:
         // data: pos_x, neg_x, pos_y, neg_y, pos_z, neg_z
-        RTextureCubeMap(std::string path, unsigned char** data, TextureFormat internalFormat, unsigned int size, bool fromFile);
-		RTextureCubeMap(std::string path, float** data, TextureFormat internalFormat, unsigned int size, bool fromFile);
+        RTextureCubeMap(const ResourceId& resourceId, unsigned char** data, TextureFormat internalFormat, unsigned int size, bool fromFile);
+		RTextureCubeMap(const ResourceId& resourceId, float** data, TextureFormat internalFormat, unsigned int size, bool fromFile);
         RTextureCubeMap(TextureFormat internalFormat, unsigned int size);
         virtual ~RTextureCubeMap();
 

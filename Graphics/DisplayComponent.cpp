@@ -12,17 +12,17 @@ DisplayComponent::DisplayComponent(RDisplayFont* font, int displayWidth, int dis
 	_font(font), _displayWidth(displayWidth), _displayHeight(displayHeight), _emissiveColor(textColor)//(2 * 0.66, 2 * 0.77, 2 * 0.32)
 	, _isTextChanged(false)
 {
-	_tabGeneratorShader = ResourceManager::getInstance().loadShader("Shaders/quad.vert", "Shaders/tabGenerator.frag");
+  _tabGeneratorShader = ResourceManager::getInstance().loadShader(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/tabGenerator.frag"));
 
 	_matrixTextureData = new unsigned char[_displayWidth * _displayHeight * 4];
 	for (int i = 0; i < _displayWidth * _displayHeight * 4; ++i)
 	{
 		_matrixTextureData[i] = 0;
 	}
-	_matrixTexture = new RTexture2D("", _matrixTextureData, TF_RGBA, glm::uvec2(_displayWidth, _displayHeight), false);
+	_matrixTexture = new RTexture2D(ResourceId::create<RT_TEXTURE>(""), _matrixTextureData, TF_RGBA, glm::uvec2(_displayWidth, _displayHeight), false);
 	_matrixTexture->setFiltering(TFM_NEAREST, TFM_NEAREST);
 
-	_ledOffTexture = ResourceManager::getInstance().loadTexture("doroff.bmp");
+	_ledOffTexture = ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>("doroff.bmp"));
 
 	int pointWidth = _ledOffTexture->getSize().x;
 	int pointHeight = _ledOffTexture->getSize().y;

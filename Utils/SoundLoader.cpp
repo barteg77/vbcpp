@@ -1,9 +1,9 @@
 #include "SoundLoader.h"
 
 
-RSound* loadSound(const char* fileName)
+RSound* loadSound(const ResourceLocation& resourceLocation)
 {
-    ALuint buffer = alutCreateBufferFromFile(fileName);
+    ALuint buffer = alutCreateBufferFromFile(resourceLocation.getPath().c_str());
 
     //std::cout << "??? SoundComponend - Constructor" << std::endl;
     //std::cout << "Buffer" << _buffer << std::endl;
@@ -14,6 +14,6 @@ RSound* loadSound(const char* fileName)
         LOG_ERROR("Error loading file: " + std::string(alutGetErrorString(error)));
     }
 
-    RSound* sound = new RSound(fileName, buffer);
+    RSound* sound = new RSound(resourceLocation.getResourceId(), buffer);
     return sound;
 }

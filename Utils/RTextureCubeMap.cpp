@@ -3,12 +3,13 @@
 #include <iostream>
 
 #include "Logger.h"
+#include "ResourceId.h"
 
 
-RTextureCubeMap::RTextureCubeMap(std::string path, unsigned char** data, TextureFormat internalFormat, unsigned int size, bool fromFile)
-    : RTexture(path, TT_CUBE, internalFormat, glm::uvec2(size, size), fromFile)
+RTextureCubeMap::RTextureCubeMap(const ResourceId& resourceId, unsigned char** data, TextureFormat internalFormat, unsigned int size, bool fromFile)
+    : RTexture(resourceId, TT_CUBE, internalFormat, glm::uvec2(size, size), fromFile)
 {
-    LOG_INFO("RTextureCubeMap - Konstruktor: " + _path);
+    LOG_INFO("RTextureCubeMap - Konstruktor: " + _resourceId.getDebugString());
 
 
     glGenTextures(1, &_texID);
@@ -21,10 +22,10 @@ RTextureCubeMap::RTextureCubeMap(std::string path, unsigned char** data, Texture
 }
 
 
-RTextureCubeMap::RTextureCubeMap(std::string path, float** data, TextureFormat internalFormat, unsigned int size, bool fromFile)
-	: RTexture(path, TT_CUBE, internalFormat, glm::uvec2(size, size), fromFile)
+RTextureCubeMap::RTextureCubeMap(const ResourceId& resourceId, float** data, TextureFormat internalFormat, unsigned int size, bool fromFile)
+	: RTexture(resourceId, TT_CUBE, internalFormat, glm::uvec2(size, size), fromFile)
 {
-    LOG_INFO("RTextureCubeMap - Konstruktor: " + _path);
+    LOG_INFO("RTextureCubeMap - Konstruktor: " + _resourceId.getDebugString());
 
 
 	glGenTextures(1, &_texID);
@@ -38,9 +39,9 @@ RTextureCubeMap::RTextureCubeMap(std::string path, float** data, TextureFormat i
 
 
 RTextureCubeMap::RTextureCubeMap(TextureFormat internalFormat, unsigned int size)
-    : RTexture("", TT_CUBE, internalFormat, glm::uvec2(size, size), false)
+  : RTexture(ResourceId::create<RT_TEXTURE>(""), TT_CUBE, internalFormat, glm::uvec2(size, size), false)
 {
-    LOG_INFO("RTextureCubeMap - Konstruktor: " + _path);
+    LOG_INFO("RTextureCubeMap - Konstruktor: " + _resourceId.getDebugString());
 
 
     glGenTextures(1, &_texID);

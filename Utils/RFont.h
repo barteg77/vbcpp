@@ -2,6 +2,7 @@
 #define RFONT_H_INCLUDED
 
 
+#include "ResourceId.h"
 #include <unordered_map>
 
 #include <ft2build.h>
@@ -40,10 +41,8 @@ class RFont : virtual public Resource
 
         VBO* _vbo;
 
-        int _pixelSize;
-
     public:
-        RFont(const std::string& path, int pixelSize);
+        RFont(const ResourceId& resourceId);
         virtual ~RFont();
 
         const CharacterInfo& getCharacterInfo(unsigned int character);

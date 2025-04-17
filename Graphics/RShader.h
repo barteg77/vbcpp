@@ -72,8 +72,8 @@ class RShader : virtual public Resource
         }
 
     public:
-        RShader(std::string path, GLuint id)
-            : Resource(RT_SHADER, path),  _shaderID(id), _textureLocation(0)
+        RShader(const ResourceId& resourceId, GLuint id)
+            : Resource(RT_SHADER, resourceId),  _shaderID(id), _textureLocation(0)
         {
             LOG_DEBUG("RShader: Konstruktor: " + Strings::toString(_shaderID));
         }

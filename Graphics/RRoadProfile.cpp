@@ -1,8 +1,8 @@
 #include "RRoadProfile.h"
 
 
-RRoadProfile::RRoadProfile(std::string path, std::string author, std::string name, std::string comment, Material* intersectionMaterial, float intersectionRoadY)
-	: Resource(RT_ROAD_PROFILE, path),
+RRoadProfile::RRoadProfile(const ResourceId& resourceId, std::string author, std::string name, std::string comment, Material* intersectionMaterial, float intersectionRoadY)
+	: Resource(RT_ROAD_PROFILE, resourceId),
 	_author(author), _name(name), _comment(comment),
 	_intersectionMaterial(intersectionMaterial), _intersectionRoadY(intersectionRoadY),
 	_maxX(0.0f), _minX(0.0f), _maxXIsCalculated(false), _minXIsCalculated(false)

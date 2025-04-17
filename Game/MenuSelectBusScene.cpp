@@ -27,9 +27,9 @@ MenuSelectBusScene::MenuSelectBusScene(Window* window)
 {
 	_uiRatio = _window->getHeight() / 1080.0f;
 
-	_fontBoldItalic32 = ResourceManager::getInstance().loadFont("fonts/Roboto/Roboto-BoldItalic.ttf", 32 * _uiRatio);
-	_fontRegular22 = ResourceManager::getInstance().loadFont("fonts/Roboto/Roboto-Regular.ttf", 22 * _uiRatio);
-	_fontRegular18 = ResourceManager::getInstance().loadFont("fonts/Roboto/Roboto-Regular.ttf", 18 * _uiRatio);
+	_fontBoldItalic32 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32 * _uiRatio));
+	_fontRegular22 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 22 * _uiRatio));
+	_fontRegular18 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 18 * _uiRatio));
 }
 
 
@@ -82,7 +82,7 @@ void MenuSelectBusScene::addBus(const std::string& modelFileName, const std::str
 {
 	SceneObject* busSceneObject = _sceneManager->addSceneObject("bus");
 
-	RStaticModel* busModel = ResourceManager::getInstance().loadModel(modelFileName, texturePath);
+	RStaticModel* busModel = ResourceManager::getInstance().loadModel(ResourceId::create<RT_MODEL>(modelFileName), texturePath);
 	RenderObject* busRenderObject = _graphicsManager->addRenderObject(new RenderObject(busModel, true), busSceneObject);
 
 	_buses.push_back(busSceneObject);
@@ -188,7 +188,7 @@ void MenuSelectBusScene::showBusLogo(glm::vec2 windowPosition, int windowWidth, 
 	const std::string& logoFileName = _buses2[_selectedBus]->bus->getBusDescription().logo;
 	if (!logoFileName.empty())
 	{
-		_busLogo->setTexture(ResourceManager::getInstance().loadTexture(logoFileName));
+	  _busLogo->setTexture(ResourceManager::getInstance().loadTexture(ResourceId::create<RT_TEXTURE>(logoFileName)));
 
 		float scale = windowWidth / _busLogo->getSize().x * 0.8;
 		if (_busLogo->getTexture()->getSize().y * scale > windowHeight)
@@ -403,8 +403,8 @@ void MenuSelectBusScene::createConfigurationPreviewWindow()
 		imageBackground->setPosition(160, 120);
 
 
-		RFont* fontBoldItalic32 = ResourceManager::getInstance().loadFont("fonts/Roboto/Roboto-BoldItalic.ttf", 32);
-		RFont* fontRegular26 = ResourceManager::getInstance().loadFont("fonts/Roboto/Roboto-Regular.ttf", 26);
+		RFont* fontBoldItalic32 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-BoldItalic.ttf", 32));
+		RFont* fontRegular26 = ResourceManager::getInstance().loadFont(ResourceId::create<RT_FONT_RESOURCE>("fonts/Roboto/Roboto-Regular.ttf", 26));
 		glm::vec2 pickerMargin = glm::vec2(5.0f, 7.5f);
 		//glm::vec4 pickerBackgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.1f);
 		//glm::vec4 pickerBackgroundColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.3f);
@@ -554,7 +554,7 @@ void MenuSelectBusScene::initialize()
 	skyboxFileNamesArray.push_back("Skybox/skybox_posz.hdr");
 	skyboxFileNamesArray.push_back("Skybox/skybox_negz.hdr");
 
-	RTextureCubeMap* skyboxTexture = ResourceManager::getInstance().loadTextureCubeMap(&skyboxFileNamesArray[0]);
+	RTextureCubeMap* skyboxTexture = ResourceManager::getInstance().loadTextureCubeMap(ResourceId::create<RT_TEXTURE>(skyboxFileNamesArray));
 	_graphicsManager->addGlobalEnvironmentCaptureComponent(skyboxTexture);
 
 	// buses
