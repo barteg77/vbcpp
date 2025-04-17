@@ -16,6 +16,11 @@ public:
       _filesystemHelper(new FilesystemHelper(path, *FilesHelper::getInstance()))
     {}
 
+    // temporatry solution for loaders outside resource manager
+    std::string actualResourceFilepath(const std::string& pseudoId/*1-file resource*/) {
+        return getActualFilesystemFilepath(Path(pseudoId));
+    }
+
     virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering);
     virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId);
     virtual std::unique_ptr<RShader> loadShader(const ResourceId& resourceId);

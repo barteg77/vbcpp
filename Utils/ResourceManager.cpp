@@ -91,9 +91,18 @@ ResourceLocation ResourceManager::findResourceLocation(const ResourceId& resourc
 
 std::string ResourceManager::realPath(const std::string& pseudoId)
 {
-    LOG_DEBUG("Getting realPath by ResourceManager (not loading the resource");
-    const ResourceId resourceId = ResourceId::create<RT_OTHER>(pseudoId);
-    return ResourceManager::getInstance().findResourceLocation(resourceId).getPath();
+    LOG_DEBUG("Getting realPath by ResourceManager (not loading the resource, pseudo id is \"" + pseudoId + "\"");
+    for (auto& resourceRepo : _resourceRepos) {
+        ResourceRepoNative* resourceRepoNative (dynamic_cast<ResourceRepoNative*>(resourceRepo.get()));
+        if (!resourceRepoNative) {
+            continue;
+        }
+        std::string foundPath (resourceRepoNative->actualResourceFilepath(pseudoId));
+        if (!foundPath.empty()) {
+            return foundPath;
+        }
+    }
+    assert(false);
 }
 
 // Ładowanie tektur
