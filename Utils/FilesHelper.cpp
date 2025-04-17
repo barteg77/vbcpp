@@ -48,7 +48,7 @@ std::vector<std::string> FilesHelper::getFilesList(const std::string& path)
     std::vector<std::string> directories;
 
 #ifdef WIN32
-    std::string newPath = path + "*";
+    std::string newPath = path + "/*";
 
     WIN32_FIND_DATA findFileData;
     HANDLE hFind = FindFirstFile(newPath.c_str(), &findFileData);
@@ -105,7 +105,7 @@ std::vector<std::string> FilesHelper::getDirectoriesList(const std::string& path
     std::vector<std::string> directories;
 
     #ifdef WIN32
-	std::string newPath = path + "*";
+	std::string newPath = path + "/*";
 
     WIN32_FIND_DATA findFileData;
     HANDLE hFind = FindFirstFile(newPath.c_str(), &findFileData);
