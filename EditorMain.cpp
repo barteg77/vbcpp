@@ -1,6 +1,7 @@
 #include "Editor/Editor.h"
 
 #include "Utils/Logger.h"
+#include "Game/GameConfig.h"
 
 
 int main()
@@ -10,6 +11,7 @@ int main()
 	//editor.run();
 
 	Logger::init(LL_DEBUG, true, true, "logEditor.txt");
+	GameConfig::getInstance().loadGameConfig("game.xml"); // loadr esource repos
 
 	vbEditor::createWindow();
 	vbEditor::initializeEngineSubsystems();
