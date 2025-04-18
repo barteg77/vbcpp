@@ -21,8 +21,8 @@ class GameLogicSystem;
 class SceneManager
 {
     private:
-        static const ObjectId MIN_OBJECT_ID = 1u;
-        static const ObjectId MAX_OBJECT_ID = 0xffffffff;
+        const ObjectId MIN_OBJECT_ID = 1u;
+        const ObjectId MAX_OBJECT_ID = 0xffffffff;
 
         GraphicsManager*    _graphicsManager;
         PhysicsManager*     _physicsManager;
