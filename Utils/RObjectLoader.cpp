@@ -269,7 +269,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 {
 	std::string objectDirPath = objectDefinition->getResourceId().getIdString(0);
 
-	SceneObject* sceneObject = sceneManager->addSceneObject(name, objectDefinition);
+	SceneObject* sceneObject = sceneManager->addSceneObject(name, 0, objectDefinition);
 	sceneObject->setPosition(position);
 	sceneObject->setRotation(degToRad(rotation.x), degToRad(rotation.y), degToRad(rotation.z));
 
