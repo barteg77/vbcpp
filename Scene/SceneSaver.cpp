@@ -470,13 +470,7 @@ void SceneSaver::saveSceneObject(XMLDocument& doc, XMLElement* parentElement, Sc
 void SceneSaver::saveMap(std::string name, const ResourceDescription& sceneDescription)
 {
 	_dirPath = GameDirectories::MAPS + name + "/";
-
-#ifdef DEVELOPMENT_RESOURCES
-	if (!FilesHelper::isDirectoryExists(_dirPath))
-		_dirPath = ResourceManager::getInstance().getAlternativeResourcePath() + _dirPath;
-#endif // DEVELOPMENT_RESOURCES
-
-	std::string fullPath = _dirPath + MAP_FILE_NAME;
+	std::string fullPath = ResourceManager::getInstance().realPath(_dirPath + MAP_FILE_NAME);
 
 	LOG_INFO("Map path: " + fullPath);
 

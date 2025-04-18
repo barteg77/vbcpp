@@ -18,7 +18,7 @@ RRoadProfile* getHelperProfile()
 {
 	if (helperProfile == nullptr)
 	{
-		helperProfile = new RRoadProfile("", "", "", "");
+		helperProfile = new RRoadProfile(ResourceId::create<RT_ROAD_PROFILE>(""), "", "", "");
 
 		RoadLane tempLane;
 		tempLane.r1 = -0.5f;
@@ -28,7 +28,7 @@ RRoadProfile* getHelperProfile()
 		tempLane.material = new Material;
 		tempLane.material->scale = glm::vec2(1.0f, -0.5f);
 		tempLane.material->shader = SOLID_MATERIAL;
-		tempLane.material->diffuseTexture = ResourceManager::getInstance().loadTexture("Data/editor/path1.png");
+		tempLane.material->diffuseTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Data/editor/path1.png"));
 		tempLane.material->shininess = 96.0f;
 
 		helperProfile->getRoadLanes().push_back(tempLane);
