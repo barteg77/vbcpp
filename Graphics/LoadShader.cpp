@@ -123,11 +123,15 @@ GLuint ShaderLoader::compileShader(ShaderType type, std::string& code)
 }
 
 
-GLuint ShaderLoader::linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId)
+GLuint ShaderLoader::linkProgram(std::vector<GLuint> shadersIds)
 {
     GLuint programId = glCreateProgram();
-	glAttachShader(programId, vertexShaderId);
-	glAttachShader(programId, fragmentShaderId);
+
+    for (GLuint shaderId : shadersIds)
+    {
+        glAttachShader(programId, shaderId);
+    }
+
 	glLinkProgram(programId);
 
 	GLint result;
@@ -172,7 +176,7 @@ GLuint ShaderLoader::loadShader(const std::string& vertexShaderFileName,
 
 
     LOG_INFO("Linking program");
-    GLuint programId = linkProgram(vertexShaderId, fragmentShaderId);
+    GLuint programId = linkProgram({ vertexShaderId, fragmentShaderId });
 
 
 	glDeleteShader(vertexShaderId);
@@ -180,4 +184,30 @@ GLuint ShaderLoader::loadShader(const std::string& vertexShaderFileName,
 
 
 	return programId;
+}
+
+
+GLuint ShaderLoader::loadComputeShader(const char* shaderFileName, const std::vector<std::string>& defines/* = {}*/,
+                                       const std::unordered_map<std::string, std::string>& constants/* = {}*/)
+{
+    std::string shaderCode;
+
+    if (!loadShaderCode(shaderFileName, shaderCode, defines, constants))
+    {
+        LOG_ERROR("Can not open ShaderFile: " + std::string(shaderFileName) + "!");
+    }
+
+
+    LOG_INFO("Compiling shader: " + std::string(shaderFileName));
+    GLuint computeShaderId = compileShader(ST_COMPUTE_SHADER, shaderCode);
+
+
+    LOG_INFO("Linking program");
+    GLuint programId = linkProgram({ computeShaderId });
+
+
+    glDeleteShader(computeShaderId);
+
+
+    return programId;
 }
