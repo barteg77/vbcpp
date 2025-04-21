@@ -58,6 +58,7 @@ public:
     static ResourceId create (const std::string& id)
     {
         static_assert(resourceType == RT_TEXTURE
+                   || resourceType == RT_SHADER // compute shader with default defines, constants
                    || resourceType == RT_SOUND
                    || resourceType == RT_OBJECT
                    || resourceType == RT_ROAD_PROFILE
@@ -115,6 +116,22 @@ public:
         static_assert(resourceType == RT_SHADER, "incorrect resource type for this function");
         return ResourceId(resourceType,
                           {vertexPath, fragmentPath},
+                          HierarchyHandling::without,
+                          defines,
+                          constants,
+                          0
+                          );
+    }
+
+    // compute shader
+    template <ResourceType resourceType>
+    static ResourceId create (const std::string& computePath,
+                              const Defines& defines, // default-defines case is handled by another function
+                              const Constants& constants = Constants())
+    {
+        static_assert(resourceType == RT_SHADER, "incorrect resource type for this function");
+        return ResourceId(resourceType,
+                          {computePath},
                           HierarchyHandling::without,
                           defines,
                           constants,

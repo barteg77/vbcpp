@@ -28,14 +28,30 @@ std::unique_ptr<RTextureCubeMap> ResourceRepoNative::loadTextureCubeMap(const Re
 }
 
 std::unique_ptr<RShader> ResourceRepoNative::loadShader(const ResourceId& resourceId) {
-    const std::vector<std::string> filePaths (getAllActualFilesystemFilepaths(resourceId));
-    const std::string& vertexShaderFileName = filePaths.at(0);
-    const std::string& fragmentShaderFileName = filePaths.at(1);
-    std::unique_ptr<RShader> shader (std::make_unique<RShader>(resourceId, ShaderLoader::loadShader(vertexShaderFileName,
-                                                                                                    fragmentShaderFileName,
-                                                                                                    resourceId.getDefines(),
-                                                                                                    resourceId.getConstants())));
-    return shader;
+    if (resourceId.getIdPartsCount() == 2) { // normal shader // shader type storage in ResourceId to be reworked because this is not clear and error-prone
+        const std::vector<std::string> filePaths (getAllActualFilesystemFilepaths(resourceId));
+        const std::string& vertexShaderFileName = filePaths.at(0);
+        const std::string& fragmentShaderFileName = filePaths.at(1);
+        if (vertexShaderFileName.empty() || fragmentShaderFileName.empty()) {
+            return nullptr;
+        }
+        std::unique_ptr<RShader> shader (std::make_unique<RShader>(resourceId, ShaderLoader::loadShader(vertexShaderFileName,
+                                                                                                        fragmentShaderFileName,
+                                                                                                        resourceId.getDefines(),
+                                                                                                        resourceId.getConstants()
+                                                                                                        )));
+        return shader;
+    } else { // compute shader
+        const std::string computeShaderFilePath(_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+        if (computeShaderFilePath.empty()) {
+            return nullptr;
+        }
+        std::unique_ptr<RShader> shader (std::make_unique<RShader>(resourceId, ShaderLoader::loadComputeShader(computeShaderFilePath.c_str(),
+                                                                                                               resourceId.getDefines(),
+                                                                                                               resourceId.getConstants()
+                                                                                                               )));
+        return shader;
+    }
 }
 
 std::unique_ptr<RStaticModel> ResourceRepoNative::loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing /*, OGLDriver* driver */) {

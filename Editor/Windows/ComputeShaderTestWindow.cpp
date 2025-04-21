@@ -23,9 +23,9 @@ ShaderData shaderData;
 ComputeShaderTestWindow::ComputeShaderTestWindow(bool isOpen/* = false*/)
 	: ImGuiWindow(nullptr, isOpen)
 {
-	_computeShader = ResourceManager::getInstance().loadComputeShader("Shaders/compute/computeShader.comp");
+	_computeShader = ResourceManager::getInstance().loadResource<RShader>(ResourceId::create<RT_SHADER>("Shaders/compute/computeShader.comp"));
 
-	_texture = new RTexture2D("ComputeShaderResult", (float*) nullptr, TF_RGBA_32F, glm::uvec2(1000, 1000), false);
+	_texture = new RTexture2D(ResourceId::create<RT_TEXTURE>("ComputeShaderResult"), (float*) nullptr, TF_RGBA_32F, glm::uvec2(1000, 1000), false);
 	_texture->setClampMode(TCM_CLAMP_TO_EDGE);
 	_texture->setFiltering(TFM_LINEAR, TFM_LINEAR);
 
