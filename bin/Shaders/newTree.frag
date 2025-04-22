@@ -88,7 +88,7 @@ uniform sampler2D NormalmapTexture;
 
 uniform vec3 CameraPosition;
 
-uniform sampler2DShadow ShadowMap[CASCADES_COUNT];
+uniform sampler2DArrayShadow ShadowMap;
 
 vec4 textureColor;
 vec4 ambient = vec4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -277,11 +277,10 @@ void main()
 
 		if (cascadeIndex == 0){
 			Coords.z -= bias[0];
-			Ratio = texture(ShadowMap[0], Coords);//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
 		} else {
 			Coords.z -= bias[1];
-			Ratio = texture(ShadowMap[1], Coords);//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
 		}
+		Ratio = texture(ShadowMap, vec4(Coords.xy, cascadeIndex, Coords.z));//CurrentDepth - 0.0005f > Depth ? 0.5f : 1.0f;//
 		//if (normalFactor >= 0)
 		Ratio = Ratio * 0.8f + 0.2f;
 #endif
