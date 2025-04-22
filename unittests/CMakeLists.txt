@@ -35,6 +35,7 @@ add_executable(
 )
 target_link_libraries(
   resource_repo_filesystem_helper_test
+  BulletDynamics BulletCollision BulletSoftBody LinearMath
   GTest::gtest_main
   gmock_main
 )

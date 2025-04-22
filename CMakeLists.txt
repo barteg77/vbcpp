@@ -38,9 +38,6 @@ add_subdirectory(libs/openal-soft)
 add_subdirectory(libs/freealut)
 #add_subdirectory(libs/stb_image)
 
-enable_testing()
-add_subdirectory(unittests)
-
 #SET_TARGET_PROPERTIES(UpdateAssimpLibsDebugSymbolsAndDLLs PROPERTIES FOLDER "Libs/assimp")
 SET_TARGET_PROPERTIES(assimp PROPERTIES FOLDER "Libs/assimp")
 SET_TARGET_PROPERTIES(IrrXML PROPERTIES FOLDER "Libs/assimp")
@@ -264,6 +261,7 @@ set_target_properties(${EDITOR_BIN_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTOR
 
 target_link_libraries(${EDITOR_BIN_NAME} glfw glew BulletDynamics BulletCollision BulletSoftBody LinearMath assimp freetype OpenAL alut)
 
-
+enable_testing()
+add_subdirectory(unittests)
 
 #EDITOR_BIN_NAME
