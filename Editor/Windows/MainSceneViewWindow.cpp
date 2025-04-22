@@ -30,9 +30,9 @@ MainSceneViewWindow::MainSceneViewWindow(bool isOpen/* = false*/)
 	_isWindowHovered(false),
 	_guizmoToolbarMode(GuizmoToolbarMode::BOTTOM_BAR)
 {
-	_translationButtonTexture = ResourceManager::getInstance().loadTexture("Icons/materialSymols/translateIcon.png");
-	_rotationButtonTexture = ResourceManager::getInstance().loadTexture("Icons/materialSymols/rotateIcon.png");
-	_scaleButtonTexture = ResourceManager::getInstance().loadTexture("Icons/materialSymols/scaleIcon.png");
+	_translationButtonTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Icons/materialSymols/translateIcon.png"));
+	_rotationButtonTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Icons/materialSymols/rotateIcon.png"));
+	_scaleButtonTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>("Icons/materialSymols/scaleIcon.png"));
 }
 
 
