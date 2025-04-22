@@ -160,7 +160,7 @@ PostProcessingBloom* Renderer::createBloomPostProcessing()
 PostProcessingEffect* Renderer::createFxaaPostPorcessing()
 {
     std::string qualityDefine = "QUALITY__PRESET_";
-    RShader* shader = ResourceManager::getInstance().loadShader("Shaders/quad.vert", "Shaders/postProcessingFxaa.frag", { qualityDefine + toString(_fxaaQuality) });
+    RShader* shader = ResourceManager::getInstance().loadResource<RShader>(ResourceId::create<RT_SHADER>("Shaders/quad.vert", "Shaders/postProcessingFxaa.frag", { qualityDefine + toString(_fxaaQuality) }));
 
     return new PostProcessingEffect(PPT_FXAA, _quadVBO, shader);
 }

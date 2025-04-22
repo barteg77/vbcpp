@@ -225,11 +225,11 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string texturePath = texPath + texStr;
+		std::string idString = idPrefix + "/" + texStr;
 
 
 		if (texStr != "")
-			sMaterial->opacityMaskTexture = ResourceManager::getInstance().loadTexture(texturePath);
+			sMaterial->opacityMaskTexture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idString));
 	}
 
     // reflection texture - global lub local, 1 dla czesci zewnetrznej, 2 dla czesci wewnetrznej szyby

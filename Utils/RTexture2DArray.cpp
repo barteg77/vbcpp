@@ -2,10 +2,10 @@
 
 
 RTexture2DArray::RTexture2DArray(TextureFormat internalFormat, const glm::uvec2& size, unsigned int arraySize, bool isMultisample/* = false*/, int samplesCount/* = 0*/)
-    : RTexture("", isMultisample ? TT_2D_MULTISAMPLE_ARRAY : TT_2D_ARRAY, internalFormat, size, false, false),
+    : RTexture(ResourceId::create<RT_TEXTURE>(""), isMultisample ? TT_2D_MULTISAMPLE_ARRAY : TT_2D_ARRAY, internalFormat, size, false, false),
     _arraySize(arraySize)
 {
-    LOG_INFO("RTexture2DArray - Konstruktor: " + _path);
+    LOG_INFO("RTexture2DArray - Konstruktor: " + _resourceId.getDebugString());
 
 
     glGenTextures(1, &_texID);
