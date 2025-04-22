@@ -19,7 +19,10 @@ vec4 FxaaTexTop(sampler2D t, vec2 p)
 
 vec4 FxaaTexOff(sampler2D t, vec2 p, ivec2 o, vec2 r) 
 {
-	return textureLodOffset(t, p, 0.0, o);
+	//return textureLodOffset(t, p, 0.0, o);
+    // ai solution for error: parameter `in offset' must be a constant expression
+    vec2 offset = vec2(o) * r;
+    return texture(t, p + offset);
 }
 
 float FxaaLuma(vec4 rgba)
