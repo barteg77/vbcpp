@@ -1110,7 +1110,9 @@ namespace vbEditor
 		GameConfig::getInstance().loadDevelopmentConfig("devSettings.xml");
 #endif // DEVELOPMENT_RESOURCES
 
+		GameConfig::getInstance().pbrSupport = true;
 		GameConfig::getInstance().mode = GM_EDITOR;
+		GameConfig::getInstance().isGrassEnable = true;
 
 		OGLDriver::getInstance().initialize();
 
@@ -1459,6 +1461,22 @@ namespace vbEditor
 				if (ImGui::MenuItem("Bloom", NULL, Renderer::getInstance().isBloomEnable()))
 				{
 					Renderer::getInstance().setBloom(!(Renderer::getInstance().isBloomEnable()));
+				}
+				if (ImGui::MenuItem("Fxaa", NULL, Renderer::getInstance().isFxaaEnabled()))
+				{
+					Renderer::getInstance().setFxaa(!Renderer::getInstance().isFxaaEnabled());
+				}
+				if (ImGui::BeginMenu("Fxaa quality"))
+				{
+					int fxaaQuality = Renderer::getInstance().getFxaaQuality();
+					for (int i = 1; i <= 17; ++i)
+					{
+						if (ImGui::MenuItem(Strings::toString(i).c_str(), NULL, i == fxaaQuality))
+						{
+							Renderer::getInstance().setFxaaQuality(i);
+						}
+					}
+					ImGui::EndMenu();
 				}
 
 				ImGui::Separator();

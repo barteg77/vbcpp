@@ -22,6 +22,7 @@ Renderer::Renderer()
     _screenWidth(0), _screenHeight(0),
     _alphaToCoverage(true), _exposure(0.05f), _toneMappingType(TMT_CLASSIC), _sceneVisibility(1.0f),
 	_framebufferTextureFormat(TF_RGBA_16F), _msaaAntialiasing(false), _msaaAntialiasingLevel(8),
+    _fxaa(false), _fxaaQuality(10),
     _bloom(false),
     _renderObjectIdsForPicking(false),
 	_isShadowMappingEnable(false), _shadowMap(NULL), _shadowCameraFrustumDiagonalIsCalculated(false),
@@ -156,6 +157,15 @@ PostProcessingBloom* Renderer::createBloomPostProcessing()
 }
 
 
+PostProcessingEffect* Renderer::createFxaaPostPorcessing()
+{
+    std::string qualityDefine = "QUALITY__PRESET_";
+    RShader* shader = ResourceManager::getInstance().loadShader("Shaders/quad.vert", "Shaders/postProcessingFxaa.frag", { qualityDefine + toString(_fxaaQuality) });
+
+    return new PostProcessingEffect(PPT_FXAA, _quadVBO, shader);
+}
+
+
 void Renderer::createFramebuffersForPostProcessing()
 {
 	for (int i = 0; i < 2; ++i)
@@ -194,6 +204,13 @@ void Renderer::initPostProcessingEffectsStack()
 	PostProcessingToneMapping* postProcessingToneMapping = new PostProcessingToneMapping(_quadVBO, _toneMappingType);
 	postProcessingToneMapping->setExposure(_exposure);
 	addPostProcessingEffect(postProcessingToneMapping);
+
+    // fxaa
+    if (_fxaa)
+    {
+        PostProcessingEffect* postProcessingFxaa = createFxaaPostPorcessing();
+        addPostProcessingEffect(postProcessingFxaa);
+    }
 }
 
 
@@ -1415,6 +1432,57 @@ int Renderer::getMsaaAntialiasingLevel()
 }
 
 
+void Renderer::setFxaa(bool isEnable)
+{
+    if (_isInitialized)
+    {
+        if (isEnable && findEffect(PPT_FXAA) == NULL)
+        {
+            PostProcessingEffect* postProcessingFxaa = createFxaaPostPorcessing();
+            addPostProcessingEffect(postProcessingFxaa);
+        }
+        else if (!isEnable)
+        {
+            removePostProcessingEffect(PPT_FXAA);
+        }
+    }
+
+    _fxaa = isEnable;
+}
+
+
+bool Renderer::isFxaaEnabled()
+{
+    return _fxaa;
+}
+
+
+void Renderer::setFxaaQuality(int quality)
+{
+    if (quality < 1 || quality > 17)
+    {
+        LOG_ERROR("Invalid fxaa quality value=" + Strings::toString(quality));
+        return;
+    }
+
+    _fxaaQuality = quality;
+
+    if (_isInitialized && _fxaa)
+    {
+        removePostProcessingEffect(PPT_FXAA);
+
+        PostProcessingEffect* postProcessingFxaa = createFxaaPostPorcessing();
+        addPostProcessingEffect(postProcessingFxaa);
+    }
+}
+
+
+int Renderer::getFxaaQuality()
+{
+    return _fxaaQuality;
+}
+
+
 void Renderer::setBloom(bool isEnable)
 {
 	if (_isInitialized)
@@ -2196,6 +2264,8 @@ void Renderer::renderScene(RenderData* renderData)
 			shader->bindTexture(_uniformsLocations[currentShader][UNIFORM_ROUGHNESS_TEXTURE], material->roughnessTexture);
 		if (material->aoTexture != NULL)
 			shader->bindTexture(_uniformsLocations[currentShader][UNIFORM_AO_TEXTURE], material->aoTexture);
+        if (material->opacityMaskTexture != NULL)
+            shader->bindTexture(_uniformsLocations[currentShader][UNIFORM_ALPHA_TEXTURE], material->opacityMaskTexture);
 		if (material->emissiveTexture != NULL)
 			shader->bindTexture(_uniformsLocations[currentShader][UNIFORM_EMISSIVE_TEXTURE], material->emissiveTexture);
 
