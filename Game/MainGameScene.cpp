@@ -1,13 +1,10 @@
 #include "MainGameScene.h"
 
-#include "AIAgent.h"
-#include "AIAgentPhysicalVechicle.h"
 #include "BusStartPoint.h"
 #include "CameraControlComponent.h"
 #include "GameEnvironment.h"
 #include "GameLogicSystem.h"
 #include "Hud.h"
-#include "PathComponent.h"
 #include "MainGameScene/MirrorImage.h"
 
 #include "../Bus/BusLoader.h"
@@ -207,6 +204,8 @@ void MainGameScene::setActiveCamera(CameraFPS* camera)
 			}
 		}
 	}
+
+	setCameraControll(_isCameraControll);
 }
 
 
@@ -253,7 +252,7 @@ void MainGameScene::loadScene()
 	Bus* bus = busLoader.loadBus(busModel, busVariables);
 	_buses.push_back(bus);
 
-	/*for (int i = 0; i < 1; ++i)
+	/*for (int i = 0; i < 10; ++i)
 	{
 		BusConfigurationsLoader::loadBusPredefinedConfigurationByName(busModel, "Typ 2", busVariables);
 		Bus* bus2 = busLoader.loadBus(busModel, busVariables);
@@ -280,6 +279,9 @@ void MainGameScene::loadScene()
 	_cameras[GC_DRIVER]->getSceneObject()->setRotation(0, 0, 0);
 
 	bus->getSceneObject()->addChild(_cameras[GC_BUS]->getSceneObject());
+	//AIAgentVehicle* v = _sceneManager->getGameLogicSystem()->getAIAgentVehicles()[0];
+	//v->getSceneObject()->addChild(_cameras[GC_BUS]->getSceneObject());
+
 
 	/*CameraStatic* camera = _graphicsManager->getCurrentCamera();
 	camera->getSceneObject()->setPosition(_sceneManager->getBusStart().position + glm::vec3(-8.0f, -3.0f, -3.0f));
@@ -417,7 +419,7 @@ void MainGameScene::startGame()
 	_physicsManager->play();
 	_soundManager->setMute(false);
 
-	glfwSetCursorPos(_window->getWindow(), _window->getWidth() / 2, _window->getHeight() / 2);
+	setCameraControll(_isCameraControll);
 }
 
 
@@ -441,10 +443,7 @@ void MainGameScene::fixedStepUpdate(double deltaTime)
 
 	_sceneManager->getBusStopSystem()->update(deltaTime, _activeBus);
 
-	if (_isCameraControll)
-	{
-		_sceneManager->getGameLogicSystem()->update(deltaTime);
-	}
+	_sceneManager->getGameLogicSystem()->update(deltaTime);
 }
 
 
@@ -764,10 +763,7 @@ void MainGameScene::fixedStepReadInput(float deltaTime)
 	// mouse
 	if (input.isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
 	{
-		_isCameraControll = !_isCameraControll;
-		glfwSetCursorPos(_window->getWindow(), _window->getWidth() / 2, _window->getHeight() / 2);
-
-		_window->setCursorMode(_isCameraControll ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+		setCameraControll(!_isCameraControll);
 	}
 
 	if (input.isMouseButtonReleased(GLFW_MOUSE_BUTTON_LEFT))
@@ -824,4 +820,20 @@ void MainGameScene::rayTestWithModelNode(RenderObject* renderObject, ModelNode* 
 	{
 		rayTestWithModelNode(renderObject, modelNode->getChildren()[i], rayStart, rayDir, modelMatrix);
 	}
+}
+
+
+void MainGameScene::setCameraControll(bool isCameraControll)
+{
+	_isCameraControll = isCameraControll;
+
+	Component* cameraControlComponent = _activeCamera->getSceneObject()->getComponent(CT_CAMERA_CONTROL);
+	if (cameraControlComponent != nullptr)
+	{
+		static_cast<CameraControlComponent*>(cameraControlComponent)->setRotationControl(_isCameraControll);
+	}
+
+	glfwSetCursorPos(_window->getWindow(), _window->getWidth() / 2, _window->getHeight() / 2);
+
+	_window->setCursorMode(_isCameraControll ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
