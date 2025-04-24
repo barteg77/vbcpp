@@ -38,8 +38,8 @@ std::unique_ptr<RShader> ResourceRepoNative::loadShader(const ResourceId& resour
         std::unique_ptr<RShader> shader (std::make_unique<RShader>(resourceId, ShaderLoader::loadShader(vertexShaderFileName,
                                                                                                         fragmentShaderFileName,
                                                                                                         resourceId.getDefines(),
-                                                                                                        resourceId.getConstants()
-                                                                                                        )));
+                                                                                                        resourceId.getConstants()),
+                                                                                                        ST_NORMAL));
         return shader;
     } else { // compute shader
         const std::string computeShaderFilePath(_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
@@ -48,8 +48,8 @@ std::unique_ptr<RShader> ResourceRepoNative::loadShader(const ResourceId& resour
         }
         std::unique_ptr<RShader> shader (std::make_unique<RShader>(resourceId, ShaderLoader::loadComputeShader(computeShaderFilePath.c_str(),
                                                                                                                resourceId.getDefines(),
-                                                                                                               resourceId.getConstants()
-                                                                                                               )));
+                                                                                                               resourceId.getConstants()),
+                                                                                                               ST_COMPUTE));
         return shader;
     }
 }
