@@ -87,7 +87,17 @@ void MainSceneViewWindow::showImGuizmoToolbarAsWindow()
 
 void MainSceneViewWindow::showImGuizmoToolbarAsBottomBar()
 {
-	_availableViewSize.y -= 30;
+	// 2u is default _availableViewSize.y (assigned in MainSceneViewWindow::MainSceneViewWindow
+	// and MainSceneViewWindow::drawWindow), it hasn't got constant defined
+	// to do: fix
+	const unsigned int viewSizeDecrease = 30u;
+	const unsigned int minSize = 2u;
+	// this is to prevent uint underflow and view size < 2
+	if (_availableViewSize.y > minSize + viewSizeDecrease) {
+		_availableViewSize.y -= viewSizeDecrease;
+	} else {
+		_availableViewSize.y = minSize;
+	}
 
 	ImGui::Separator();
 
