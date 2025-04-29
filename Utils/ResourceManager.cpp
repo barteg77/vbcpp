@@ -151,16 +151,9 @@ RTexture2D* ResourceManager::loadOneColorTexture(glm::vec4 color) {
     return ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(idStringS.str()));
 }
 
-void ResourceManager::reloadShader(RShader* shader)
-{
-    //temporarily disabled
-    assert(false);
-}
-
 void ResourceManager::reloadAllShaders()
 {
-    //temporarily disabled
-    assert(false);
+    reloadResources<RShader>();
 }
 
 

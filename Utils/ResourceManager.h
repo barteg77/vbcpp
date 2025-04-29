@@ -34,6 +34,18 @@ class ResourceManager
 {
     static const ResourceId DEFAULT_WHITE_TEXTURE_RESOURCE_ID;
 
+    template <class ResourceTypeT>
+    std::unique_ptr<ResourceTypeT> loadResourceFromRepo(const ResourceId& resourceId) {
+        for (auto& resourceRepo : _resourceRepos) {
+            LOG_DEBUG("Checking for resource " + resourceId.getDebugString() + " in repo " + resourceRepo->getDebugString());
+            std::unique_ptr<ResourceTypeT> loadedResource (resourceRepo->loadResource<ResourceTypeT>(resourceId));
+            if (loadedResource) {
+                LOG_DEBUG("Resource " + resourceId.getDebugString() + " found in repo " + resourceRepo->getDebugString());
+                return loadedResource;
+            }
+        }
+        return std::unique_ptr<ResourceTypeT>(nullptr);
+    }
     public:
         virtual ~ResourceManager();
 
@@ -68,19 +80,34 @@ class ResourceManager
                 return foundResource;
             }
             LOG_DEBUG("Resource " + resourceId.getDebugString() + " not found in resource manager.");
-            for (auto& resourceRepo : _resourceRepos) {
-                LOG_DEBUG("Checking for resource " + resourceId.getDebugString() + " in repo " + resourceRepo->getDebugString());
-                std::unique_ptr<ResourceTypeT> loadedResource (resourceRepo->loadResource<ResourceTypeT>(resourceId));
-                if (loadedResource) {
-                    ResourceTypeT* loadedResourceRawPtr (loadedResource.get());
-                    getResourceContainer<ResourceTypeT>().push_back(std::move(loadedResource));
-                    LOG_DEBUG("Resource " + resourceId.getDebugString() + " found in repo " + resourceRepo->getDebugString());
-                    return loadedResourceRawPtr;
-                }
+
+            std::unique_ptr<ResourceTypeT> loadedResource (loadResourceFromRepo<ResourceTypeT>(resourceId));
+            if (loadedResource) {
+                ResourceTypeT* loadedResourceRawPtr (loadedResource.get());
+                getResourceContainer<ResourceTypeT>().push_back(std::move(loadedResource));
+                return loadedResourceRawPtr;
             }
             LOG_ERROR("Resource " + resourceId.getDebugString() + " not found in any repository! Program will be terminated.");
             assert(false);
             return nullptr;
+        }
+
+        template <class ResourceTypeT>
+        void reloadResourceOld(ResourceTypeT* oldResource) {
+            const ResourceId resourceId (oldResource->getResourceId());
+            LOG_DEBUG("(old) Reloading of resource " + resourceId.getDebugString());
+            std::unique_ptr<ResourceTypeT> newResource (loadResourceFromRepo<ResourceTypeT>(resourceId));
+            
+            // this may impair newResource
+            oldResource->setNewData(newResource.get());
+        }
+
+        template <class ResourceTypeT>
+        void reloadResources() {
+            std::list<std::unique_ptr<ResourceTypeT>>& resourcesContainer (getResourceContainer<ResourceTypeT>());
+            for (std::unique_ptr<ResourceTypeT>& resourceToReload : resourcesContainer) {
+                reloadResourceOld(resourceToReload.get());
+            }
         }
 
         void reloadTexture(RTexture2D* texture);
@@ -91,7 +118,6 @@ class ResourceManager
         RTexture2D* loadDefaultWhiteTexture();
 		RTexture2D* loadOneColorTexture(glm::vec4 color);
 
-        void reloadShader(RShader* shader);
         void reloadAllShaders();
 		RObject* loadRObject(const std::string& name);
 		RRoadProfile* loadRoadProfile(const std::string& name);

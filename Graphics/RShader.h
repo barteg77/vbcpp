@@ -213,6 +213,12 @@ class RShader : virtual public Resource
             }
         }
 
+        void setNewData(RShader* newShader) {
+            setNewShader(newShader->_shaderID);
+            // keep in mind, it is not always-safe, it only keeps backward-compatibility
+            newShader->_shaderID = 0;
+            // this impair newShader!!
+        }
 };
 
 
