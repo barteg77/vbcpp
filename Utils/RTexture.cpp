@@ -122,3 +122,9 @@ void RTexture::generateMipmap()
 
 	_isGenerateMipmap = true;
 }
+
+void RTexture::setNewData(RTexture* newData) {
+    glDeleteTextures(1, &_texID);
+    _texID = newData->_texID;
+    newData->_texID = 0; // this brokes newData
+}

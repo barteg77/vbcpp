@@ -106,6 +106,8 @@ class RTexture : public Resource
 
 		void generateMipmap();
 
+        void setNewData(RTexture* newData);
+
     protected:
         GLuint      _texID;
         TextureType _textureType;

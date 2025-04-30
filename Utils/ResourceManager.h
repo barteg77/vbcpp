@@ -110,9 +110,6 @@ class ResourceManager
             }
         }
 
-        void reloadTexture(RTexture2D* texture);
-        void reloadTexture(const ResourceId& resourceId);
-        void reloadTexture(RTextureCubeMap* texture);
         void reloadAllTextures();
 
         RTexture2D* loadDefaultWhiteTexture();

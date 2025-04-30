@@ -89,54 +89,10 @@ std::vector<std::string> ResourceManager::getRepoSubdirs(const std::string& pseu
     return allSubdirsV;
 }
 
-void ResourceManager::reloadTexture(RTexture2D* texture)
-{
-    loadResource<RTexture2D>(texture->getResourceId());
-}
-
-
-void ResourceManager::reloadTexture(const ResourceId& resourceId)
-{
-    RTexture2D* texture = findResource<RTexture2D>(resourceId);
-    if (texture != NULL)
-    {
-        reloadTexture(texture);
-    }
-}
-
-
-void ResourceManager::reloadTexture(RTextureCubeMap* texture)
-{
-    //temporarily disabled
-    assert(false);
-    /*std::string fileNames[6];
-    istringstream stream(texture->getPath());
-    std::string s;
-    int index = 0;
-    while (getline(stream, s, ';')) {
-        fileNames[index++] = s;
-    }
-
-    ::loadTextureCubeMap(fileNames, texture->getPath().c_str(), true, texture);*/
-}
-
-
 void ResourceManager::reloadAllTextures()
 {
-    assert(false);/*
-    std::list<std::unique_ptr<Resource>>::iterator it;
-    for ( it = _resources.begin(); it != _resources.end(); ++it)
-    {
-        if ( (*it)->getType() == RT_TEXTURE )
-        {
-            std::unique_ptr<Resource>& res = *it;
-
-            RTexture* texture = dynamic_cast<RTexture*>(res.get());
-            if (texture->getTextureType() == TT_2D)
-                reloadTexture(dynamic_cast<RTexture2D*>(texture));
-            else if (texture->getTextureType() == TT_CUBE)
-                reloadTexture(dynamic_cast<RTextureCubeMap*>(texture));
-    }*/
+    reloadResources<RTexture2D>();
+    reloadResources<RTextureCubeMap>();
 }
 
 RTexture2D* ResourceManager::loadDefaultWhiteTexture() {
