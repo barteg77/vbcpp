@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 
 #include "SceneLoader.h"
+#include "../Utils/ResourceId.h"
 
 
 namespace tinyxml2
@@ -49,7 +50,7 @@ class SceneSaver
 		tinyxml2::XMLElement* _objectsElement;
 		tinyxml2::XMLElement* _roadsElement;
 
-		std::string createSkyTextureAttribute(std::string path);
+		std::string createSkyTextureAttribute(const ResourceId& resourceId);
 
 		void saveTerrain(tinyxml2::XMLElement* terrainElement, tinyxml2::XMLElement* grassElement, SceneObject* sceneObject);
 		void saveGrass(tinyxml2::XMLElement* grassElement, tinyxml2::XMLDocument& doc, SceneObject* sceneObject);

@@ -30,15 +30,14 @@ SceneSaver::SceneSaver(SceneManager* sceneManager)
 }
 
 
-std::string SceneSaver::createSkyTextureAttribute(std::string path)
+std::string SceneSaver::createSkyTextureAttribute(const ResourceId& resourceId)
 {
-	if (path[path.size() - 1] == ';')
-		path = path.substr(0, path.size() - 1);
+	const std::vector<std::string>& textures = resourceId.getIdParts();
 
-	std::vector<std::string> textures = split(path, ';');
-
-	if (textures.size() != 6)
+	if (textures.size() != 6) {
 		LOG_ERROR("Scene saver: Invalid skybox textures path");
+		assert(false);
+	}
 
 	std::string result = FilesHelper::getRelativePathToDir(textures[0], GameDirectories::SKYBOX) + "," + FilesHelper::getRelativePathToDir(textures[1], GameDirectories::SKYBOX) + "," +
 						 FilesHelper::getRelativePathToDir(textures[2], GameDirectories::SKYBOX) + "," + FilesHelper::getRelativePathToDir(textures[3], GameDirectories::SKYBOX) + "," +
@@ -108,8 +107,8 @@ void SceneSaver::saveSky(XMLElement* skyElement, SceneObject* sceneObject)
 
 	if (renderObject)
 	{
-		std::string skyboxTexturePaths = renderObject->getModel()->getMaterial(0)->diffuseTexture->getPath();
-		skyElement->SetAttribute("texture", createSkyTextureAttribute(skyboxTexturePaths).c_str());
+		const ResourceId skyboxResourceId = renderObject->getModel()->getMaterial(0)->diffuseTexture->getResourceId();
+		skyElement->SetAttribute("texture", createSkyTextureAttribute(skyboxResourceId).c_str());
 	}
 }
 

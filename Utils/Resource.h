@@ -19,7 +19,10 @@ class Resource
         { return _resourceId; }
 
         std::string getPath() const// use ONLY! in Editor/Windows/ObjectPropertiesWindow.cpp
-        { return _resourceId.getIdString(0); }
+        {
+            assert(_resourceId.getIdPartsCount() == 1);
+            return _resourceId.getIdString(0);
+        }
 
         ResourceType getType() const
         { return _type; }
