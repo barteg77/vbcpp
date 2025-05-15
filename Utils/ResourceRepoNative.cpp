@@ -1,4 +1,5 @@
 #include "ResourceRepoNative.h"
+#include "../Game/Directories.h"
 #include "../Game/GameConfig.h"
 #include "../Graphics/LoadTexture.h"
 #include "../Graphics/StaticModelLoader.h"
@@ -96,7 +97,7 @@ std::unique_ptr<RSound> ResourceRepoNative::loadSound(const ResourceId& resource
 }
 
 std::unique_ptr<RObject> ResourceRepoNative::loadRObject(const ResourceId& resourceId, const std::string& originalName) {
-    const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0) + "object.xml"));
+    const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(GameDirectories::OBJECTS + resourceId.getIdString(0) + "/object.xml"));
     std::unique_ptr<RObject> object (RObjectLoader::loadObject(resourceId, filePath, originalName));
     return object;
 }

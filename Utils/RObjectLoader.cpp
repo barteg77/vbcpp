@@ -338,7 +338,7 @@ RObject* RObjectLoader::loadObject(const ResourceId& resourceId, const std::stri
 SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefinition, const std::string& name,
 														 const glm::vec3& position, const glm::vec3& rotation, SceneManager* sceneManager)
 {
-	std::string objectDirPath = objectDefinition->getResourceId().getIdString(0);
+	std::string objectDirPath = GameDirectories::OBJECTS + objectDefinition->getResourceId().getIdString(0) + "/";
 
 	SceneObject* sceneObject = sceneManager->addSceneObject(name, 0, objectDefinition);
 	sceneObject->setPosition(position);

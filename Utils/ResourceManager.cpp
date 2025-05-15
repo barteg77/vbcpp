@@ -115,7 +115,7 @@ void ResourceManager::reloadAllShaders()
 
 RObject* ResourceManager::loadRObject(const std::string& name)
 {
-  return loadResource<RObject>(ResourceId::create<RT_OBJECT>(GameDirectories::OBJECTS + name + "/"));
+  return loadResource<RObject>(ResourceId::create<RT_OBJECT>(name));
 }
 
 RRoadProfile* ResourceManager::loadRoadProfile(const std::string& name)

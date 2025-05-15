@@ -69,7 +69,7 @@ template <> inline std::unique_ptr<RAnimatedModel> ResourceRepo::loadResource(co
 template <> inline std::unique_ptr<RAnimation> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimation(resourceId); }
 template <> inline std::unique_ptr<RFont> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadFont(resourceId); }
 template <> inline std::unique_ptr<RSound> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadSound(resourceId); }
-template <> inline std::unique_ptr<RObject> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadRObject(resourceId, "default_name"); }
+template <> inline std::unique_ptr<RObject> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadRObject(resourceId, resourceId.getIdString(0)); }
 template <> inline std::unique_ptr<RRoadProfile> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadRoadProfile(resourceId); }
 template <> inline std::unique_ptr<RDisplayFont> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadDisplayFont(resourceId); }
 template <> inline std::unique_ptr<RMaterialsCollection> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadMaterialsCollection(resourceId); }
