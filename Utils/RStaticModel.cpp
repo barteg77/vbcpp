@@ -29,11 +29,6 @@ RStaticModel::~RStaticModel()
         delete _rootNode;
     }
 
-    for (int i = 0; i < _materials.size(); ++i)
-    {
-        delete _materials[i];
-    }
-
     if (_collisionMesh)
     {
         delete[] _collisionMesh;
