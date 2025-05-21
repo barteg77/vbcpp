@@ -87,8 +87,7 @@ class ResourceManager
                 getResourceContainer<ResourceTypeT>().push_back(std::move(loadedResource));
                 return loadedResourceRawPtr;
             }
-            LOG_ERROR("Resource " + resourceId.getDebugString() + " not found in any repository! Program will be terminated.");
-            assert(false);
+            LOG_ERROR("Resource " + resourceId.getDebugString() + " not found in any repository!");
             return nullptr;
         }
 
