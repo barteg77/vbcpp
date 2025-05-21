@@ -13,8 +13,7 @@ using namespace tinyxml2;
 RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceId& resourceId, const std::string& fullPath)
 {
 	//const std::string fullPath = dirPath + PROFILE_FILE_NAME;
-	const std::string idPrefix(Path(resourceId.getIdString(0)).getString());
-	const std::string materialFullPath = MaterialLoader::createMaterialFileName(fullPath);
+	const std::string idPrefix(Path(resourceId.getIdString(0)).getString() + "/");
 
 	XMLDocument doc;
 	XMLError result = doc.LoadFile(fullPath.c_str());
@@ -48,7 +47,8 @@ RRoadProfile* RoadProfileLoader::loadRoadProfile(const ResourceId& resourceId, c
 	LOG_INFO("Name: " + profName);
 	LOG_INFO("Comment: " + comment);
 
-
+	const std::string materialIdString (idPrefix + "profile_mat.xml");
+	const std::string materialFullPath (ResourceManager::getInstance().realPath(materialIdString));
 	MaterialLoader matLoader;
 	matLoader.openFile(materialFullPath.c_str());
 

@@ -122,7 +122,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string idString = idPrefix + "/"+ texStr; // to i nastepne przerobic zeby uzywalo Path
+		std::string idString = idPrefix + texStr; // to i nastepne przerobic zeby uzywalo Path
 
 
 		if (texStr != "")
@@ -140,7 +140,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string idString = idPrefix + "/" + texStr;
+		std::string idString = idPrefix + texStr;
 
 
 		if (texStr != "")
@@ -158,7 +158,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
         for(unsigned int i = 0; i < texStr.size(); i++ )
             texStr[i] = tolower(texStr[i]);
 
-		std::string idString = idPrefix + "/" + texStr;
+		std::string idString = idPrefix + texStr;
 
 
         if(texStr != "")
@@ -175,7 +175,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string idString = idPrefix + "/" + texStr;
+		std::string idString = idPrefix + texStr;
 
 
 		if (texStr != "")
@@ -192,7 +192,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string idString = idPrefix + "/" + texStr;
+		std::string idString = idPrefix + texStr;
 
 
 		if (texStr != "")
@@ -209,7 +209,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string idString = idPrefix + "/" + texStr;
+		std::string idString = idPrefix + texStr;
 
 
 		if (texStr != "")
@@ -226,7 +226,7 @@ Material* MaterialLoader::loadMaterial(XMLElement* materialElement, const std::s
 		for (unsigned int i = 0; i < texStr.size(); i++)
 			texStr[i] = tolower(texStr[i]);
 
-		std::string idString = idPrefix + "/" + texStr;
+		std::string idString = idPrefix + texStr;
 
 
 		if (texStr != "")

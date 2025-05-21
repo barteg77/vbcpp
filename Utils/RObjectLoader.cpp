@@ -338,7 +338,7 @@ RObject* RObjectLoader::loadObject(const ResourceId& resourceId, const std::stri
 SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefinition, const std::string& name,
 														 const glm::vec3& position, const glm::vec3& rotation, SceneManager* sceneManager)
 {
-	std::string objectDirPath = GameDirectories::OBJECTS + objectDefinition->getResourceId().getIdString(0) + "/";
+	std::string objectDirPath = GameDirectories::OBJECTS + objectDefinition->getResourceId().getIdString(0);
 
 	SceneObject* sceneObject = sceneManager->addSceneObject(name, 0, objectDefinition);
 	sceneObject->setPosition(position);
@@ -375,7 +375,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 				bool lowPolyNormalsSmoothing = toBool(components[i]["lowPolyModelNormalsSmoothing"]);
 				bool lowPolyLoadWithHierarchy = toBool(components[i]["lowPolyLoadWithHierarchy"]);
 			  	const ResourceId lowPolyModelId =
-					ResourceId::create<RT_MODEL>(objectDirPath + lowPolyModeFile,
+					ResourceId::create<RT_MODEL>(objectDirPath + "/" + lowPolyModeFile,
 												 lowPolyLoadWithHierarchy? ResourceId::HierarchyHandling::with : ResourceId::HierarchyHandling::without);
 
 				RStaticModel* lowPolyModel = loadModel(lowPolyModelId, objectDirPath, isAnimated, lowPolyNormalsSmoothing, model);
@@ -448,7 +448,7 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 			float volume = toFloat(components[i]["volume"]);
 			glm::vec3 soundPosition = XMLstringToVec3(components[i]["position"].c_str());
 
-			std::string soundPath = objectDirPath + soundFile;
+			std::string soundPath = objectDirPath + "/" + soundFile;
 
 			RSound* soundResource = ResourceManager::getInstance().loadResource<RSound>(ResourceId::create<RT_SOUND>(soundPath));
 			SoundComponent* sound = new SoundComponent(soundResource, EST_AMBIENT, looping);
