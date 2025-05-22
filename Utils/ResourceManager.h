@@ -29,11 +29,20 @@
 
 typedef std::list<std::unique_ptr<Resource>> resourcePtrList;
 
-
+/**
+ * @brief General interface to game resources.
+ * 
+ * Loads Resources from ResourceRepos and stores them in memory.
+ */
 class ResourceManager
 {
     static const ResourceId DEFAULT_WHITE_TEXTURE_RESOURCE_ID;
 
+    /**
+     * @brief Get a resource which is already stored in resource manager's memory.
+     * @tparam ResourceTypeT type of requested resource
+     * @return raw pointer to resource or nullptr if not found
+     */
     template <class ResourceTypeT>
     ResourceTypeT* findResource(const ResourceId& resourceId) {
         const std::list<std::unique_ptr<ResourceTypeT>>& container (getResourceContainer<ResourceTypeT>());
@@ -45,6 +54,15 @@ class ResourceManager
         return nullptr;
     }
 
+    /**
+     * @brief Load a resource from repository.
+     * 
+     * Tries loading a resource from repositories (in same order they were added)
+     * until find a resource.
+     * 
+     * @tparam ResourceTypeT type of requested resource
+     * @return unique_ptr to resource or to null if not found
+     */
     template <class ResourceTypeT>
     std::unique_ptr<ResourceTypeT> loadResourceFromRepo(const ResourceId& resourceId) {
         for (auto& resourceRepo : _resourceRepos) {
@@ -60,18 +78,45 @@ class ResourceManager
     public:
         virtual ~ResourceManager();
 
+        /**
+         * @brief Obtain a reference to ResourceManager instance
+         * @return reference to ResourceManager instance
+         */
         static ResourceManager& getInstance();
 
-
+        /**
+         * @brief Get valid filesystem path of file
+         * 
+         * This is temporary solution to allow finding a location of files which
+         * store game data in native repo, but are not hadled as a resource e.g.
+         * repaint config files.
+         * 
+         * @param pseudoId case-insensitive path to resource relative to repo root
+         * @return valid file path or empty string if not found
+         */
         std::string realPath(const std::string& pseudoId); // use wisely or better don't use
-
-        // this is temporary hack to allow discovery of subdirectories of a directory(ies) in all repo-native.
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        // As available repaints used to be discovered by listing exact directory contents and the listing of this dir with alternativeResourcesPath,
-        // replacement of alternativeResourcesPath with Resource Repos requires to save this functionality.
-        // To be replaced with decent solution later.
+        
+        /**
+         * @brief Get subdirectories of directory from all native repos.
+         * 
+         * This is temporary solution to allow discovery of repaints and maps.
+         * 
+         * As available repaints used to be discovered by listing exact directory
+         * contents and the listing of this dir with alternativeResourcesPath,
+         * replacement of alternativeResourcesPath with resource repos requires
+         * to save this functionality. To be replaced with decent solution later.
+         * 
+         * @param pseudoId path to directory relative to repo root
+         * @return vector of names (std::string) of subdirectories
+         */
         std::vector<std::string> getRepoSubdirs(const std::string& pseudoId);
 
+        /**
+         * @brief Load resource if not loaded and returns pointer to it.
+         * @tparam ResourceTypeT type of requested resource
+         * @param resourceId ResourceId of requested resource
+         * @return raw pointer to resource or nullptr if not found
+         */
         template <class ResourceTypeT>
         ResourceTypeT* loadResource(const ResourceId& resourceId) {
             LOG_DEBUG("Looking for resource " + resourceId.getDebugString() + "...");
@@ -92,6 +137,15 @@ class ResourceManager
             return nullptr;
         }
 
+        /**
+         * @brief Reload resource
+         * 
+         * Load resource with resourceId same as in one to be reloaded,
+         * then inject new data to oldResource.
+         * 
+         * @tparam ResourceTypeT type of resource to reload, only RTexture2D, RTextureCubeMap, RShader are supported
+         * @param oldResource pointer to resource to be reloaded
+         */
         template <class ResourceTypeT>
         void reloadResourceOld(ResourceTypeT* oldResource) {
             const ResourceId resourceId (oldResource->getResourceId());
@@ -102,6 +156,10 @@ class ResourceManager
             oldResource->setNewData(newResource.get());
         }
 
+        /**
+         * @brief Reload all resources of a specific type
+         * @tparam ResourceTypeT type of resources to be reloaded
+         */
         template <class ResourceTypeT>
         void reloadResources() {
             std::list<std::unique_ptr<ResourceTypeT>>& resourcesContainer (getResourceContainer<ResourceTypeT>());
@@ -110,6 +168,7 @@ class ResourceManager
             }
         }
 
+        /// @brief Reload all RTexture2D and RTextureCubeMap resources
         void reloadAllTextures();
 
         RTexture2D* loadDefaultWhiteTexture();
@@ -120,8 +179,18 @@ class ResourceManager
 		RRoadProfile* loadRoadProfile(const std::string& name);
 		RDisplayFont* loadDisplayFont(const std::string& name);
 
+        /**
+         * @brief Add one more resource repo with lowest priority
+         * @param resourceRepoPtr unique_ptr to repo, will be moved to ResourceManager
+         */
         void addResourceRepo(std::unique_ptr<ResourceRepo> resourceRepoPtr);
 
+        /**
+         * @brief Store resource in repository
+         * @tparam ResourceTypeT type of resource to be stored
+         * @param resource Resource to be stored
+         * @return status if store succeeded
+         */
         template <class ResourceTypeT>
         ResourceStoreResult storeResource(ResourceTypeT* resource) {
             LOG_INFO("Storing resource " + resource->getResourceId().getDebugString() + " in top-priority repo: " + _resourceRepos.front()->getDebugString());

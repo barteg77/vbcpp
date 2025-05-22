@@ -4,11 +4,18 @@
 #include "ResourceRepo.h"
 #include "ResourceRepoFilesystemHelper.h"
 
+/**
+ * @brief ResourceRepo handling standard Virtual Bus format.
+ */
 class ResourceRepoNative : public ResourceRepo {
     const std::string _path;
     const std::unique_ptr<FilesystemHelper> _filesystemHelper;
 
 public:
+    /**
+     * @param name name for logging purposes
+     * @param path valid filesystem path of root of resources' directory structure
+     */
     explicit ResourceRepoNative(const std::string& name,
                                 const std::string& path)
     : ResourceRepo(name),
@@ -18,11 +25,20 @@ public:
 
     virtual ~ResourceRepoNative() {}
 
-    // temporatry solution for loaders outside resource manager
+    /**
+     * @brief DON'T USE Get valid filesystem path of file.
+     * 
+     * This is temporary solution required by ResourceManager::realPath.
+     */
     std::string actualResourceFilepath(const std::string& pseudoId/*1-file resource*/) {
         return getActualFilesystemFilepath(Path(pseudoId));
     }
 
+    /**
+     * @brief DON'T USE Get valid filesystem path of directory.
+     * 
+     * This is temporary solution required by ResourceManager::getRepoSubdirs.
+     */
     std::string actualDirpath(const std::string& pseudoId) {
         return _filesystemHelper->getActualFilesystemDirpath(Path(pseudoId));
     }

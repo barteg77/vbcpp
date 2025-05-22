@@ -13,6 +13,18 @@
 #include "FilesHelper.h"
 #include "Path.h"
 
+/**
+ * @brief Associates relative, case-insensitive paths with valid filesystem paths.
+ * 
+ * FilesystemHelper handles assiciations inside its _repoDirectory. 
+ * 
+ * FilesystemHelper stores list of paths to directories. Each path is
+ * described with its lowercase path relative to _repoDirectory, actual path
+ * relative to _repoDirectory and list of files in it (if it was necessary to
+ * load it).
+ * 
+ * Each file is described with its lowercase and actual name.
+ */
 class FilesystemHelper final
 {
     struct FilesystemEntryInfo
@@ -59,15 +71,27 @@ class FilesystemHelper final
     DirectoryInfo* getDirectoryInfo(Path directoryName);
     
 public:
-    // object stores assosiations of case insensitive paths with actual (case sensitive) file paths
-    // Constructor params:
-    // repoDirectory - directory, to which all in-repo path are relative, must be correct directory path on current filesystem (case sensitive if on case sensitive filesystem)
-    // filesHelper - FilesHelper object to access filesystem
+    /**
+     * @param repoDirectory root directory of FilesystemHelper instance (paths you
+     * will query it will have to be realtive to it)
+     * @param filesHelper filesystem interface
+     */
     FilesystemHelper(const std::string& repoDirectory, FilesHelper& filesHelper);
 
-    // returns real (case sensitive) file path of given case-insensitive filepath if exists
-    // returns empty string if wanted file doesn't exist
+    /**
+     * @brief Get valid filesystem path of file
+     * @param filePath file path relative to ResourceRepoFilesystemHelper's
+     * repoDirectory
+     * @return case sensitive file path or empty string if it does not exist
+     */
     std::string getActualFilesystemFilepath(Path filePath);
+
+    /**
+     * @brief Get valid filesystem path of file
+     * @param filePath file path relative to ResourceRepoFilesystemHelper's
+     * repoDirectory
+     * @return case sensitive directory path or empty string if it does not exist
+     */
     std::string getActualFilesystemDirpath(const Path& directoryPath);
 };
 

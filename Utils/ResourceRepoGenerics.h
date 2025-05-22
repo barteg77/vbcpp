@@ -4,12 +4,18 @@
 #include "ResourceRepo.h"
 #include <regex>
 
+/**
+ * Provides generics like one color textures etc.
+ */
 class ResourceRepoGenerics : public ResourceRepo {
     static const std::regex oneColorTextureRegex;
 
     virtual std::string getPropertiesString() const { return "type:generics"; }
 
 public:
+    /**
+     * ResourceRepoGenerics constructor
+     */
     explicit ResourceRepoGenerics()
     : ResourceRepo("VBCPP GENERICS")
     {}

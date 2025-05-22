@@ -34,6 +34,10 @@ struct ResourceStoreResult {
     {}
 };
 
+/**
+ * ResourceRepo is an entity which can load resources from somewhere.
+ * It's derivatives implement loading resources from diverse sources.
+ */
 class ResourceRepo
 {
 	const std::string _name;
@@ -48,9 +52,16 @@ public:
     std::string getName() const { return _name; }
     std::string getDebugString() const
     { return "name:"+getName()+" "+getPropertiesString(); }
+
+    /**
+     * @brief Load resource from repository
+     */
     template <class ResourceT>
     std::unique_ptr<ResourceT> loadResource(const ResourceId& resourceId);
 
+    /**
+     * @brief Store (save) resource in repository.
+     */
     template <class ResourceT>
     ResourceStoreResult storeResource(ResourceT* resource);
     
