@@ -35,6 +35,17 @@ class ResourceManager
     static const ResourceId DEFAULT_WHITE_TEXTURE_RESOURCE_ID;
 
     template <class ResourceTypeT>
+    ResourceTypeT* findResource(const ResourceId& resourceId) {
+        const std::list<std::unique_ptr<ResourceTypeT>>& container (getResourceContainer<ResourceTypeT>());
+        for (const auto& resource : container){
+            if (resource->getResourceId() == resourceId) {
+                return resource.get();
+            }
+        }
+        return nullptr;
+    }
+
+    template <class ResourceTypeT>
     std::unique_ptr<ResourceTypeT> loadResourceFromRepo(const ResourceId& resourceId) {
         for (auto& resourceRepo : _resourceRepos) {
             LOG_DEBUG("Checking for resource " + resourceId.getDebugString() + " in repo " + resourceRepo->getDebugString());
@@ -51,16 +62,6 @@ class ResourceManager
 
         static ResourceManager& getInstance();
 
-        template <class ResourceTypeT>
-        ResourceTypeT* findResource(const ResourceId& resourceId) {
-            const std::list<std::unique_ptr<ResourceTypeT>>& container (getResourceContainer<ResourceTypeT>());
-            for (const auto& resource : container){
-                if (resource->getResourceId() == resourceId) {
-                    return resource.get();
-                }
-            }
-            return nullptr;
-        }
 
         std::string realPath(const std::string& pseudoId); // use wisely or better don't use
 
