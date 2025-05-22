@@ -27,6 +27,7 @@ public:
         return _filesystemHelper->getActualFilesystemDirpath(Path(pseudoId));
     }
 
+private:
     virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering);
     virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId);
     virtual std::unique_ptr<RShader> loadShader(const ResourceId& resourceId);
@@ -42,8 +43,6 @@ public:
     virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId);
 
     virtual ResourceStoreResult storeMaterialsCollection(RMaterialsCollection* object);
-
-    private:
 
     // returns real (case sensitive) file path of given case-insensitive filepath if exists
     // returns empth string if wanted file doesn't exist

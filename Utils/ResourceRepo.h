@@ -48,7 +48,13 @@ public:
     std::string getName() const { return _name; }
     std::string getDebugString() const
     { return "name:"+getName()+" "+getPropertiesString(); }
+    template <class ResourceT>
+    std::unique_ptr<ResourceT> loadResource(const ResourceId& resourceId);
+
+    template <class ResourceT>
+    ResourceStoreResult storeResource(ResourceT* resource);
     
+private:
     virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) = 0;
     virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId) = 0;
     virtual std::unique_ptr<RShader> loadShader(const ResourceId& resourceId) = 0;
@@ -63,15 +69,8 @@ public:
     virtual std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId) = 0;
     virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId) = 0;
 
-    template <class ResourceT>
-    std::unique_ptr<ResourceT> loadResource(const ResourceId& resourceId);
-
     virtual ResourceStoreResult storeMaterialsCollection(RMaterialsCollection* object) { return ResourceStoreResult(false, "store not implemented for this type of resource in this type of repo"); }
 
-    template <class ResourceT>
-    ResourceStoreResult storeResource(ResourceT* resource);
-
-private:
     virtual std::string getPropertiesString() const = 0;
 };
 
