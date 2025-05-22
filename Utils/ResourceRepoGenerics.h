@@ -30,9 +30,6 @@ private:
     virtual std::unique_ptr<RRoadProfile> loadRoadProfile(const ResourceId& resourceId);
     virtual std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId);
     virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId);
-
-    template <class ResourceT>
-    std::unique_ptr<ResourceT> loadResource(const ResourceId& resourceId);
 };
 
 #endif // RESOURCEREPOGENERICS_H_INCLUDED
