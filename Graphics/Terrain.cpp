@@ -8,8 +8,8 @@ Terrain::Terrain(std::string heightmapFileName, std::string dirPath, std::string
 {
 	_type = CT_TERRAIN;
 
-	std::string heightmapFullPath = dirPath + _heightmapFileName;
-	std::string materialFullPath = dirPath + MaterialLoader::createMaterialFileName(_heightmapFileName);
+	std::string heightmapFullPath = ResourceManager::getInstance().realPath(dirPath + _heightmapFileName);
+	std::string materialFullPath = ResourceManager::getInstance().realPath(dirPath + MaterialLoader::createMaterialFileName(_heightmapFileName));
 
 	setModel(TerrainLoader::loadTerrainModel(heightmapFullPath.c_str(), materialFullPath, _materialName, dirPath, _maxHeight, is16bitTexture));
 }
