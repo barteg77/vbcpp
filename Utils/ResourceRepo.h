@@ -93,7 +93,6 @@ template <> inline std::unique_ptr<RStaticModel> ResourceRepo::loadResource(cons
             ? loadModelWithHierarchy(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/", true)
             : loadModel(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/", true));
 }
-template <> inline std::unique_ptr<RAnimatedModel> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimatedModel(resourceId, Path(resourceId.getIdParts().at(0)).withoutBackPart().getString()+"/"); }
 template <> inline std::unique_ptr<RAnimation> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadAnimation(resourceId); }
 template <> inline std::unique_ptr<RFont> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadFont(resourceId); }
 template <> inline std::unique_ptr<RSound> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadSound(resourceId); }

@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <assert.h>
+#include <memory>
 
 enum ResourceType
 {
@@ -35,6 +36,7 @@ private:
     ResourceType _resourceType;
     IdParts _idParts;
     HierarchyHandling _hierarchyHandling;
+    const std::unique_ptr<const ResourceId> _highPolyModelId;
     Defines _defines;
     Constants _constants;
     FontPixelSize _fontPixelSize;
@@ -42,18 +44,30 @@ private:
     explicit ResourceId(const ResourceType& resourceType,
                         const IdParts& idParts,
                         const HierarchyHandling hierarchyHandling,
+                        std::unique_ptr<const ResourceId>&& highPolyModelId,
                         const Defines& defines,
                         const Constants& constants,
                         const FontPixelSize& fontPixelSize)
     : _resourceType(resourceType),
       _idParts(idParts),
       _hierarchyHandling(hierarchyHandling),
+      _highPolyModelId(std::move(highPolyModelId)),
       _defines(defines),
       _constants(constants),
       _fontPixelSize(fontPixelSize)
     {};
 
 public:
+    ResourceId(const ResourceId& old)
+    : _resourceType(old._resourceType),
+      _idParts(old._idParts),
+      _hierarchyHandling(old._hierarchyHandling),
+      _highPolyModelId(old._highPolyModelId ? std::make_unique<ResourceId>(*old._highPolyModelId) : nullptr),
+      _defines(old._defines),
+      _constants(old._constants),
+      _fontPixelSize(old._fontPixelSize)
+    {};
+
     template <ResourceType resourceType>
     static ResourceId create (const std::string& id)
     {
@@ -77,6 +91,7 @@ public:
             return ResourceId(resourceType,
                               idParts,
                               HierarchyHandling::without,
+                              nullptr,
                               {},
                               {},
                               0
@@ -85,6 +100,7 @@ public:
             return ResourceId(resourceType,
                               {id},
                               HierarchyHandling::without,
+                              nullptr,
                               {},
                               {},
                               0
@@ -101,6 +117,24 @@ public:
         return ResourceId(resourceType,
                           {id},
                           hierarchyHandling,
+                          nullptr,
+                          {},
+                          {},
+                          0
+                          );
+    }
+
+    template <ResourceType resourceType>
+    static ResourceId create (const std::string& id,
+                              const HierarchyHandling hierarchyHandling,
+                              const ResourceId& highPolyModelId)
+    {
+        static_assert(resourceType == RT_MODEL, "incorrect resource type for this function");
+        
+        return ResourceId(resourceType,
+                          {id},
+                          hierarchyHandling,
+                          std::make_unique<ResourceId>(highPolyModelId),
                           {},
                           {},
                           0
@@ -117,6 +151,7 @@ public:
         return ResourceId(resourceType,
                           {vertexPath, fragmentPath},
                           HierarchyHandling::without,
+                          nullptr,
                           defines,
                           constants,
                           0
@@ -133,6 +168,7 @@ public:
         return ResourceId(resourceType,
                           {computePath},
                           HierarchyHandling::without,
+                          nullptr,
                           defines,
                           constants,
                           0
@@ -146,6 +182,7 @@ public:
         return ResourceId(resourceType,
                           idParts,
                           HierarchyHandling::without,
+                          nullptr,
                           {},
                           {},
                           0
@@ -160,6 +197,7 @@ public:
         return ResourceId(resourceType,
                           {id},
                           HierarchyHandling::without,
+                          nullptr,
                           {},
                           {},
                           fontPixelSize
@@ -177,6 +215,9 @@ public:
 
     HierarchyHandling getHierarchy() const
     { return _hierarchyHandling; }
+
+    const ResourceId* getHighPolyModelId() const
+    { return _highPolyModelId.get(); }
 
     Defines getDefines() const
     { return _defines; }

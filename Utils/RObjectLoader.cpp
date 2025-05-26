@@ -276,12 +276,7 @@ RStaticModel* RObjectLoader::loadModel(const ResourceId& resourceId, const std::
 {
 	if (isAnimated)
 	{
-		/*return ResourceManager::getInstance().loadResource<RAnimatedModel>(resourceId, objectDirPath,
-																hightPollyModel != nullptr ? static_cast<RAnimatedModel*>(hightPollyModel)->getBoneInfos() : std::unordered_map<std::string, BoneInfo*>());
-		*/
-		assert(false);
-		//temporarily disabled ()
-		return nullptr;
+		return ResourceManager::getInstance().loadResource<RAnimatedModel>(resourceId);
 	}
 	else
 	{
@@ -376,7 +371,8 @@ SceneObject* RObjectLoader::createSceneObjectFromRObject(RObject* objectDefiniti
 				bool lowPolyLoadWithHierarchy = toBool(components[i]["lowPolyLoadWithHierarchy"]);
 			  	const ResourceId lowPolyModelId =
 					ResourceId::create<RT_MODEL>(objectDirPath + "/" + lowPolyModeFile,
-												 lowPolyLoadWithHierarchy? ResourceId::HierarchyHandling::with : ResourceId::HierarchyHandling::without);
+												 lowPolyLoadWithHierarchy? ResourceId::HierarchyHandling::with : ResourceId::HierarchyHandling::without,
+												 model->getResourceId());
 
 				RStaticModel* lowPolyModel = loadModel(lowPolyModelId, objectDirPath, isAnimated, lowPolyNormalsSmoothing, model);
 				renderObject->setModel(lowPolyModel, 1);
