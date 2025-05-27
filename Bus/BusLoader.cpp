@@ -37,12 +37,10 @@ Bus* BusLoader::loadBus(const std::string& busName, const std::unordered_map<std
     LOG_INFO("Bus XML DATA");
 
     _objName = busElement->Attribute("name");
-    std::string textureFolder(busElement->Attribute("textures"));
     std::string busType = XmlUtils::getAttributeStringOptional(busElement, "type", "raycast");
 	_normalsSmoothing = XmlUtils::getAttributeBoolOptional(busElement, "normalsSmoothing", true);
 
     _busPath = GameDirectories::BUSES + busName + "/";
-    _texturePath = _busPath + textureFolder + "/";
 
     _variables = variables;
 

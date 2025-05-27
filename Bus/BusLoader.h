@@ -42,7 +42,6 @@ class BusLoader
 
         std::string _objName;
         std::string _busPath;
-        std::string _texturePath;
 
 		bool _normalsSmoothing;
 
