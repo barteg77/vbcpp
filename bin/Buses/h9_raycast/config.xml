@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- <!DOCTYPE PLAY SYSTEM "play.dtd"> -->
 
-<Bus name="autosan" textures="PKS"> 
+<Bus name="autosan"> 
 
 	<Gearbox model="gbx_ikarus260" />
 	<Engine model="eng_wskmielec" />

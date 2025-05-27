@@ -44,9 +44,20 @@ void MaterialLoader::closeFile()
     _xmlFile = NULL;
 }
 
-
-void MaterialLoader::loadAllMaterials(std::vector<Material*>& outMaterials, const std::string& texPath)
+std::string MaterialLoader::getTexturesDirectoryName()
 {
+	XMLElement* root = _xmlFile->FirstChildElement(XML_MATERIAL_ROOT);
+	return XmlUtils::getAttributeStringOptional(root, "texturesDirectory");
+}
+
+void MaterialLoader::loadAllMaterials(std::vector<Material*>& outMaterials, std::string texPath)
+{
+	const std::string texturesDirectoryName (getTexturesDirectoryName());
+	if (!texturesDirectoryName.empty()) {
+		texPath.append(texturesDirectoryName);
+		texPath.append("/");
+	}
+
 	XMLElement* root = _xmlFile->FirstChildElement(XML_MATERIAL_ROOT);
 
 	for (XMLElement* child = root->FirstChildElement(XML_MATERIAL_ELEMENT); child != NULL; child = child->NextSiblingElement())

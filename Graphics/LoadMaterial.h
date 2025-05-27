@@ -37,8 +37,13 @@ class MaterialLoader
         void openFile(const char* fileName);
         void closeFile();
 
+        /**
+         * @brief texturesDirectory name or empty string if not present
+         */
+        std::string getTexturesDirectoryName();
+
         Material* loadMaterial(const std::string& materialName, const std::string& texPath);
-        void loadAllMaterials(std::vector<Material*>& outMaterials, const std::string& texPath);
+        void loadAllMaterials(std::vector<Material*>& outMaterials, std::string texPath);
 
         static std::string createMaterialFileName(const std::string& modelFileName)
         {
