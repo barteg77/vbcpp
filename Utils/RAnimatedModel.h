@@ -34,7 +34,7 @@ class RAnimatedModel : public RStaticModel
 					   GLenum primitiveType = GL_TRIANGLES, glm::vec3* collisionMesh = nullptr, unsigned int collisionMeshSize = 0);
 		virtual ~RAnimatedModel();
 
-		inline const std::unordered_map<std::string, BoneInfo*>& getBoneInfos() { return _boneInfos; }
+		inline const std::unordered_map<std::string, BoneInfo*>& getBoneInfos() const { return _boneInfos; }
 		inline AnimationNodeData* getBonesRootNode() { return &_bonesRootNode; }
 
 };
