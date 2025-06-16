@@ -10,7 +10,7 @@
 class ResourceRepoGenerics : public ResourceRepo {
     static const std::regex oneColorTextureRegex;
 
-    virtual std::string getPropertiesString() const { return "type:generics"; }
+    std::string getPropertiesString() const override { return "type:generics"; }
 
 public:
     /**
@@ -20,10 +20,10 @@ public:
     : ResourceRepo("VBCPP GENERICS")
     {}
 
-    virtual ~ResourceRepoGenerics() {}
+    ~ResourceRepoGenerics() override {}
 
 private:
-    virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering);
+    std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) override;
 };
 
 #endif // RESOURCEREPOGENERICS_H_INCLUDED

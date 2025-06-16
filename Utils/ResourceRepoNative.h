@@ -23,7 +23,7 @@ public:
       _filesystemHelper(new FilesystemHelper(path, *FilesHelper::getInstance()))
     {}
 
-    virtual ~ResourceRepoNative() {}
+    ~ResourceRepoNative() override {}
 
     /**
      * @brief DON'T USE Get valid filesystem path of file.
@@ -44,21 +44,21 @@ public:
     }
 
 private:
-    virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering);
-    virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId);
-    virtual std::unique_ptr<RShader> loadShader(const ResourceId& resourceId);
-    virtual std::unique_ptr<RStaticModel> loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true /*, OGLDriver* driver */);
-    virtual std::unique_ptr<RStaticModel> loadModel(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true);
-    virtual std::unique_ptr<RAnimatedModel> loadAnimatedModel(const ResourceId& resourceId, const std::string& texturePath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel = {});
-    virtual std::unique_ptr<RAnimation> loadAnimation(const ResourceId& resourceId);
-    virtual std::unique_ptr<RFont> loadFont(const ResourceId& resourceId);//loadFont(std::string path, int pixelSize = 32);
-    virtual std::unique_ptr<RSound> loadSound(const ResourceId& resourceId);
-    virtual std::unique_ptr<RObject> loadRObject(const ResourceId& resourceId, const std::string& originalName);
-    virtual std::unique_ptr<RRoadProfile> loadRoadProfile(const ResourceId& resourceId);
-    virtual std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId);
-    virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId);
+    std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) override;
+    std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId) override;
+    std::unique_ptr<RShader> loadShader(const ResourceId& resourceId) override;
+    std::unique_ptr<RStaticModel> loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true /*, OGLDriver* driver */) override;
+    std::unique_ptr<RStaticModel> loadModel(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true) override;
+    std::unique_ptr<RAnimatedModel> loadAnimatedModel(const ResourceId& resourceId, const std::string& texturePath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel = {}) override;
+    std::unique_ptr<RAnimation> loadAnimation(const ResourceId& resourceId) override;
+    std::unique_ptr<RFont> loadFont(const ResourceId& resourceId) override;
+    std::unique_ptr<RSound> loadSound(const ResourceId& resourceId) override;
+    std::unique_ptr<RObject> loadRObject(const ResourceId& resourceId, const std::string& originalName) override;
+    std::unique_ptr<RRoadProfile> loadRoadProfile(const ResourceId& resourceId) override;
+    std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId) override;
+    std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId) override;
 
-    virtual ResourceStoreResult storeMaterialsCollection(RMaterialsCollection* object);
+    ResourceStoreResult storeMaterialsCollection(RMaterialsCollection* object) override;
 
     // returns real (case sensitive) file path of given case-insensitive filepath if exists
     // returns empth string if wanted file doesn't exist
@@ -67,7 +67,7 @@ private:
     }
 
     std::vector<std::string> getAllActualFilesystemFilepaths(const ResourceId& resourceId);
-    virtual std::string getPropertiesString() const{
+    std::string getPropertiesString() const override {
         return "type:native path:"+_path;
     }
 };
