@@ -66,21 +66,21 @@ public:
     ResourceStoreResult storeResource(ResourceT* resource);
     
 private:
-    virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) = 0;
-    virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId) = 0;
-    virtual std::unique_ptr<RShader> loadShader(const ResourceId& resourceId) = 0;
-    virtual std::unique_ptr<RStaticModel> loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true /*, OGLDriver* driver */) = 0;
-    virtual std::unique_ptr<RStaticModel> loadModel(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true) = 0;
-    virtual std::unique_ptr<RAnimatedModel> loadAnimatedModel(const ResourceId& resourceId, const std::string& texturePath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel = {}) = 0;
-    virtual std::unique_ptr<RAnimation> loadAnimation(const ResourceId& resourceId) = 0;
-    virtual std::unique_ptr<RFont> loadFont(const ResourceId& resourceId) = 0;//loadFont(std::string path, int pixelSize = 32);
-    virtual std::unique_ptr<RSound> loadSound(const ResourceId& resourceId) = 0;
-    virtual std::unique_ptr<RObject> loadRObject(const ResourceId& resourceId, const std::string& originalName) = 0;
-    virtual std::unique_ptr<RRoadProfile> loadRoadProfile(const ResourceId& resourceId) = 0;
-    virtual std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId) = 0;
-    virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId) = 0;
+    virtual std::unique_ptr<RTexture2D> loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering);
+    virtual std::unique_ptr<RTextureCubeMap> loadTextureCubeMap(const ResourceId& resourceId);
+    virtual std::unique_ptr<RShader> loadShader(const ResourceId& resourceId);
+    virtual std::unique_ptr<RStaticModel> loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true /*, OGLDriver* driver */);
+    virtual std::unique_ptr<RStaticModel> loadModel(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing = true);
+    virtual std::unique_ptr<RAnimatedModel> loadAnimatedModel(const ResourceId& resourceId, const std::string& texturePath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel = {});
+    virtual std::unique_ptr<RAnimation> loadAnimation(const ResourceId& resourceId);
+    virtual std::unique_ptr<RFont> loadFont(const ResourceId& resourceId);//loadFont(std::string path, int pixelSize = 32);
+    virtual std::unique_ptr<RSound> loadSound(const ResourceId& resourceId);
+    virtual std::unique_ptr<RObject> loadRObject(const ResourceId& resourceId, const std::string& originalName);
+    virtual std::unique_ptr<RRoadProfile> loadRoadProfile(const ResourceId& resourceId);
+    virtual std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId);
+    virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId);
 
-    virtual ResourceStoreResult storeMaterialsCollection(RMaterialsCollection* object) { return ResourceStoreResult(false, "store not implemented for this type of resource in this type of repo"); }
+    virtual ResourceStoreResult storeMaterialsCollection(RMaterialsCollection* object);
 
     virtual std::string getPropertiesString() const = 0;
 };

@@ -32,16 +32,3 @@ std::unique_ptr<RTexture2D> ResourceRepoGenerics::loadTexture(const ResourceId& 
         return std::unique_ptr<RTexture2D>(nullptr);
     }
 }
-
-std::unique_ptr<RTextureCubeMap> ResourceRepoGenerics::loadTextureCubeMap(const ResourceId& resourceId) { return std::unique_ptr<RTextureCubeMap>(nullptr); }
-std::unique_ptr<RShader> ResourceRepoGenerics::loadShader(const ResourceId& resourceId) { return std::unique_ptr<RShader>(nullptr); }
-std::unique_ptr<RStaticModel> ResourceRepoGenerics::loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing) { return std::unique_ptr<RStaticModel>(nullptr); }
-std::unique_ptr<RStaticModel> ResourceRepoGenerics::loadModel(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing) { return std::unique_ptr<RStaticModel>(nullptr); }
-std::unique_ptr<RAnimatedModel> ResourceRepoGenerics::loadAnimatedModel(const ResourceId& resourceId, const std::string& texturePath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel) { return std::unique_ptr<RAnimatedModel>(nullptr); }
-std::unique_ptr<RAnimation> ResourceRepoGenerics::loadAnimation(const ResourceId& resourceId) { return std::unique_ptr<RAnimation>(nullptr); }
-std::unique_ptr<RFont> ResourceRepoGenerics::loadFont(const ResourceId& resourceId) { return std::unique_ptr<RFont>(nullptr); }
-std::unique_ptr<RSound> ResourceRepoGenerics::loadSound(const ResourceId& resourceId) { return std::unique_ptr<RSound>(nullptr); }
-std::unique_ptr<RObject> ResourceRepoGenerics::loadRObject(const ResourceId& resourceId, const std::string& originalName) { return std::unique_ptr<RObject>(nullptr); }
-std::unique_ptr<RRoadProfile> ResourceRepoGenerics::loadRoadProfile(const ResourceId& resourceId) { return std::unique_ptr<RRoadProfile>(nullptr); }
-std::unique_ptr<RDisplayFont> ResourceRepoGenerics::loadDisplayFont(const ResourceId& resourceId) { return std::unique_ptr<RDisplayFont>(nullptr); }
-std::unique_ptr<RMaterialsCollection> ResourceRepoGenerics::loadMaterialsCollection(const ResourceId& resourceId) { return std::unique_ptr<RMaterialsCollection>(nullptr); }
