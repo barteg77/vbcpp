@@ -39,13 +39,12 @@ class StaticModelLoader
 
         std::vector<glm::vec3> _collisionMesh;
 
-        MaterialLoader* _materialLoader;
         std::string _texturesPath;
 
         Transform _lastNodeTransform;
 
 
-        void loadAllMaterials();
+        void loadAllMaterials(const ResourceId& resourceId);
 
         virtual void getTransformFromAssimpNode(aiNode* assimpNode, Transform& transform);
         bool isNodeContainsCollisionMesh(aiNode* assimpNode);
@@ -59,10 +58,11 @@ class StaticModelLoader
         StaticModelNode* createModelNode(aiNode* node, glm::mat4 parentTransform = glm::mat4(1.0f), StaticModelNode* parent = NULL);
 
     public:
+        static ResourceId createMaterialsCollectionResourceId(const ResourceId& resourceId);
+
         StaticModelLoader(bool normalsSmoothing = true);
 		virtual ~StaticModelLoader()
 		{
-			delete _materialLoader;
 		}
 
         RStaticModel* loadModelWithHierarchy(const ResourceId& resourceId, const std::string& fileName, std::string texturesPath);

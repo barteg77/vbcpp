@@ -198,8 +198,7 @@ RAnimatedModel* AnimatedModelLoader::loadAnimatedModelWithHierarchy(const Resour
         MaterialSaver::saveMaterialsFromAssimpModel(materialXmlFileName, _assimpScene);
     }
 
-    _materialLoader->openFile(materialXmlFileName.c_str());
-    loadAllMaterials();
+    loadAllMaterials(createMaterialsCollectionResourceId(resourceId));
 
 
     StaticModelNode* rootNode = createModelNode(_assimpScene->mRootNode);
@@ -215,7 +214,6 @@ RAnimatedModel* AnimatedModelLoader::loadAnimatedModelWithHierarchy(const Resour
 
     loadNode(_assimpScene->mRootNode, model->_bonesRootNode);
 
-    _materialLoader->closeFile();
     _collisionMesh.clear();
     _nodesToSkipNames.clear();
     _nodeToLoadName.clear();

@@ -16,19 +16,32 @@ using namespace tinyxml2;
 StaticModelLoader::StaticModelLoader(bool normalsSmoothing)
     : _normalsSmoothing(normalsSmoothing), _assimpScene(NULL)
 {
-    _materialLoader = new MaterialLoader;
 }
 
 
-void StaticModelLoader::loadAllMaterials()
+ResourceId StaticModelLoader::createMaterialsCollectionResourceId(const ResourceId& resourceId) {
+    assert(resourceId.getResourceType() == RT_MODEL);
+    return ResourceId::create<RT_MATERIALS_COLLECTION>(MaterialLoader::createMaterialFileName(resourceId.getIdString(0)));
+}
+
+
+void StaticModelLoader::loadAllMaterials(const ResourceId& materialsCollectionId)
 {
     _materials.clear();
-
+    RMaterialsCollection* materialsCollection (ResourceManager::getInstance().loadResource<RMaterialsCollection>(materialsCollectionId));
 	for (int i = 0; i < _assimpScene->mNumMaterials; ++i)
     {
-        aiString materialName;
-        _assimpScene->mMaterials[i]->Get(AI_MATKEY_NAME, materialName);
-        _materials.push_back(_materialLoader->loadMaterial(materialName.C_Str(), _texturesPath));
+        aiString materialNameAIS;
+        _assimpScene->mMaterials[i]->Get(AI_MATKEY_NAME, materialNameAIS);
+        const std::string materialName (materialNameAIS.C_Str());
+
+        Material* material (materialsCollection->getMaterial(materialName));
+        if (!material) {
+            LOG_ERROR("Material \"" + materialName + "\" not found! Dummy material will be created.");
+            material = new Material;
+            material->name = materialName;
+        }
+        _materials.push_back(material);
     }
 }
 
@@ -243,14 +256,7 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceId& resour
         return NULL;
     }
 
-    std::string materialXmlFileName = MaterialLoader::createMaterialFileName(fileName);
-    if (!FilesHelper::isFileExists(materialXmlFileName))
-    {
-        MaterialSaver::saveMaterialsFromAssimpModel(materialXmlFileName, _assimpScene);
-    }
-
-	_materialLoader->openFile(materialXmlFileName.c_str());
-    loadAllMaterials();
+    loadAllMaterials(createMaterialsCollectionResourceId(resourceId));
 
 
     StaticModelNode* rootNode = createModelNode(_assimpScene->mRootNode);
@@ -264,12 +270,11 @@ RStaticModel* StaticModelLoader::loadModelWithHierarchy(const ResourceId& resour
 
     RStaticModel* model = new RStaticModel(resourceId, rootNode, _materials, GL_TRIANGLES, colMesh, _collisionMesh.size());
 
-    _materialLoader->closeFile();
 	_collisionMesh.clear();
     return model;
 }
 
-RStaticModel* StaticModelLoader::loadModel(const ResourceId& ResourceId, const std::string& fileName, std::string texturesPath)
+RStaticModel* StaticModelLoader::loadModel(const ResourceId& resourceId, const std::string& fileName, std::string texturesPath)
 {
     _texturesPath = texturesPath;
 
@@ -347,8 +352,8 @@ RStaticModel* StaticModelLoader::loadModel(const ResourceId& ResourceId, const s
     //Material* materials = new Material[!isCollisionMeshExist ? meshesCount : (meshesCount - 1)];
     std::vector<Material*> materials;
 
-    MaterialLoader matLoader;
-	matLoader.openFile(materialXmlFileName.c_str());
+    const ResourceId materialsCollectionId (createMaterialsCollectionResourceId(resourceId));
+    RMaterialsCollection* materialsCollection (ResourceManager::getInstance().loadResource<RMaterialsCollection>(materialsCollectionId));
 
 	unsigned int meshCounter = 0;
     for (int i = 0; i < meshesCount; ++i)
@@ -373,15 +378,16 @@ RStaticModel* StaticModelLoader::loadModel(const ResourceId& ResourceId, const s
         {
             indices[j] = meshesIndices[i][j];
         }
-
-        materials.push_back(matLoader.loadMaterial(materialName.C_Str(), texturesPath));
+        Material* material (materialsCollection->getMaterial(materialName.C_Str()));
+        if (!material) {
+            LOG_ERROR("The material \"" + std::string(materialName.C_Str()) + "\" is missing!");
+        }
+        materials.push_back(material);
 
         meshes[meshCounter].setMeshData(vertices, meshesVertices[i].size(), indices, meshesIndices[i].size(), meshCounter, materials[meshCounter]->shader);
 
         ++meshCounter;
     }
-
-    matLoader.closeFile();
 
 
     // ----------------------------------------
@@ -402,7 +408,7 @@ RStaticModel* StaticModelLoader::loadModel(const ResourceId& ResourceId, const s
     rootNode->meshesCount = !isCollisionMeshExist ? meshesCount : (meshesCount - 1);
     rootNode->parent = NULL;
 
-    RStaticModel* model = new RStaticModel(ResourceId, rootNode, materials, GL_TRIANGLES, colMesh, collisionMesh.size());
+    RStaticModel* model = new RStaticModel(resourceId, rootNode, materials, GL_TRIANGLES, colMesh, collisionMesh.size());
 
     return model;
 }

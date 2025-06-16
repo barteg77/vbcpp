@@ -23,3 +23,12 @@ std::vector<Material*>& RMaterialsCollection::getMaterials()
 {
 	return _materials;
 }
+
+Material* RMaterialsCollection::getMaterial(const std::string& name) {
+	for (Material* material : _materials) {
+		if (material->name == name) {
+			return material;
+		}
+	}
+	return nullptr;
+}

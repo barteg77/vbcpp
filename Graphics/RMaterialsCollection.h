@@ -20,6 +20,7 @@ class RMaterialsCollection : public Resource
 		~RMaterialsCollection();
 
 		std::vector<Material*>& getMaterials();
+		Material* getMaterial(const std::string& name);
 };
 
 
