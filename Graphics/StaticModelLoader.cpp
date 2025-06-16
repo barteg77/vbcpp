@@ -285,13 +285,6 @@ RStaticModel* StaticModelLoader::loadModel(const ResourceId& resourceId, const s
         return NULL;
     }
 
-    std::string materialXmlFileName = MaterialLoader::createMaterialFileName(fileName);
-    if (!FilesHelper::isFileExists(materialXmlFileName))
-    {
-		MaterialSaver::saveMaterialsFromAssimpModel(materialXmlFileName, _assimpScene);
-    }
-
-
     unsigned int meshesCount = _assimpScene->mNumMaterials;
     std::vector<MeshMender::Vertex>* meshesVertices = new std::vector<MeshMender::Vertex>[meshesCount];
     std::vector<unsigned int>* meshesIndices = new std::vector<unsigned int>[meshesCount];
