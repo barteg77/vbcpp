@@ -74,6 +74,7 @@ set (UTILS_HEADERS
 	Utils/ResourceId.h
 	Utils/ResourceManager.h
 	Utils/ResourceRepo.h
+	Utils/ResourceRepoDummy.h
 	Utils/ResourceRepoGenerics.h
 	Utils/ResourceRepoFilesystemHelper.h
 	Utils/ResourceRepoNative.h

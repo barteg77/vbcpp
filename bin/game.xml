@@ -12,6 +12,7 @@
 	<ResourceRepos>
 		<ResourceRepoNative name="base" path="."/>
 		<ResourceRepoGenerics/>
+		<ResourceRepoDummy/>
 	</ResourceRepos>
 	<Configuration>
 		<Fullscreen>0</Fullscreen><!-- 0 - window, 1 - fullscreen, 2 - windowed fullscreen -->

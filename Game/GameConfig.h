@@ -24,7 +24,8 @@ class GameConfig
     public:
     enum class RepoType {
         Generics,
-        Native
+        Native,
+        Dummy
     };
 
     struct RepoDefinition {

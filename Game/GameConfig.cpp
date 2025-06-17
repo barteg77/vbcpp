@@ -51,6 +51,10 @@ void GameConfig::loadGameConfig(const char* filename)
                                             configElement->Attribute("name"),
                                             configElement->Attribute("path")));
                 }
+                if (strcmp(ename,"ResourceRepoDummy") == 0)
+                {
+                    resourceRepos.push_back(RepoDefinition(RepoType::Dummy,"n/a", "n/a"));
+                }
             }
 
         }

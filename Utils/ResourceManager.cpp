@@ -11,6 +11,7 @@
 #include "../Game/GameConfig.h"
 #include "Logger.h"
 #include "ResourceId.h"
+#include "ResourceRepoDummy.h"
 #include "ResourceRepoGenerics.h"
 #include "ResourceRepoNative.h"
 #include <algorithm>
@@ -33,6 +34,8 @@ ResourceManager::ResourceManager()
             addResourceRepo(std::make_unique<ResourceRepoGenerics>());
         } else if (repoDef._type == GameConfig::RepoType::Native) {
             addResourceRepo(std::make_unique<ResourceRepoNative>(repoDef._name, repoDef._path));
+        } else if (repoDef._type == GameConfig::RepoType::Dummy) {
+            addResourceRepo(std::make_unique<ResourceRepoDummy>());
         } else {
             assert(false); // unhandled repo type
         }
