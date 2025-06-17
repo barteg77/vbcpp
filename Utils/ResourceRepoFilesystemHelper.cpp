@@ -80,6 +80,9 @@ FilesystemHelper::FilesystemHelper(const std::string& repoDirectory, FilesHelper
 }
 
 std::string FilesystemHelper::getActualFilesystemFilepath(Path filePath){
+    if (filePath.getElementsCount() == 0) {
+        return "";
+    }
     const std::string fileName = filePath.getBackPart();
     const Path directoryPath = filePath.withoutBackPart();
 
