@@ -169,7 +169,7 @@ void MenuSelectBusInterfaceWindow::drawBusRepaints()
 			{
 				ImGui::PushID(repaintDescription.name.c_str());
 
-				if (ImGui::ImageButton((ImTextureID)repaintDescription.logo->getID(), ImVec2(64, 64)))
+				if (ImGui::ImageButton(("rep_sel_"+repaintDescription.name).c_str(), (ImTextureID)repaintDescription.logo->getID(), ImVec2(64, 64)))
 				{
 					std::vector<RMaterialsCollection*> altMaterialsCollections;
 					BusRepaintLoader::loadBusRepaint(_busPreview->busName, repaintDescription.repainDirectorytName, altMaterialsCollections);

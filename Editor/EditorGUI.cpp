@@ -289,11 +289,11 @@ void EditorGUI::ShowTransformGizmo(CameraStatic* camera, SceneObject* obj)
 	
 	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
-	if (ImGui::IsKeyPressed(69)) // E key
+	if (ImGui::IsKeyPressed(ImGuiKey_E))
 		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	if (ImGui::IsKeyPressed(82)) // R key
+	if (ImGui::IsKeyPressed(ImGuiKey_R))
 		mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	if (ImGui::IsKeyPressed(84)) // T key
+	if (ImGui::IsKeyPressed(ImGuiKey_T))
 		mCurrentGizmoOperation = ImGuizmo::SCALE;
 	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
 		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;

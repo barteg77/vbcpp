@@ -1,9 +1,9 @@
 #include "RoadTools.h"
 
-#include <imgui.h>
 #ifndef IMGUI_DEFINE_MATH_OPERATORS
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
+#include <imgui.h>
 #include <imgui_internal.h>
 
 namespace vbEditor
@@ -34,7 +34,7 @@ void ImGui::RoadProfileGraph(const char* label, std::vector<ImVec2>& values, flo
 	ItemSize(total_bb, style.FramePadding.y);
 	if (!ItemAdd(total_bb, 0, &frame_bb))
 		return;
-	const bool hovered = ItemHoverable(frame_bb, id);
+	const bool hovered = ItemHoverable(frame_bb, id, g.LastItemData.ItemFlags);
 
 	ImGui::Text("frame_bb.Min.x: %f, frame_bb.Min.y: %f", frame_bb.Min.x, frame_bb.Min.y);
 	ImGui::Text("frame_bb.Max.x: %f, frame_bb.Max.y: %f", frame_bb.Max.x, frame_bb.Max.y);

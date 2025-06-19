@@ -1954,7 +1954,7 @@ namespace vbEditor
 			}
 			*/
 
-			if (ImGui::IsKeyPressed(80))
+			if (ImGui::IsKeyPressed(ImGuiKey_P))
 				useSnap = !useSnap;
 			ImGui::Checkbox("##usesnapCheckBox", &useSnap);
 

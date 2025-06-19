@@ -779,7 +779,7 @@ void showRenderComponentDetails(RenderObject* renderComponent)
 							? material->diffuseTexture
 							: whiteTexture;
 
-						if (ImGui::ImageButton((ImTextureID)texture->getID(), ImVec2(48, 48)))
+						if (ImGui::ImageButton(("tex"+std::to_string(texture->getID())).c_str(), (ImTextureID)texture->getID(), ImVec2(48, 48)))
 						{
 							LOG_DEBUG(material->name);
 							vbEditor::_showMaterialEditorWindow = true;

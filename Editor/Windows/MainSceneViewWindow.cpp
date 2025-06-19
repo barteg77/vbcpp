@@ -112,7 +112,7 @@ void MainSceneViewWindow::showImGuizmoToolbar()
 		{
 			ImVec4 selectedButtonColor = vbEditor::_guizmoParams.currentOperation == ImGuizmo::TRANSLATE ? style.Colors[ImGuiCol_ButtonActive] : style.Colors[ImGuiCol_Button];
 			ImGui::PushStyleColor(ImGuiCol_Button, selectedButtonColor);
-			if (ImGui::ImageButton((ImTextureID)_translationButtonTexture->getID(), ImVec2(16, 16)))
+			if (ImGui::ImageButton("translation", (ImTextureID)_translationButtonTexture->getID(), ImVec2(16, 16)))
 			{
 				vbEditor::_guizmoParams.currentOperation = ImGuizmo::TRANSLATE;
 			}
@@ -128,7 +128,7 @@ void MainSceneViewWindow::showImGuizmoToolbar()
 		{
 			ImVec4 selectedButtonColor = vbEditor::_guizmoParams.currentOperation == ImGuizmo::ROTATE ? style.Colors[ImGuiCol_ButtonActive] : style.Colors[ImGuiCol_Button];
 			ImGui::PushStyleColor(ImGuiCol_Button, selectedButtonColor);
-			if (ImGui::ImageButton((ImTextureID)_rotationButtonTexture->getID(), ImVec2(16, 16)))
+			if (ImGui::ImageButton("rotation", (ImTextureID)_rotationButtonTexture->getID(), ImVec2(16, 16)))
 			{
 				vbEditor::_guizmoParams.currentOperation = ImGuizmo::ROTATE;
 			}
@@ -144,7 +144,7 @@ void MainSceneViewWindow::showImGuizmoToolbar()
 		{
 			ImVec4 selectedButtonColor = vbEditor::_guizmoParams.currentOperation == ImGuizmo::SCALE ? style.Colors[ImGuiCol_ButtonActive] : style.Colors[ImGuiCol_Button];
 			ImGui::PushStyleColor(ImGuiCol_Button, selectedButtonColor);
-			if (ImGui::ImageButton((ImTextureID)_scaleButtonTexture->getID(), ImVec2(16, 16)))
+			if (ImGui::ImageButton("scale", (ImTextureID)_scaleButtonTexture->getID(), ImVec2(16, 16)))
 			{
 				vbEditor::_guizmoParams.currentOperation = ImGuizmo::SCALE;
 			}
