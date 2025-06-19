@@ -77,7 +77,7 @@ Renderer::~Renderer()
 
     if (_objectsIdsTextureData != nullptr)
     {
-        delete _objectsIdsTextureData;
+        delete[] _objectsIdsTextureData;
     }
 
     if (_pickingSSBO != nullptr)
@@ -1023,7 +1023,7 @@ void Renderer::recreateObjectsIdsTextureData()
 {
     if (_objectsIdsTextureData != nullptr)
     {
-        delete _objectsIdsTextureData;
+        delete[] _objectsIdsTextureData;
     }
 
     _objectsIdsTextureData = new unsigned int[_screenWidth * _screenHeight];
