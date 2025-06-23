@@ -22,6 +22,7 @@ class VbImGuiWindow
 
     public:
 		VbImGuiWindow(SceneManager* sceneManager, bool isOpen = true);
+        virtual ~VbImGuiWindow();
 
         bool* getOpenFlagPointer();
 

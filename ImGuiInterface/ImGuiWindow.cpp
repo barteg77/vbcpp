@@ -7,6 +7,10 @@ VbImGuiWindow::VbImGuiWindow(SceneManager* sceneManager, bool isOpen)
 
 }
 
+VbImGuiWindow::~VbImGuiWindow()
+{
+}
+
 
 bool* VbImGuiWindow::getOpenFlagPointer()
 {
