@@ -17,7 +17,7 @@ enum class GuizmoToolbarMode
 };
 
 
-class MainSceneViewWindow final : public ImGuiWindow
+class MainSceneViewWindow final : public VbImGuiWindow
 {
 	private:
 		RTexture* _texture;

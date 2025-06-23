@@ -11,7 +11,7 @@ class RShader;
 class RTexture;
 
 
-class ComputeShaderTestWindow final : public ImGuiWindow
+class ComputeShaderTestWindow final : public VbImGuiWindow
 {
 	private:
 		RShader* _computeShader;

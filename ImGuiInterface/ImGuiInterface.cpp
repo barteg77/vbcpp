@@ -44,7 +44,7 @@ bool ImGuiInterface::isOpen()
 }
 
 
-void ImGuiInterface::addWindow(ImGuiWindow* window)
+void ImGuiInterface::addWindow(VbImGuiWindow* window)
 {
     _windows.push_back(window);
 }
@@ -58,7 +58,7 @@ void ImGuiInterface::draw()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-        for (ImGuiWindow* window : _windows)
+        for (VbImGuiWindow* window : _windows)
         {
             window->draw();
         }
@@ -73,7 +73,7 @@ void ImGuiInterface::drawOnlyWindows()
 {
 	if (_isOpen)
 	{
-		for (ImGuiWindow* window : _windows)
+		for (VbImGuiWindow* window : _windows)
 		{
 			window->draw();
 		}

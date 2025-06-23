@@ -4,7 +4,7 @@
 
 
 VariablesWindow::VariablesWindow(SceneManager* sceneManager, bool isOpen)
-	: ImGuiWindow(sceneManager, isOpen),
+	: VbImGuiWindow(sceneManager, isOpen),
 	_newVariableFloatName(""), _newVariableFloatValue(0.0f),
 	_newVariablesStringName(""), _newVariablesStringValue("")
 {

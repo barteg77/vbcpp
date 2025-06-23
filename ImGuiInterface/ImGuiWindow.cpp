@@ -1,20 +1,20 @@
 #include "ImGuiWindow.h"
 
 
-ImGuiWindow::ImGuiWindow(SceneManager* sceneManager, bool isOpen)
+VbImGuiWindow::VbImGuiWindow(SceneManager* sceneManager, bool isOpen)
     : _sceneManager(sceneManager), _isOpen(isOpen)
 {
 
 }
 
 
-bool* ImGuiWindow::getOpenFlagPointer()
+bool* VbImGuiWindow::getOpenFlagPointer()
 {
     return &_isOpen;
 }
 
 
-void ImGuiWindow::draw()
+void VbImGuiWindow::draw()
 {
     if (_isOpen)
     {

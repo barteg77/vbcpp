@@ -5,7 +5,7 @@
 #include "ImGuiWindow.h"
 
 
-class VariablesWindow : public ImGuiWindow
+class VariablesWindow : public VbImGuiWindow
 {
 	private:
 		std::string _newVariableFloatName;

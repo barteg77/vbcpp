@@ -5,7 +5,7 @@
 #include "ImGuiWindow.h"
 
 
-class PhysicsDebuggerWindow : public ImGuiWindow
+class PhysicsDebuggerWindow : public VbImGuiWindow
 {
 	private:
 		void drawDebugModeCheckBox(int& debugModes, const char* name, btIDebugDraw::DebugDrawModes mode);

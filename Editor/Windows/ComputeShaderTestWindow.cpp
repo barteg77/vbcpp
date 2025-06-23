@@ -21,7 +21,7 @@ ShaderData shaderData;
 
 
 ComputeShaderTestWindow::ComputeShaderTestWindow(bool isOpen/* = false*/)
-	: ImGuiWindow(nullptr, isOpen)
+	: VbImGuiWindow(nullptr, isOpen)
 {
 	_computeShader = ResourceManager::getInstance().loadResource<RShader>(ResourceId::create<RT_SHADER>("Shaders/compute/computeShader.comp"));
 

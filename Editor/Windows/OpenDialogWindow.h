@@ -14,7 +14,7 @@
 class SceneManager;
 
 
-class OpenDialogWindow final : public ImGuiWindow
+class OpenDialogWindow final : public VbImGuiWindow
 {
 	private:
 		struct File

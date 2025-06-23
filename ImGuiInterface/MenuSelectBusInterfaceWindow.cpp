@@ -5,7 +5,7 @@
 
 
 MenuSelectBusInterfaceWindow::MenuSelectBusInterfaceWindow(std::unordered_map<std::string, std::string>* selectedBusConfigurationVariables, std::string& selectedBusRepaintName, SceneManager* sceneManager, bool isOpen)
-	: ImGuiWindow(sceneManager, isOpen),
+	: VbImGuiWindow(sceneManager, isOpen),
 	_busPreview(nullptr), _selectedBusConfigurationVariables(selectedBusConfigurationVariables), _selectedBusRepaintName(selectedBusRepaintName)
 {
 

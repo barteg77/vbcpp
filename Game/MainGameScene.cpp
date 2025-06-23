@@ -379,16 +379,16 @@ void MainGameScene::initGui()
 void MainGameScene::initImGuiInterface()
 {
 	// windows
-	ImGuiWindow* busLineAndDirectionWindow = new BusLineAndDirectionWindow(_sceneManager, &_buses);
+	VbImGuiWindow* busLineAndDirectionWindow = new BusLineAndDirectionWindow(_sceneManager, &_buses);
 
 	_imGuiInterface->addWindow(busLineAndDirectionWindow);
 
 	if (GameConfig::getInstance().developmentMode)
 	{
-		ImGuiWindow* colorsWindow = new ColorsWindow(_sceneManager);
-		ImGuiWindow* physicsDebuggerWindow = new PhysicsDebuggerWindow(_sceneManager, false);
-		ImGuiWindow* variablesWindow = new VariablesWindow(_sceneManager, false);
-		ImGuiWindow* busParametersWindow = new BusParametersWindow(_sceneManager, _buses);
+		VbImGuiWindow* colorsWindow = new ColorsWindow(_sceneManager);
+		VbImGuiWindow* physicsDebuggerWindow = new PhysicsDebuggerWindow(_sceneManager, false);
+		VbImGuiWindow* variablesWindow = new VariablesWindow(_sceneManager, false);
+		VbImGuiWindow* busParametersWindow = new BusParametersWindow(_sceneManager, _buses);
 
 		_imGuiInterface->addWindow(colorsWindow);
 		_imGuiInterface->addWindow(physicsDebuggerWindow);
@@ -406,7 +406,7 @@ void MainGameScene::initImGuiInterface()
 		std::vector<MenuItem> menuItems;
 		menuItems.push_back(MenuItem("Window", windowMenuItems));
 
-		ImGuiWindow* menuBar = new MenuBar(_sceneManager, menuItems);
+		VbImGuiWindow* menuBar = new MenuBar(_sceneManager, menuItems);
 		_imGuiInterface->addWindow(menuBar);
 	}
 }

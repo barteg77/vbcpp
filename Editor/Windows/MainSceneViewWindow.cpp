@@ -25,7 +25,7 @@ namespace vbEditor
 
 
 MainSceneViewWindow::MainSceneViewWindow(bool isOpen/* = false*/)
-	: ImGuiWindow(nullptr, isOpen),
+	: VbImGuiWindow(nullptr, isOpen),
 	_availableViewSize(2, 2),
 	_isWindowHovered(false),
 	_guizmoToolbarMode(GuizmoToolbarMode::BOTTOM_BAR)

@@ -11,7 +11,7 @@
 #include "../../Scene/SceneManager.h"
 
 
-class ImGuiWindow
+class VbImGuiWindow
 {
     protected:
         SceneManager* _sceneManager;
@@ -21,7 +21,7 @@ class ImGuiWindow
         virtual void drawWindow() = 0;
 
     public:
-		ImGuiWindow(SceneManager* sceneManager, bool isOpen = true);
+		VbImGuiWindow(SceneManager* sceneManager, bool isOpen = true);
 
         bool* getOpenFlagPointer();
 

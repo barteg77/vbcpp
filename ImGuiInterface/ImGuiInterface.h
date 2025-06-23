@@ -23,7 +23,7 @@ class ImGuiInterface
 
 		bool _isOpen;
 
-        std::vector<ImGuiWindow*> _windows;
+        std::vector<VbImGuiWindow*> _windows;
 
     public:
 		ImGuiInterface(SceneManager* sceneManager);
@@ -34,7 +34,7 @@ class ImGuiInterface
 		void setIsOpen(bool isOpen);
 		bool isOpen();
 
-        void addWindow(ImGuiWindow* window);
+        void addWindow(VbImGuiWindow* window);
 
         void draw();
         void drawOnlyWindows();

@@ -2,7 +2,7 @@
 
 
 ColorsWindow::ColorsWindow(SceneManager* sceneManager, bool isOpen)
-	: ImGuiWindow(sceneManager, isOpen)
+	: VbImGuiWindow(sceneManager, isOpen)
 {
 
 }

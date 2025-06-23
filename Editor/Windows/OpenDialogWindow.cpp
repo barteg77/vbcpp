@@ -10,7 +10,7 @@
 
 
 OpenDialogWindow::OpenDialogWindow(const std::string& title, const std::string& buttonOkTitle, const std::vector<std::string>& rootPaths, SceneManager* sceneManager, bool isOpen)
-	: ImGuiWindow(nullptr, isOpen),
+	: VbImGuiWindow(nullptr, isOpen),
 	_title(title), _buttonOkTitle(buttonOkTitle), _rootPaths(rootPaths),
 	_currentItem(-1), _currentRootFileIndex(0), _selectedFile(nullptr)
 {

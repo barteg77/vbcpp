@@ -10,7 +10,7 @@
 class BusPreview;
 
 
-class MenuSelectBusInterfaceWindow : public ImGuiWindow
+class MenuSelectBusInterfaceWindow : public VbImGuiWindow
 {
 	private:
 		BusPreview* _busPreview;

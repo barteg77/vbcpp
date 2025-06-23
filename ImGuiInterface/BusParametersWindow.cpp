@@ -4,7 +4,7 @@
 
 
 BusParametersWindow::BusParametersWindow(SceneManager* sceneManager, const std::vector<Bus*>& buses, bool isOpen/* = false*/)
-	: ImGuiWindow(sceneManager, isOpen),
+	: VbImGuiWindow(sceneManager, isOpen),
 	_buses(buses),
 	_currentBus(0)
 {

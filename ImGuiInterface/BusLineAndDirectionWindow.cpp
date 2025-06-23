@@ -4,7 +4,7 @@
 
 
 BusLineAndDirectionWindow::BusLineAndDirectionWindow(SceneManager* sceneManager, std::vector<Bus*>* buses, bool isOpen)
-	: ImGuiWindow(sceneManager, isOpen),
+	: VbImGuiWindow(sceneManager, isOpen),
 	_buses(buses)
 {
 

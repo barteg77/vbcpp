@@ -5,7 +5,7 @@
 #include "ImGuiWindow.h"
 
 
-class ColorsWindow : public ImGuiWindow
+class ColorsWindow : public VbImGuiWindow
 {
 	private:
 		virtual void drawWindow() override;

@@ -2,7 +2,7 @@
 
 
 MenuBar::MenuBar(SceneManager* sceneManager, std::vector<MenuItem>& menuItems)
-	: ImGuiWindow(sceneManager, true),
+	: VbImGuiWindow(sceneManager, true),
 	_menuItems(menuItems)
 {
 

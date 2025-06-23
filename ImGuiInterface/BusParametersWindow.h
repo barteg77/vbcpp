@@ -5,7 +5,7 @@
 #include "ImGuiWindow.h"
 
 
-class BusParametersWindow : public ImGuiWindow
+class BusParametersWindow : public VbImGuiWindow
 {
 	private:
 		const std::vector<Bus*>& _buses;

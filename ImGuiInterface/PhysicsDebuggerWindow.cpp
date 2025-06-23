@@ -4,7 +4,7 @@
 
 
 PhysicsDebuggerWindow::PhysicsDebuggerWindow(SceneManager* sceneManager, bool isOpen)
-	: ImGuiWindow(sceneManager, isOpen)
+	: VbImGuiWindow(sceneManager, isOpen)
 {
 
 }

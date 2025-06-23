@@ -21,7 +21,7 @@ struct MenuItem final
 };
 
 
-class MenuBar final : public ImGuiWindow
+class MenuBar final : public VbImGuiWindow
 {
 	private:
 		std::vector<MenuItem> _menuItems;
