@@ -20,8 +20,6 @@ class TreeComponent : public Component
             setRandomWindFactor();
         }
 
-        ~TreeComponent();
-
         void setRandomWindFactor()
         {
             _windDirectionFactor = glm::vec3((rand() % 21 - 10) / 10.0f, 0.0f, (rand() % 21 - 10) / 10.0f);

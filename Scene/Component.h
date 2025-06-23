@@ -66,7 +66,7 @@ class Component
 
     public:
         Component(ComponentType type);
-        ~Component();
+        virtual ~Component();
 
         void setSceneObject(SceneObject* object);
         void setIsActive(bool is);
