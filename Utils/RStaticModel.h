@@ -83,7 +83,7 @@ struct StaticModelMesh
     {
         bool isInitialized = vbo != nullptr || ibo != nullptr;
 
-        if (vertices)
+        if (this->vertices)
         {
             if (vertexType == VertexType::STANDARD)
             {
