@@ -109,7 +109,9 @@ RStaticModel* TerrainLoader::loadTerFile(const char* fileName, std::string mater
     // Collision mesh vertices array
     glm::vec3* collisionMesh = new glm::vec3[collisionMeshSize];
     file.read((char*)collisionMesh, sizeof(glm::vec3) * collisionMeshSize);
-
+    if (file.gcount() != (sizeof(glm::vec3) * collisionMeshSize)) {
+        LOG_ERROR("Unexpected end of terrain (ter) file!");
+    }
     file.close();
 
 
