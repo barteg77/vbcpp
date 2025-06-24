@@ -10,6 +10,7 @@
 
 std::unique_ptr<RTexture2D> ResourceRepoNative::loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) {
     const std::string filePath(_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+    if (filePath.empty()) { return nullptr; }
     bool textureCompression = useCompression && GameConfig::getInstance().textureCompression;
     std::unique_ptr<RTexture2D> texture (::loadTexture(resourceId, filePath, textureCompression, mipmapping));
 
@@ -25,6 +26,11 @@ std::unique_ptr<RTexture2D> ResourceRepoNative::loadTexture(const ResourceId& re
 
 std::unique_ptr<RTextureCubeMap> ResourceRepoNative::loadTextureCubeMap(const ResourceId& resourceId) {
     const std::vector<std::string> filePaths(getAllActualFilesystemFilepaths(resourceId));
+    for (const std::string& filePath : filePaths) {
+        if (filePath.empty()) {
+            return nullptr;
+        }
+    }
     std::unique_ptr<RTextureCubeMap> texture (::loadTextureCubeMap(resourceId, filePaths, true));
     return texture;
 }
@@ -58,6 +64,7 @@ std::unique_ptr<RShader> ResourceRepoNative::loadShader(const ResourceId& resour
 
 std::unique_ptr<RStaticModel> ResourceRepoNative::loadModelWithHierarchy(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing /*, OGLDriver* driver */) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+    if (filePath.empty()) { return nullptr; }
     StaticModelLoader loader(normalsSmoothing);
     std::unique_ptr<RStaticModel> model (loader.loadModelWithHierarchy(resourceId, filePath, texturePath)); // loader returns pointer!
     return model;
@@ -65,6 +72,7 @@ std::unique_ptr<RStaticModel> ResourceRepoNative::loadModelWithHierarchy(const R
 
 std::unique_ptr<RStaticModel> ResourceRepoNative::loadModel(const ResourceId& resourceId, std::string texturePath, bool normalsSmoothing) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+    if (filePath.empty()) { return nullptr; }
     StaticModelLoader loader(normalsSmoothing);
     std::unique_ptr<RStaticModel> model (loader.loadModel(resourceId, filePath, texturePath)); // loader returns pointer!
     return model;
@@ -72,6 +80,7 @@ std::unique_ptr<RStaticModel> ResourceRepoNative::loadModel(const ResourceId& re
 
 std::unique_ptr<RAnimatedModel> ResourceRepoNative::loadAnimatedModel(const ResourceId& resourceId, const std::string& texturePath, const std::unordered_map<std::string, BoneInfo*>& boneInfosFromExistingModel) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+    if (filePath.empty()) { return nullptr; }
     AnimatedModelLoader loader;
     std::unique_ptr<RAnimatedModel> model(loader.loadAnimatedModelWithHierarchy(resourceId, filePath, texturePath, boneInfosFromExistingModel));
     return model;
@@ -79,6 +88,7 @@ std::unique_ptr<RAnimatedModel> ResourceRepoNative::loadAnimatedModel(const Reso
 
 std::unique_ptr<RAnimation> ResourceRepoNative::loadAnimation(const ResourceId& resourceId) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+    if (filePath.empty()) { return nullptr; }
     AnimationLoader loader;
     std::unique_ptr<RAnimation> animation (loader.loadAnimation(resourceId, filePath));
     return animation;
@@ -86,6 +96,7 @@ std::unique_ptr<RAnimation> ResourceRepoNative::loadAnimation(const ResourceId& 
 
 std::unique_ptr<RFont> ResourceRepoNative::loadFont(const ResourceId& resourceId) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+    if (filePath.empty()) { return nullptr; }
     FontLoader loader;
     std::unique_ptr<RFont> font (loader.loadFont(resourceId, filePath));
     return font;
@@ -93,24 +104,32 @@ std::unique_ptr<RFont> ResourceRepoNative::loadFont(const ResourceId& resourceId
 
 std::unique_ptr<RSound> ResourceRepoNative::loadSound(const ResourceId& resourceId) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
+    if (filePath.empty()) { return nullptr; }
     std::unique_ptr<RSound> sound (::loadSound(resourceId, filePath));
     return sound;
 }
 
 std::unique_ptr<RObject> ResourceRepoNative::loadRObject(const ResourceId& resourceId, const std::string& originalName) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(GameDirectories::OBJECTS + resourceId.getIdString(0) + "/object.xml"));
+    if (filePath.empty()) { return nullptr; }
     std::unique_ptr<RObject> object (RObjectLoader::loadObject(resourceId, filePath, originalName));
     return object;
 }
 
 std::unique_ptr<RRoadProfile> ResourceRepoNative::loadRoadProfile(const ResourceId& resourceId) {
     const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0) + "profile.xml"));
+    if (filePath.empty()) { return nullptr; }
     std::unique_ptr<RRoadProfile> roadProfile (RoadProfileLoader::loadRoadProfile(resourceId, filePath));
     return roadProfile;
 }
 
 std::unique_ptr<RDisplayFont> ResourceRepoNative::loadDisplayFont(const ResourceId& resourceId) {
     const std::vector<std::string> filePaths(getAllActualFilesystemFilepaths(resourceId));
+    for (const std::string& filePath : filePaths) {
+        if (filePath.empty()) {
+            return nullptr;
+        }
+    }
     std::unique_ptr<RDisplayFont> displayFont (std::make_unique<RDisplayFont>(resourceId, filePaths));
     return displayFont;
 }
