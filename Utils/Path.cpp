@@ -1,5 +1,6 @@
 #include "Path.h"
 #include <cassert>
+#include "Logger.h"
 
 std::vector<std::string> _pathParts;
 
@@ -64,8 +65,13 @@ std::string Path::getBackPart() const {
 }
 
 Path Path::withoutBackPart() const {
-    std::vector<std::string> parts = _pathParts;//tu dac jekies sprawdzenie czy jest ten part
-    parts.pop_back();
+    std::vector<std::string> parts;
+    if (!_pathParts.empty()) {
+        parts.reserve(_pathParts.size()-1);
+        parts.insert(parts.end(), _pathParts.begin(), _pathParts.end()-1);
+    } else {
+        LOG_ERROR("Path::withoutBackPart was called on empty Path, returning empty");
+    }
     return Path(parts);
 }
 

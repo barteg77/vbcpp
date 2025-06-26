@@ -19,9 +19,12 @@ add_executable(
   path_test
   PathTest.cpp
   ../Utils/Path.cpp
+  ../Utils/FilesHelper.cpp
+  ../Utils/Logger.cpp
 )
 target_link_libraries(
   path_test
+  BulletDynamics BulletCollision BulletSoftBody LinearMath
   GTest::gtest_main
 )
 
