@@ -151,12 +151,18 @@ std::unique_ptr<RMaterialsCollection> ResourceRepoNative::loadMaterialsCollectio
 
 ResourceStoreResult ResourceRepoNative::storeMaterialsCollection(RMaterialsCollection* object) {
     const std::string idString (object->getResourceId().getIdString(0));
-    const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(idString));
-    if (filePath.empty()) {
-        return ResourceStoreResult(false, "file does not exist / creation not implemented yet");
+
+    std::string filePathStr (_filesystemHelper->getActualFilesystemFilepath(idString));
+    if (filePathStr.empty()) {
+        const Path filePath (idString);
+        const std::string dirPathStr (_filesystemHelper->getActualFilesystemDirpath(filePath.withoutBackPart(), true));
+        if (dirPathStr.empty()) {
+            return ResourceStoreResult(false, "Directory creation error!");
+        }
+        filePathStr = FilesHelper::getInstance()->joinPathsImproved(dirPathStr, filePath.getBackPart());
     }
     const std::string texPath (FilesHelper::getPathToDirectoryFromFileName(idString));
-    MaterialSaver::saveMaterials(filePath, object->getMaterials(), texPath);
+    MaterialSaver::saveMaterials(filePathStr, object->getMaterials(), texPath);
     return ResourceStoreResult(true, "");
 }
 

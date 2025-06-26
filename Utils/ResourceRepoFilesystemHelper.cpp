@@ -46,7 +46,7 @@ FilesystemHelper::DirectoryInfo* FilesystemHelper::getDirectoryExistingInfo(cons
     return (iter == _directoriesInfos.end() ? nullptr : (*iter).get());
 }
 
-FilesystemHelper::DirectoryInfo* FilesystemHelper::getDirectoryInfo(Path directoryName) {
+FilesystemHelper::DirectoryInfo* FilesystemHelper::getDirectoryInfo(Path directoryName, const bool createDirs) {
     std::stack<std::string> missingParts;
     DirectoryInfo* directoryInfo;
 
@@ -66,7 +66,19 @@ FilesystemHelper::DirectoryInfo* FilesystemHelper::getDirectoryInfo(Path directo
         missingParts.pop();
         directoryInfo = getDirectoryExistingInfo(directoryName);
         if (directoryInfo == nullptr) {
-            return nullptr;
+            if (createDirs) {
+                const std::string directoryNameString (directoryName.getString());
+                if (createDirectory(directoryName)) {
+                    std::unique_ptr directoryInfoUPtr (std::make_unique<DirectoryInfo>(directoryNameString));
+                    directoryInfo = directoryInfoUPtr.get();
+                    _directoriesInfos.push_back(std::move(directoryInfoUPtr));
+                } else {
+                    LOG_ERROR("Failed to create directory \"" + directoryNameString + "\" in FilesystemHelper \"" + _repoDirectory + "\"!");
+                    return nullptr;
+                }
+            } else {
+                return nullptr;
+            }
         }
     }
     return directoryInfo;//may not be explored
@@ -106,7 +118,7 @@ std::string FilesystemHelper::getActualFilesystemFilepath(Path filePath){
     return actualPath;
 }
 
-std::string FilesystemHelper::getActualFilesystemDirpath(const Path& directoryPath) {
-    DirectoryInfo* directoryInfo = getDirectoryInfo(directoryPath);
+std::string FilesystemHelper::getActualFilesystemDirpath(const Path& directoryPath, const bool createDirs) {
+    DirectoryInfo* directoryInfo = getDirectoryInfo(directoryPath, createDirs);
     return directoryInfo == nullptr ? "" : _filesHelper.joinPathsImproved(_repoDirectory, directoryInfo->_nameActual);
 }

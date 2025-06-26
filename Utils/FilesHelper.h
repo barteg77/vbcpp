@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <filesystem>
 
 
 class FilesHelper
@@ -47,6 +48,11 @@ class FilesHelper
 		static bool isInPathSubdir(std::string filePath, std::string dirPath);
 
 		static void copyFile(const std::string& from, const std::string& to);
+
+        // create one directory
+        static inline bool createDirectory(const std::string& path) {
+            return std::filesystem::create_directory(path);
+        }
 
         static std::string joinPaths(const std::string& part1, const std::string& part2)
         { return part1 + '/' + part2; }

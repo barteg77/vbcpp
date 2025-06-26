@@ -68,7 +68,11 @@ class FilesystemHelper final
     void exploreDirectory(DirectoryInfo& directoryInfo);
     const DirectoryInfo* getDirectoryExistingConstInfo(const Path& directoryPath) const;
     DirectoryInfo* getDirectoryExistingInfo(const Path& directoryPath) const;
-    DirectoryInfo* getDirectoryInfo(Path directoryName);
+    DirectoryInfo* getDirectoryInfo(Path directoryName, const bool createDirs=false);
+
+    inline bool createDirectory(const Path& inRepoPath) {
+        return _filesHelper.createDirectory(_filesHelper.joinPathsImproved(_repoDirectory, inRepoPath.getString()));
+    }
     
 public:
     /**
@@ -92,7 +96,7 @@ public:
      * repoDirectory
      * @return case sensitive directory path or empty string if it does not exist
      */
-    std::string getActualFilesystemDirpath(const Path& directoryPath);
+    std::string getActualFilesystemDirpath(const Path& directoryPath, const bool createDirs=false);
 };
 
 #endif // RESOURCEREPOFILESYSTEMHELPER_H_INCLUDED
