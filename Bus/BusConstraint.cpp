@@ -88,8 +88,6 @@ void BusConstraint::loadXMLdata(std::string busname)
     glm::vec3 busPosition = glm::vec3(0,0,0);
     //glm::vec3 busRotation = glm::vec3(0,0,0);
 
-    std::string texturePath = "Buses/" + busname + "/" + sTextureFolder + "/";
-
 
     Module busModule;
 
