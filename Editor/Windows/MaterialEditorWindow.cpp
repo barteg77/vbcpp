@@ -6,6 +6,8 @@
 
 #include <imgui.h>
 
+#include "../../Game/Directories.h"
+
 #include "../../Graphics/Material.h"
 #include "../../Graphics/MaterialSaver.h"
 #include "../../Graphics/GraphicsManager.h"
@@ -51,14 +53,8 @@ namespace vbEditor
 		{
 			reloadCurrentMaterialInAllObjects();
 
-			std::string modelFileName = ResourceManager::getInstance().realPath(currentRenderObject->getModel()->getResourceId().getIdString(0));
-			std::string materialXmlFileName = MaterialLoader::createMaterialFileName(modelFileName);
-			std::string objectDirPath = ResourceManager::getInstance().realPath(currentRenderObject->getSceneObject()->getObjectDefinition()->getResourceId().getIdString(0));
-
-			LOG_INFO("modelFileName: " + modelFileName);
-			LOG_INFO("materialXmlFileName: " + materialXmlFileName);
-			LOG_INFO("objectDirPath: " + objectDirPath);
-			MaterialSaver::saveMaterials(materialXmlFileName, currentRenderObject->getModel()->getMaterials(), objectDirPath);
+			const ResourceId materialsCollectionId (ResourceId::create<RT_MATERIALS_COLLECTION>(MaterialLoader::createMaterialFileName(currentStaticModel->getResourceId().getIdString(0))));
+			ResourceManager::getInstance().storeResource<RMaterialsCollection>(ResourceManager::getInstance().loadResource<RMaterialsCollection>(materialsCollectionId));
 
 			isMaterialModified = false;
 		}
@@ -184,36 +180,30 @@ namespace vbEditor
 			buffer[sizeof buffer - 1] = '\0';
 
 			//ImGui::Text(name);
+			std::string currentTextureStatus;
 
-			if (ImGui::InputText("", buffer, IM_ARRAYSIZE(buffer), ImGuiInputTextFlags_ReadOnly))
+			if (ImGui::InputText("", buffer, IM_ARRAYSIZE(buffer)))
 			{
-				//currentMaterial->name = std::string(buffer);
-			}
+				//std::vector<std::string> result = pfd::open_file("Choose texture...").result();
+				const std::string inputId (buffer);
+				const RObject* const object = currentRenderObject->getSceneObject()->getObjectDefinition();
+				std::string objectInRepoDir = (GameDirectories::OBJECTS + object->getResourceId().getIdString(0));
 
-			ImGui::SameLine();
-
-			if (ImGui::Button("..."))
-			{
-				std::vector<std::string> result = pfd::open_file("Choose texture...").result();
-
-				if (result.size() == 1)
-				{
-					LOG_INFO(result[0]);
-
-					std::string path = result[0];
-					const RObject* const object = currentRenderObject->getSceneObject()->getObjectDefinition();
-					std::string objectDirPath = ResourceManager::getInstance().realPath(object->getResourceId().getIdString(0));//ciekawe czy bedzie dzialac
-
-					std::string newPath = objectDirPath + FilesHelper::getFileNameFromPath(path);
-					if (!FilesHelper::isInPathSubdir(path, objectDirPath))
+				if (FilesHelper::isInPathSubdir(inputId, objectInRepoDir)) {
+					RTexture2D* newTexture (ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(inputId)));
+					if (newTexture)
 					{
-						FilesHelper::copyFile(path, newPath);
+						texture = newTexture;
+						isMaterialModified = true;
+					} else {
+						currentTextureStatus = "Failed to load texture";
 					}
-					texture = ResourceManager::getInstance().loadResource<RTexture2D>(ResourceId::create<RT_TEXTURE>(newPath));
-
-					isMaterialModified = true;
+				} else {
+					currentTextureStatus = "Provided texture id doesn't begin with \"Objects/OBJNAME/\"";
 				}
 			}
+
+			ImGui::Text(currentTextureStatus.c_str());
 
 			if (texture != nullptr)
 			{

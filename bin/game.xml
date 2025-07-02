@@ -10,8 +10,8 @@
 	<Bus model="h9_raycast" />
 	
 	<ResourceRepos>
-		<ResourceRepoGenerics/>
 		<ResourceRepoNative name="base" path="."/>
+		<ResourceRepoGenerics/>
 	</ResourceRepos>
 	<Configuration>
 		<Fullscreen>0</Fullscreen><!-- 0 - window, 1 - fullscreen, 2 - windowed fullscreen -->
