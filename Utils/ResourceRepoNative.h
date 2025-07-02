@@ -41,6 +41,8 @@ public:
     virtual std::unique_ptr<RDisplayFont> loadDisplayFont(const ResourceId& resourceId);
     virtual std::unique_ptr<RMaterialsCollection> loadMaterialsCollection(const ResourceId& resourceId);
 
+    virtual ResourceStoreResult storeMaterialsCollection(RMaterialsCollection* object);
+
     private:
 
     // returns real (case sensitive) file path of given case-insensitive filepath if exists

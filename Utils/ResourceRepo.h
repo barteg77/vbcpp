@@ -22,6 +22,18 @@
 
 #include "Path.h"
 
+
+struct ResourceStoreResult {
+    const bool _success;
+    const std::string _comment;
+
+    ResourceStoreResult(const bool success,
+                        const std::string& comment)
+    : _success(success)
+    , _comment(comment)
+    {}
+};
+
 class ResourceRepo
 {
 	const std::string _name;
@@ -53,6 +65,12 @@ public:
 
     template <class ResourceT>
     std::unique_ptr<ResourceT> loadResource(const ResourceId& resourceId);
+
+    virtual ResourceStoreResult storeMaterialsCollection(RMaterialsCollection* object) { return ResourceStoreResult(false, "store not implemented for this type of resource in this type of repo"); }
+
+    template <class ResourceT>
+    ResourceStoreResult storeResource(ResourceT* resource);
+
 private:
     virtual std::string getPropertiesString() const = 0;
 };
@@ -74,4 +92,5 @@ template <> inline std::unique_ptr<RRoadProfile> ResourceRepo::loadResource(cons
 template <> inline std::unique_ptr<RDisplayFont> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadDisplayFont(resourceId); }
 template <> inline std::unique_ptr<RMaterialsCollection> ResourceRepo::loadResource(const ResourceId& resourceId) { return loadMaterialsCollection(resourceId); }
 
+template <> inline ResourceStoreResult ResourceRepo::storeResource<RMaterialsCollection>(RMaterialsCollection* resource) { return storeMaterialsCollection(resource); }
 #endif // RESOURCEREPO_H_INCLUDED

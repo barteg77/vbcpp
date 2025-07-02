@@ -122,6 +122,16 @@ class ResourceManager
 
         void addResourceRepo(std::unique_ptr<ResourceRepo> resourceRepoPtr);
 
+        template <class ResourceTypeT>
+        ResourceStoreResult storeResource(ResourceTypeT* resource) {
+            LOG_INFO("Storing resource " + resource->getResourceId().getDebugString() + " in top-priority repo: " + _resourceRepos.front()->getDebugString());
+            ResourceStoreResult result (_resourceRepos.front()->storeResource<ResourceTypeT>(resource));
+            if (!result._success) {
+                LOG_ERROR("Failed to store resource: " + result._comment);
+            }
+            return result;
+        }
+
     private:
         std::list<std::unique_ptr<RTexture2D>> _resourcesRTexture2D;
         std::list<std::unique_ptr<RTextureCubeMap>> _resourcesRTextureCubeMap;

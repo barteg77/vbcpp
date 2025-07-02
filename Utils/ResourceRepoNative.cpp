@@ -6,6 +6,7 @@
 #include "../Graphics/AnimatedModelLoader.h"
 #include "../Graphics/AnimationLoader.h"
 #include "../GUI/FontLoader.h"
+#include "../Graphics/MaterialSaver.h"
 
 std::unique_ptr<RTexture2D> ResourceRepoNative::loadTexture(const ResourceId& resourceId, bool useCompression, bool mipmapping, bool useAnisotropicFiltering) {
     const std::string filePath(_filesystemHelper->getActualFilesystemFilepath(resourceId.getIdString(0)));
@@ -127,6 +128,17 @@ std::unique_ptr<RMaterialsCollection> ResourceRepoNative::loadMaterialsCollectio
     materialLoader.loadAllMaterials(materialsCollection->getMaterials(), FilesHelper::getPathToDirectoryFromFileName(id_string_dir));
     materialLoader.closeFile();
     return materialsCollection;
+}
+
+ResourceStoreResult ResourceRepoNative::storeMaterialsCollection(RMaterialsCollection* object) {
+    const std::string idString (object->getResourceId().getIdString(0));
+    const std::string filePath (_filesystemHelper->getActualFilesystemFilepath(idString));
+    if (filePath.empty()) {
+        return ResourceStoreResult(false, "file does not exist / creation not implemented yet");
+    }
+    const std::string texPath (FilesHelper::getPathToDirectoryFromFileName(idString));
+    MaterialSaver::saveMaterials(filePath, object->getMaterials(), texPath);
+    return ResourceStoreResult(true, "");
 }
 
 std::vector<std::string> ResourceRepoNative::getAllActualFilesystemFilepaths(const ResourceId& resourceId) {
