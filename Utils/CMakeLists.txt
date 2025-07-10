@@ -29,7 +29,7 @@ set (UTILS_SOURCES
 	Utils/ResourceManager.cpp
 	Utils/ResourceRepo.cpp
 	Utils/ResourceRepoGenerics.cpp
-	Utils/ResourceRepoFilesystemHelper.cpp
+	Utils/FilesystemHelper.cpp
 	Utils/ResourceRepoNative.cpp
 	Utils/SoundLoader.cpp
 	Utils/stb_image.cpp
@@ -76,7 +76,7 @@ set (UTILS_HEADERS
 	Utils/ResourceRepo.h
 	Utils/ResourceRepoDummy.h
 	Utils/ResourceRepoGenerics.h
-	Utils/ResourceRepoFilesystemHelper.h
+	Utils/FilesystemHelper.h
 	Utils/ResourceRepoNative.h
 	Utils/SoundLoader.h
 	Utils/Strings.h

@@ -30,11 +30,11 @@ target_link_libraries(
 
 add_executable(
   resource_repo_filesystem_helper_test
-  ResourceRepoFilesystemHelperTest.cpp
+  FilesystemHelperTest.cpp
   ../Utils/FilesHelper.cpp
   ../Utils/Logger.cpp
   ../Utils/Path.cpp
-  ../Utils/ResourceRepoFilesystemHelper.cpp
+  ../Utils/FilesystemHelper.cpp
 )
 target_link_libraries(
   resource_repo_filesystem_helper_test

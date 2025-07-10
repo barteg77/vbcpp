@@ -1,5 +1,5 @@
-#ifndef RESOURCEREPOFILESYSTEMHELPER_H_INCLUDED
-#define RESOURCEREPOFILESYSTEMHELPER_H_INCLUDED
+#ifndef FILESYSTEMHELPER_H_INCLUDED
+#define FILESYSTEMHELPER_H_INCLUDED
 
 //#include <algorithm>
 #include <algorithm>
@@ -84,7 +84,7 @@ public:
 
     /**
      * @brief Get valid filesystem path of file
-     * @param filePath file path relative to ResourceRepoFilesystemHelper's
+     * @param filePath file path relative to FilesystemHelper's
      * repoDirectory
      * @return case sensitive file path or empty string if it does not exist
      */
@@ -92,11 +92,11 @@ public:
 
     /**
      * @brief Get valid filesystem path of file
-     * @param filePath file path relative to ResourceRepoFilesystemHelper's
+     * @param filePath file path relative to FilesystemHelper's
      * repoDirectory
      * @return case sensitive directory path or empty string if it does not exist
      */
     std::string getActualFilesystemDirpath(const Path& directoryPath, const bool createDirs=false);
 };
 
-#endif // RESOURCEREPOFILESYSTEMHELPER_H_INCLUDED
+#endif // FILESYSTEMHELPER_H_INCLUDED

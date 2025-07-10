@@ -1,11 +1,11 @@
 #include "MockFilesHelper.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include "../Utils/ResourceRepoFilesystemHelper.h"
+#include "../Utils/FilesystemHelper.h"
 
 using ::testing::Return;
 
-TEST(ResourceRepoFilesystemHelperTest, TestTest) {
+TEST(FilesystemHelperTest, TestTest) {
     MockFilesHelper mfh{};
     FilesystemHelper rrfh{"/testRepoDir", mfh};
     

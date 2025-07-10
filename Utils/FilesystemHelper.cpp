@@ -1,4 +1,4 @@
-#include "ResourceRepoFilesystemHelper.h"
+#include "FilesystemHelper.h"
 #include "Logger.h"
 
 const FilesystemHelper::FileInfo* FilesystemHelper::DirectoryInfo::getFileInfo(const std::string& fileName) const {

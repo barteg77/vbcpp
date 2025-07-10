@@ -2,7 +2,7 @@
 #define RESOURCEREPONATIVE_H_INCLUDED
 
 #include "ResourceRepo.h"
-#include "ResourceRepoFilesystemHelper.h"
+#include "FilesystemHelper.h"
 
 /**
  * @brief ResourceRepo handling standard Virtual Bus format.
