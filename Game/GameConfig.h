@@ -117,7 +117,6 @@ class GameConfig
         std::string language;
 
 		bool developmentMode;
-		std::string alternativeResourcesPath;
         std::string firstScene;
         bool useLoadingScreen;
 
